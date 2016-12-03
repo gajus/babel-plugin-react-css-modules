@@ -40,16 +40,21 @@ The important metric here is "Difference from base" (DFB). "base" is defined as 
 
 |Name|Operations per second (relative margin of error)|Sample size|Difference from the base benchmark|
 |---|---|---|---|
-|Using className (base)|8556 (±1.59)|546|-0%|
-|Using styleName with react-css-modules|5204 (±1.84)|335|-64%|
-|Using styleName with babel-plugin-react-css-modules (runtime anonymous resolution)|7821 (±1.89)|481|-9%|
-|Using styleName with babel-plugin-react-css-modules (runtime named resolution)|8155 (±1.63)|499|-4%|
+|Using `className` (base)|8770 (±1.65)|529|-0%|
+|`react-css-modules`|5268 (±1.91)|335|-66%|
+|`babel-plugin-react-css-modules` (runtime, anonymous)|7915 (±2.07)|479|-10%|
+|`babel-plugin-react-css-modules` (runtime, named)|8138 (±1.79)|504|-7%|
 
 > Platform info:
+>
 > Darwin 16.1.0 x64
+
 > Node.JS 7.1.0
+
 > V8 5.4.500.36
+
 > NODE_ENV=production
+
 > Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz × 8
 
 View the [./benchmark](./benchmark).
@@ -189,6 +194,6 @@ const _styleModuleImportMap = {
 
 ## Have a question or want to suggest an improvement?
 
-* Have a technical questions? http://stackoverflow.com/questions/ask?tags=babel-plugin-react-css-modules
-* Have a feature suggestion or want to report an issue? https://github.com/gajus/babel-plugin-react-css-modules/issues
-* Want to say hello to other `babel-plugin-react-css-modules` users? https://gitter.im/babel-plugin-react-css-modules
+* Have a technical questions? [Ask on Stack Overflow.](http://stackoverflow.com/questions/ask?tags=babel-plugin-react-css-modules)
+* Have a feature suggestion or want to report an issue? [Raise an issues.](https://github.com/gajus/babel-plugin-react-css-modules/issues)
+* Want to say hello to other `babel-plugin-react-css-modules` users? [Chat on Gitter.](https://gitter.im/babel-plugin-react-css-modules)

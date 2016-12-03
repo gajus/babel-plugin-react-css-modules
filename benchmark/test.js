@@ -51,7 +51,7 @@ const printPlatform = () => {
 
 const suite = new Benchmark.Suite();
 
-suite.add('Using className (base)', () => {
+suite.add('Using `className` (base)', () => {
   const SubjectComponent = React.createClass({
     render () {
       return React.createElement(
@@ -77,7 +77,7 @@ suite.add('Using className (base)', () => {
   minSamples
 });
 
-suite.add('Using styleName with react-css-modules', () => {
+suite.add('`react-css-modules`', () => {
   let SubjectComponent;
 
   SubjectComponent = React.createClass({
@@ -110,7 +110,7 @@ suite.add('Using styleName with react-css-modules', () => {
   minSamples
 });
 
-suite.add('Using styleName with babel-plugin-react-css-modules (runtime anonymous resolution)', () => {
+suite.add('`babel-plugin-react-css-modules` (runtime, anonymous)', () => {
   const styleModuleImportMap = {
     anonymous: {
       bar: 'b',
@@ -143,7 +143,7 @@ suite.add('Using styleName with babel-plugin-react-css-modules (runtime anonymou
   minSamples
 });
 
-suite.add('Using styleName with babel-plugin-react-css-modules (runtime named resolution)', () => {
+suite.add('`babel-plugin-react-css-modules` (runtime, named)', () => {
   const styleModuleImportMap = {
     qux: {
       bar: 'b',
