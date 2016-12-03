@@ -1,0 +1,56 @@
+{
+  "author": {
+    "email": "gajus@gajus.com",
+    "name": "Gajus Kuizinas",
+    "url": "http://gajus.com"
+  },
+  "dependencies": {
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-types": "^6.19.0",
+    "generic-names": "^1.0.2",
+    "postcss": "^5.2.6",
+    "postcss-modules": "^0.5.2",
+    "postcss-modules-extract-imports": "^1.0.1",
+    "postcss-modules-local-by-default": "^1.1.1",
+    "postcss-modules-parser": "^1.1.0",
+    "postcss-modules-scope": "^1.0.2",
+    "postcss-modules-values": "^1.2.2"
+  },
+  "description": "Transforms styleName to className using compile time CSS module resolution.",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-helper-plugin-test-runner": "^6.18.0",
+    "babel-plugin-transform-es2015-destructuring": "^6.19.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
+    "babel-plugin-transform-es2015-parameters": "^6.18.0",
+    "babel-plugin-transform-flow-strip-types": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "eslint": "^3.11.1",
+    "eslint-config-canonical": "^5.8.0",
+    "flow-bin": "^0.36.0",
+    "husky": "^0.11.9",
+    "mocha": "^3.2.0",
+    "semantic-release": "^6.3.5"
+  },
+  "engines": {
+    "node": ">5.0.0"
+  },
+  "keywords": [
+    "babel-plugin"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "dist/index.js",
+  "name": "babel-plugin-react-css-modules",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gajus/babel-plugin-react-css-modules"
+  },
+  "scripts": {
+    "build-helper": "mkdir -p ./dist/browser && NODE_ENV=production babel ./src/getClassName.js --out-file ./dist/browser/getClassName.js --source-maps",
+    "build": "rm -fr ./dist && NODE_ENV=production babel ./src --out-dir ./dist --source-maps && npm run build-helper",
+    "lint": "eslint ./src",
+    "precommit": "npm run test",
+    "test": "NODE_ENV=development npm run lint && npm run build && mocha --compilers js:babel-register && flow"
+  },
+  "version": "1.0.0"
+}

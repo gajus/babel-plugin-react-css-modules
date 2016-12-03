@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - 7
+  - 6
+  - 5
+after_success:
+  - semantic-release pre && npm publish && semantic-release post
+notifications:
+  email: false
+sudo: false
