@@ -47,15 +47,11 @@ The important metric here is "Difference from base" (DFB). "base" is defined as 
 
 > Platform info:
 >
-> Darwin 16.1.0 x64
-
-> Node.JS 7.1.0
-
-> V8 5.4.500.36
-
-> NODE_ENV=production
-
-> Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz × 8
+> * Darwin 16.1.0 x64
+> * Node.JS 7.1.0
+> * V8 5.4.500.36
+> * NODE_ENV=production
+> * Intel(R) Core(TM) i7-4870HQ CPU @ 2.50GHz × 8
 
 View the [./benchmark](./benchmark).
 
