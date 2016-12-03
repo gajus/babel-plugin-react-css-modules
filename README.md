@@ -148,8 +148,10 @@ import bar from './bar1.css';
 Output:
 
 ```js
-import foo from './bar.css';
+import foo from './foo1.css';
+import bar from './bar1.css';
 
+<div className="foo___a"></div>;
 <div className="bar___a"></div>;
 
 ```
