@@ -34,10 +34,10 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
 
 ## Performance
 
-The important metric here is "Difference from base" (DFB). "base" is defined as using React with hardcoded `className` values. The lesser the DFB value, the bigger the performance impact.
+The important metric here is the "Difference from the base benchmark". "base" is defined as using React with hardcoded `className` values. The lesser the difference, the bigger the performance impact.
 
 > Note:
-> This benchmark suite does not include a scenario when `babel-plugin-react-css-modules` can statically construct the value of `className`.
+> This benchmark suite does not include a scenario when `babel-plugin-react-css-modules` can statically construct a literal value at the build time.
 > If a literal value of the `className` is constructed at the compile time, the performance is equal to the base benchmark.
 
 |Name|Operations per second (relative margin of error)|Sample size|Difference from the base benchmark|
@@ -74,11 +74,12 @@ NODE_ENV=production ./test
 1. Builds index of all stylesheet imports per file.
 1. Uses [postcss](https://github.com/postcss/postcss) to parse the matching CSS files.
 1. Iterates through all [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) element declarations.
-1. Uses the `styleName` value to resolve the generated CSS class name of the CSS module.
+1. Parses the `styleName` attribute value into anonymous and named CSS module references.
+1. Finds the CSS class name matching the CSS module reference:
   * If `styleName` value is a string literal, generates a string literal value.
   * If `styleName` value is a [`jSXExpressionContainer`](https://github.com/babel/babel/tree/master/packages/babel-types#jsxexpressioncontainer), uses a helper function ([`getClassName`](./src/getClassName.js)) to construct the `className` value at the runtime.
 1. Removes the `styleName` attribute from the element.
-1. Appends the resulting `className` to the existing `className` value (or creates `className` attribute if one does not exist).
+1. Appends the resulting `className` to the existing `className` value (creates `className` attribute if one does not exist).
 
 ## Configuration
 
