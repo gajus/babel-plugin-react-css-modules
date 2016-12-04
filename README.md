@@ -3,6 +3,7 @@
 [![Travis build status](http://img.shields.io/travis/gajus/babel-plugin-react-css-modules/master.svg?style=flat-square)](https://travis-ci.org/gajus/babel-plugin-react-css-modules)
 [![NPM version](http://img.shields.io/npm/v/babel-plugin-react-css-modules.svg?style=flat-square)](https://www.npmjs.org/package/babel-plugin-react-css-modules)
 [![Canonical Code Style](https://img.shields.io/badge/code%20style-canonical-blue.svg?style=flat-square)](https://github.com/gajus/canonical)
+[![Gitter](https://img.shields.io/gitter/room/babel-plugin-react-css-modules/Lobby.svg?style=flat-square)](https://gitter.im/babel-plugin-react-css-modules/Lobby)
 [![Twitter Follow](https://img.shields.io/twitter/follow/kuizinas.svg?style=social&label=Follow)](https://twitter.com/kuizinas)
 
 <img src='./.README/babel-plugin-react-css-modules.png' height='150' />
