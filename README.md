@@ -149,7 +149,10 @@ import './bar.css';
 
 ### Named `styleName` resolution
 
-When file imports multiple stylesheets, you must use a [named reference](#named-reference).
+When a file imports multiple stylesheets, you must use a [named reference](#named-reference).
+
+> Have suggestions for an alternative behaviour?
+> [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=Suggestion%20for%20alternative%20handling%20of%20multiple%20stylesheet%20imports) with your suggestion.
 
 Input:
 
