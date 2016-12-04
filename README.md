@@ -26,9 +26,9 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
 
 ## Background
 
-[`react-css-modules`](https://github.com/gajus/react-css-modules) introduced a convention of using `styleName` attribute to reference [CSS module](https://github.com/css-modules/css-modules). `react-css-modules` is a higher-order [React](https://facebook.github.io/react/) component. It is using the `styleName` value to construct the `className` at the run-time. This abstraction frees a developer from needing to reference the imported styles object when using CSS modules ([What's the problem?](https://github.com/gajus/react-css-modules#whats-the-problem)). However, this approach has a measurable performance penalty at the cost of better developer experience (DX).
+[`react-css-modules`](https://github.com/gajus/react-css-modules) introduced a convention of using `styleName` attribute to reference [CSS module](https://github.com/css-modules/css-modules). `react-css-modules` is a higher-order [React](https://facebook.github.io/react/) component. It is using the `styleName` value to construct the `className` value at the run-time. This abstraction frees a developer from needing to reference the imported styles object when using CSS modules ([What's the problem?](https://github.com/gajus/react-css-modules#whats-the-problem)). However, this approach has a measurable performance penalty (see [Performance](#performance)).
 
-`babel-plugin-react-css-modules` solves the DX problem without impacting the performance.
+`babel-plugin-react-css-modules` solves the developer experience problem without impacting the performance.
 
 ## Performance
 
