@@ -8,7 +8,7 @@
 
 <img src='./.README/babel-plugin-react-css-modules.png' height='150' />
 
-Transforms `styleName` to `className` using compile time [CSS module](https://github.com/css-modules/css-modules) resolution.
+Transforms `styleName` to `className` using compile time [CSS module](#css-modules) resolution.
 
 In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules), `babel-plugin-react-css-modules` has a loot smaller performance overhead (0-10% vs +50%; see [Performance](#performance)) and a lot smaller size footprint (less than 2kb vs 17kb reaact-css-modules + lodash dependency).
 
