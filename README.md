@@ -40,10 +40,10 @@ The important metric here is "Difference from base" (DFB). "base" is defined as 
 
 |Name|Operations per second (relative margin of error)|Sample size|Difference from the base benchmark|
 |---|---|---|---|
-|Using `className` (base)|8770 (±1.65)|529|-0%|
-|`react-css-modules`|5268 (±1.91)|335|-66%|
-|`babel-plugin-react-css-modules` (runtime, anonymous)|7915 (±2.07)|479|-10%|
-|`babel-plugin-react-css-modules` (runtime, named)|8138 (±1.79)|504|-7%|
+|Using `className` (base)|9551 (±1.47%)|587|-0%|
+|`react-css-modules`|5914 (±2.01%)|363|-61%|
+|`babel-plugin-react-css-modules` (runtime, anonymous)|9145 (±1.94%)|540|-4%|
+|`babel-plugin-react-css-modules` (runtime, named)|8786 (±1.59%)|527|-8%|
 
 > Platform info:
 >
