@@ -12,7 +12,8 @@ Transforms `styleName` to `className` using compile time [CSS module](https://gi
 
 In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules), `babel-plugin-react-css-modules` has a loot smaller performance overhead (0-10% vs +50%; see [Performance](#performance)) and a lot smaller size footprint (less than 2kb vs 17kb reaact-css-modules + lodash dependency).
 
-* [Background](#background)
+* [CSS Modules](#css-modules)
+* [Difference from `react-css-modules`](#difference-from-react-css-modules)
 * [Performance](#performance)
 * [How does it work?](#how-does-it-work)
 * [Conventions](#conventions)
@@ -27,7 +28,87 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
 * [Limitations](#limitations)
 * [Have a question or want to suggest an improvement?](#have-a-question-or-want-to-suggest-an-improvement)
 
-## Background
+## CSS Modules
+
+[CSS Modules](https://github.com/css-modules/css-modules) are awesome! If you are not familiar with CSS Modules, it is a concept of using a module bundler such as [webpack](http://webpack.github.io/docs/) to load CSS scoped to a particular document. CSS module loader will generate a unique name for each CSS class at the time of loading the CSS document ([Interoperable CSS](https://github.com/css-modules/icss) to be precise). To see CSS Modules in practice, [webpack-demo](https://css-modules.github.io/webpack-demo/).
+
+In the context of React, CSS Modules look like this:
+
+```js
+import React from 'react';
+import styles from './table.css';
+
+export default class Table extends React.Component {
+  render () {
+    return <div className={styles.table}>
+      <div className={styles.row}>
+        <div className={styles.cell}>A0</div>
+        <div className={styles.cell}>B0</div>
+      </div>
+    </div>;
+  }
+}
+
+```
+
+Rendering the component will produce a markup similar to:
+
+```js
+<div class="table__table___32osj">
+  <div class="table__row___2w27N">
+    <div class="table__cell___1oVw5">A0</div>
+    <div class="table__cell___1oVw5">B0</div>
+  </div>
+</div>
+
+```
+
+and a corresponding CSS file that matches those CSS classes.
+
+Awesome!
+
+However, there are several several disadvantages of using CSS modules this way:
+
+* You have to use `camelCase` CSS class names.
+* You have to use `styles` object whenever constructing a `className`.
+* Mixing CSS Modules and global CSS classes is cumbersome.
+* Reference to an undefined CSS Module resolves to `undefined` without a warning.
+
+`babel-plugin-react-css-modules` automates loading of CSS Modules using `styleName` property, e.g.
+
+```js
+import React from 'react';
+import './table.css';
+
+export default class Table extends React.Component {
+  render () {
+    return <div styleName='table'>
+      <div styleName='row'>
+        <div styleName='cell'>A0</div>
+        <div styleName='cell'>B0</div>
+      </div>
+    </div>;
+  }
+}
+
+```
+
+Using `babel-plugin-react-css-modules`:
+
+* You are not forced to use the `camelCase` naming convention.
+* You do not need to refer to the `styles` object every time you use a CSS Module.
+* There is clear distinction between global CSS and CSS modules, e.g.
+
+  ```js
+  <div className='global-css' styleName='local-module'></div>
+  ```
+
+<!--
+* You are warned when `styleName` refers to an undefined CSS Module ([`errorWhenNotFound`](#errorwhennotfound) option).
+* You can enforce use of a single CSS module per `ReactElement` ([`allowMultiple`](#allowmultiple) option).
+-->
+
+## Difference from `react-css-modules`
 
 [`react-css-modules`](https://github.com/gajus/react-css-modules) introduced a convention of using `styleName` attribute to reference [CSS module](https://github.com/css-modules/css-modules). `react-css-modules` is a higher-order [React](https://facebook.github.io/react/) component. It is using the `styleName` value to construct the `className` value at the run-time. This abstraction frees a developer from needing to reference the imported styles object when using CSS modules ([What's the problem?](https://github.com/gajus/react-css-modules#whats-the-problem)). However, this approach has a measurable performance penalty (see [Performance](#performance)).
 
