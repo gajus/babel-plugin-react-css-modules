@@ -18,6 +18,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
   * [Anonymous reference](#anonymous-reference)
   * [Named reference](#named-reference)
 * [Configuration](#configuration)
+* [Installation](#installation)
 * [Example transpilations](#example-transpilations)
   * [Anonymous `styleName` resolution](#anonymous-stylename-resolution)
   * [Named `styleName` resolution](#named-stylename-resolution)
@@ -86,6 +87,14 @@ NODE_ENV=production ./test
 |`generateScopedName`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|N/A (delegates default resolution to [postcss-modules](https://github.com/css-modules/postcss-modules))|
 
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
+
+## Installation
+
+When `babel-plugin-react-css-modules` cannot resolve CSS module at a compile time, it imports a helper function (read [Runtime `styleName` resolution](#runtime-stylename-resolution)). Therefore, you must install `babel-plugin-react-css-modules` as a direct dependency of the project.
+
+```bash
+npm install babel-plugin-react-css-modules --save
+```
 
 ## Conventions
 
