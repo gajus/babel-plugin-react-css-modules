@@ -46,7 +46,7 @@
     "url": "https://github.com/gajus/babel-plugin-react-css-modules"
   },
   "scripts": {
-    "build-helper": "mkdir -p ./dist/browser && NODE_ENV=production babel ./src/getClassName.js --out-file ./dist/browser/getClassName.js --source-maps",
+    "build-helper": "mkdir -p ./dist/browser && NODE_ENV=production babel ./src/getClassName.js --out-file ./dist/browser/getClassName.js --source-maps --no-babelrc --plugins transform-es2015-modules-commonjs,transform-flow-strip-types --presets es2015",
     "build": "rm -fr ./dist && NODE_ENV=production babel ./src --out-dir ./dist --source-maps && npm run build-helper",
     "lint": "eslint ./src",
     "precommit": "npm run test",
