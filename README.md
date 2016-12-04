@@ -75,7 +75,7 @@ NODE_ENV=production ./test
 1. Iterates through all [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) element declarations.
 1. Uses the `styleName` value to resolve the generated CSS class name of the CSS module.
   * If `styleName` value is a string literal, generates a string literal value.
-  * If `styleName` value is non-string (variable, condition, etc.), uses a helper function to construct `className` value at the runtime.
+  * If `styleName` value is a [`jSXExpressionContainer`](https://github.com/babel/babel/tree/master/packages/babel-types#jsxexpressioncontainer), uses a helper function ([`getClassName`](./src/getClassName.js)) to construct the `className` value at the runtime.
 1. Removes the `styleName` attribute from the element.
 1. Appends the resulting `className` to the existing `className` value (or creates `className` attribute if one does not exist).
 
@@ -177,7 +177,7 @@ import bar from './bar1.css';
 
 ### Runtime `styleName` resolution
 
-When the value of `styleName` cannot be determined at the compile time, `babel-plugin-react-css-modules` inlines all possible styles into the file. It then uses `getClassName` helper function to resolve the `styleName` value at the runtime.
+When the value of `styleName` cannot be determined at the compile time, `babel-plugin-react-css-modules` inlines all possible styles into the file. It then uses [`getClassName`](https://github.com/gajus/babel-plugin-react-css-modules/blob/master/src/getClassName.js) helper function to resolve the `styleName` value at the runtime.
 
 Input:
 
