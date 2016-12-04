@@ -10,7 +10,7 @@
 
 Transforms `styleName` to `className` using compile time [CSS module](#css-modules) resolution.
 
-In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules), `babel-plugin-react-css-modules` has a loot smaller performance overhead (0-10% vs +50%; see [Performance](#performance)) and a lot smaller size footprint (less than 2kb vs 17kb reaact-css-modules + lodash dependency).
+In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules), `babel-plugin-react-css-modules` has a lot smaller performance overhead (0-10% vs +50%; see [Performance](#performance)) and a lot smaller size footprint (less than 2kb vs 17kb react-css-modules + lodash dependency).
 
 * [CSS Modules](#css-modules)
 * [Difference from `react-css-modules`](#difference-from-react-css-modules)
