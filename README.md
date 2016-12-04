@@ -89,6 +89,9 @@ NODE_ENV=production ./test
 
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
 
+> Note:
+> The default configuration should work out of the box with the [css-loader](https://github.com/webpack/css-loader).
+
 ## Installation
 
 When `babel-plugin-react-css-modules` cannot resolve CSS module at a compile time, it imports a helper function (read [Runtime `styleName` resolution](#runtime-stylename-resolution)). Therefore, you must install `babel-plugin-react-css-modules` as a direct dependency of the project.
