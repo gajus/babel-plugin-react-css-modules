@@ -15,6 +15,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
 * [Performance](#performance)
 * [How does it work?](#how-does-it-work)
 * [Conventions](#conventions)
+  * [Anonymous reference](#anonymous-reference)
   * [Named reference](#named-reference)
 * [Configuration](#configuration)
 * [Example transpilations](#example-transpilations)
@@ -87,6 +88,21 @@ NODE_ENV=production ./test
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
 
 ## Conventions
+
+### Anonymous reference
+
+Anonymous reference can be used when there is only one stylesheet import.
+
+Format: `CSS module name`.
+
+Example:
+
+```js
+import './foo1.css';
+
+// Imports "a" CSS module from ./foo1.css.
+<div styleName="a"></div>;
+```
 
 ### Named reference
 
