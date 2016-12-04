@@ -36,7 +36,8 @@
     "node": ">5.0.0"
   },
   "keywords": [
-    "babel-plugin"
+    "babel-plugin",
+    "css-modules"
   ],
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
