@@ -201,7 +201,7 @@ suite
         base = benchmark;
       }
 
-      table.push('|' + benchmark.name + '|' + Math.floor(benchmark.hz) + ' (±' + benchmark.stats.rme.toFixed(2) + ')|' + benchmark.count + '|-' + Math.floor(((base.hz - benchmark.hz) / benchmark.hz) * 100) + '%|');
+      table.push('|' + benchmark.name + '|' + Math.floor(benchmark.hz) + ' (±' + benchmark.stats.rme.toFixed(2) + '%)|' + benchmark.count + '|-' + Math.floor(((base.hz - benchmark.hz) / benchmark.hz) * 100) + '%|');
     }
 
     // eslint-disable-next-line no-console
