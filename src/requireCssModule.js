@@ -14,15 +14,24 @@ import LocalByDefault from 'postcss-modules-local-by-default';
 import Parser from 'postcss-modules-parser';
 import Scope from 'postcss-modules-scope';
 import Values from 'postcss-modules-values';
+import ScssSyntax from 'postcss-scss';
 import type {
   StyleModuleMapType
 } from './types';
 
 const getTokens = (runner, cssSourceFilePath: string): StyleModuleMapType => {
+  const sourceFilePathIsScss = cssSourceFilePath.endsWith('.scss');
+
+  const options: Object = {
+    from: cssSourceFilePath
+  };
+
+  if (sourceFilePathIsScss) {
+    options.syntax = ScssSyntax;
+  }
+
   const lazyResult = runner
-    .process(readFileSync(cssSourceFilePath, 'utf-8'), {
-      from: cssSourceFilePath
-    });
+    .process(readFileSync(cssSourceFilePath, 'utf-8'), options);
 
   lazyResult
     .warnings()

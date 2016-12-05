@@ -153,7 +153,7 @@ NODE_ENV=production ./test
 
 ## How does it work?
 
-1. Builds index of all stylesheet imports per file.
+1. Builds index of all stylesheet imports per file (imports of files with `.css` or `.scss` extension).
 1. Uses [postcss](https://github.com/postcss/postcss) to parse the matching CSS files.
 1. Iterates through all [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) element declarations.
 1. Parses the `styleName` attribute value into anonymous and named CSS module references.
