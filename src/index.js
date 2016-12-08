@@ -61,7 +61,7 @@ export default ({
     inherits: babelPluginJsxSyntax,
     visitor: {
       ImportDeclaration (path: Object, stats: Object): void {
-        if (!path.node.source.value.endsWith('.css') && !path.node.source.value.endsWith('.scss')) {
+        if (!path.node.source.value.endsWith('.css') && !path.node.source.value.endsWith('.scss') && !path.node.source.value.endsWith('.less')) {
           return;
         }
 
