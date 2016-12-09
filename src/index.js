@@ -61,7 +61,11 @@ export default ({
     inherits: babelPluginJsxSyntax,
     visitor: {
       ImportDeclaration (path: Object, stats: Object): void {
-        if (!path.node.source.value.endsWith('.css') && !path.node.source.value.endsWith('.scss')) {
+        stats.opts.filetypes = stats.opts.filetypes || {};
+
+        const extension = path.node.source.value.lastIndexOf('.') > -1 ? path.node.source.value.substr(path.node.source.value.lastIndexOf('.')) : null;
+
+        if (extension !== '.css' && Object.keys(stats.opts.filetypes).indexOf(extension) < 0) {
           return;
         }
 
@@ -82,6 +86,7 @@ export default ({
         }
 
         styleModuleImportMap[styleImportName] = requireCssModule(targetResourcePath, {
+          filetypes: stats.opts.filetypes || {},
           generateScopedName: stats.opts.generateScopedName
         });
       },

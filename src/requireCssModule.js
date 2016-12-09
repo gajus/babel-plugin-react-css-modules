@@ -19,14 +19,22 @@ import type {
   StyleModuleMapType
 } from './types';
 
-const getTokens = (runner, cssSourceFilePath: string): StyleModuleMapType => {
-  const sourceFilePathIsScss = cssSourceFilePath.endsWith('.scss');
+const getTokens = (runner, cssSourceFilePath: string, filetypes): StyleModuleMapType => {
+  const extension = cssSourceFilePath.substr(cssSourceFilePath.lastIndexOf('.'));
+  const syntax = filetypes[extension];
 
   const options: Object = {
     from: cssSourceFilePath
   };
 
-  if (sourceFilePathIsScss) {
+  if (syntax) {
+    // eslint-disable-next-line import/no-dynamic-require, global-require, no-console
+    // const parser = require(syntax);
+
+    // eslint-disable-next-line import/no-dynamic-require, global-require, no-console
+    // console.log(parser);
+
+    // eslint-disable-next-line import/no-dynamic-require, global-require
     options.syntax = ScssSyntax;
   }
 
@@ -74,5 +82,5 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
 
   runner = postcss(plugins);
 
-  return getTokens(runner, cssSourceFilePath);
+  return getTokens(runner, cssSourceFilePath, options.filetypes);
 };
