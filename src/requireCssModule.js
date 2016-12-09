@@ -27,8 +27,19 @@ const getTokens = (runner, cssSourceFilePath: string, filetypes): StyleModuleMap
   };
 
   if (syntax) {
+<<<<<<< 0a407c64b3634e2dd33f372ede12b9a129d87dee
     // eslint-disable-next-line import/no-dynamic-require, global-require
     options.syntax = require(syntax);
+=======
+    // eslint-disable-next-line import/no-dynamic-require, global-require, no-console
+    // const parser = require(syntax);
+
+    // eslint-disable-next-line import/no-dynamic-require, global-require, no-console
+    // console.log(parser);
+
+    // eslint-disable-next-line import/no-dynamic-require, global-require
+    options.syntax = ScssSyntax;
+>>>>>>> Make syntax parser configurable
   }
 
   const lazyResult = runner
