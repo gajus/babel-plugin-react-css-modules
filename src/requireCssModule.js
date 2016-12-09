@@ -14,7 +14,6 @@ import LocalByDefault from 'postcss-modules-local-by-default';
 import Parser from 'postcss-modules-parser';
 import Scope from 'postcss-modules-scope';
 import Values from 'postcss-modules-values';
-import ScssSyntax from 'postcss-scss';
 import type {
   StyleModuleMapType
 } from './types';
@@ -28,14 +27,8 @@ const getTokens = (runner, cssSourceFilePath: string, filetypes): StyleModuleMap
   };
 
   if (syntax) {
-    // eslint-disable-next-line import/no-dynamic-require, global-require, no-console
-    // const parser = require(syntax);
-
-    // eslint-disable-next-line import/no-dynamic-require, global-require, no-console
-    // console.log(parser);
-
     // eslint-disable-next-line import/no-dynamic-require, global-require
-    options.syntax = ScssSyntax;
+    options.syntax = require(syntax);
   }
 
   const lazyResult = runner
@@ -52,6 +45,7 @@ const getTokens = (runner, cssSourceFilePath: string, filetypes): StyleModuleMap
 };
 
 type OptionsType = {|
+  filetypes: Object,
   generateScopedName?: string
 |};
 
@@ -65,7 +59,7 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
     const fromDirectoryPath = dirname(from);
     const toPath = resolve(fromDirectoryPath, to);
 
-    return getTokens(runner, toPath);
+    return getTokens(runner, toPath, options.filetypes);
   };
 
   const plugins = [
