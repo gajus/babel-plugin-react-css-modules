@@ -1,0 +1,10 @@
+{
+  "plugins": [
+    [
+      "../../../../src",
+      {
+        "generateScopedName": "[name]__[local]"
+      }
+    ]
+  ]
+}

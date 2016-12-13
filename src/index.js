@@ -88,7 +88,7 @@ export default ({
       JSXElement (path: Object): void {
         const styleNameAttribute = path.node.openingElement.attributes
           .find((attribute) => {
-            return attribute.name.name === 'styleName';
+            return typeof attribute.name !== 'undefined' && attribute.name.name === 'styleName';
           });
 
         if (!styleNameAttribute) {
