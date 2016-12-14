@@ -1,11 +1,17 @@
 import _getClassName from 'babel-plugin-react-css-modules/dist/browser/getClassName';
-import foo from './bar.css';
+import bar from './bar.css';
+import './foo.css';
 
 const _styleModuleImportMap = {
-  foo: {
-    a: 'bar__a'
+  'bar': {
+    'a-b': 'bar__a-b'
+  },
+  'random-test': {
+    'a-b': 'foo__a-b'
   }
 };
-const styleNameValue = 'a';
+const styleNameBar = 'bar.a-b';
+const styleNameFoo = 'a-b';
 
-<div styleName={_getClassName(styleNameValue, _styleModuleImportMap)}></div>;
+<div styleName={_getClassName(styleNameBar, _styleModuleImportMap)}></div>;
+<div styleName={_getClassName(styleNameFoo, _styleModuleImportMap)}></div>;

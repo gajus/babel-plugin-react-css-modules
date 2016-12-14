@@ -1,5 +1,8 @@
-import foo from './bar.css';
+import bar from './bar.css';
+import './foo.css';
 
-const styleNameValue = 'a';
+const styleNameBar = 'bar.a-b';
+const styleNameFoo = 'a-b';
 
-<div styleName={styleNameValue}></div>;
+<div styleName={styleNameBar}></div>;
+<div styleName={styleNameFoo}></div>;

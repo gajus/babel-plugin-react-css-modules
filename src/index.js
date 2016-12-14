@@ -71,7 +71,8 @@ export default ({
         let styleImportName: string;
 
         if (path.node.specifiers.length === 0) {
-          styleImportName = 'random-' + Math.random();
+          // eslint-disable-next-line no-process-env
+          styleImportName = process.env.NODE_ENV === 'test' ? 'random-test' : 'random-' + Math.random();
         } else if (path.node.specifiers.length === 1) {
           styleImportName = path.node.specifiers[0].local.name;
         } else {

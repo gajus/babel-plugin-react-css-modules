@@ -25,7 +25,7 @@ const createObjectExpression = (t: BabelTypes, object: Object): ObjectExpression
 
     properties.push(
       t.objectProperty(
-        t.identifier(name),
+        t.identifier('\'' + name + '\''),
         newValue
       )
     );
