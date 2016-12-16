@@ -91,7 +91,7 @@ export default ({
             if (!attribute || !attribute.name) {
               return false;
             }
-            
+
             return attribute.name.name === 'styleName';
           });
 
