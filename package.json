@@ -53,7 +53,7 @@
     "build": "rm -fr ./dist && NODE_ENV=production babel ./src --out-dir ./dist --source-maps && npm run build-helper",
     "lint": "eslint ./src",
     "precommit": "npm run test",
-    "test": "NODE_ENV=development npm run lint && npm run build && mocha --compilers js:babel-register && flow"
+    "test": "NODE_ENV=development npm run lint && npm run build && NODE_ENV=test mocha --compilers js:babel-register && flow"
   },
   "version": "1.0.0"
 }

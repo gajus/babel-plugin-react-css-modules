@@ -16,24 +16,22 @@ export default ({
 }: {
   types: BabelTypes
 }) => {
-  let styleModuleImportMap;
-  let importedHelperIndentifier;
-  let styleModuleImportMapIdentifier;
+  const filenameMap = {};
 
-  const setupFileForRuntimeResolution = (path) => {
+  const setupFileForRuntimeResolution = (path, filename) => {
     const programPath = path.findParent((parentPath) => {
       return parentPath.isProgram();
     });
 
-    importedHelperIndentifier = programPath.scope.generateUidIdentifier('getClassName');
-    styleModuleImportMapIdentifier = programPath.scope.generateUidIdentifier('styleModuleImportMap');
+    filenameMap[filename].importedHelperIndentifier = programPath.scope.generateUidIdentifier('getClassName');
+    filenameMap[filename].styleModuleImportMapIdentifier = programPath.scope.generateUidIdentifier('styleModuleImportMap');
 
     programPath.unshiftContainer(
       'body',
       t.importDeclaration(
         [
           t.importDefaultSpecifier(
-            importedHelperIndentifier
+            filenameMap[filename].importedHelperIndentifier
           )
         ],
         t.stringLiteral('babel-plugin-react-css-modules/dist/browser/getClassName')
@@ -49,12 +47,14 @@ export default ({
         'const',
         [
           t.variableDeclarator(
-            styleModuleImportMapIdentifier,
-            createObjectExpression(t, styleModuleImportMap)
+            filenameMap[filename].styleModuleImportMapIdentifier,
+            createObjectExpression(t, filenameMap[filename].styleModuleImportMap)
           )
         ]
       )
     );
+    // eslint-disable-next-line
+    // console.log('setting up', filename, util.inspect(filenameMap,{depth: 5}))
   };
 
   return {
@@ -69,13 +69,15 @@ export default ({
           return;
         }
 
+        const filename = stats.file.opts.filename;
         const targetFileDirectoryPath = dirname(stats.file.opts.filename);
         const targetResourcePath = resolve(targetFileDirectoryPath, path.node.source.value);
 
         let styleImportName: string;
 
         if (path.node.specifiers.length === 0) {
-          styleImportName = 'random-' + Math.random();
+          // eslint-disable-next-line no-process-env
+          styleImportName = process.env.NODE_ENV === 'test' ? 'random-test' : 'random-' + Math.random();
         } else if (path.node.specifiers.length === 1) {
           styleImportName = path.node.specifiers[0].local.name;
         } else {
@@ -85,15 +87,16 @@ export default ({
           throw new Error('Unexpected use case.');
         }
 
-        styleModuleImportMap[styleImportName] = requireCssModule(targetResourcePath, {
+        filenameMap[filename].styleModuleImportMap[styleImportName] = requireCssModule(targetResourcePath, {
           filetypes: stats.opts.filetypes || {},
           generateScopedName: stats.opts.generateScopedName
         });
       },
-      JSXElement (path: Object): void {
+      JSXElement (path: Object, stats: Object): void {
+        const filename = stats.file.opts.filename;
         const styleNameAttribute = path.node.openingElement.attributes
           .find((attribute) => {
-            return attribute.name.name === 'styleName';
+            return typeof attribute.name !== 'undefined' && attribute.name.name === 'styleName';
           });
 
         if (!styleNameAttribute) {
@@ -101,21 +104,33 @@ export default ({
         }
 
         if (t.isStringLiteral(styleNameAttribute.value)) {
-          resolveStringLiteral(path, styleModuleImportMap, styleNameAttribute);
+          resolveStringLiteral(
+            path,
+            filenameMap[filename].styleModuleImportMap,
+            styleNameAttribute
+          );
 
           return;
         }
 
         if (t.isJSXExpressionContainer(styleNameAttribute.value)) {
-          if (!importedHelperIndentifier) {
-            setupFileForRuntimeResolution(path);
+          if (!filenameMap[filename].importedHelperIndentifier) {
+            setupFileForRuntimeResolution(path, filename);
           }
-
-          replaceJsxExpressionContainer(t, styleNameAttribute, importedHelperIndentifier, styleModuleImportMapIdentifier);
+          replaceJsxExpressionContainer(
+            t,
+            styleNameAttribute,
+            filenameMap[filename].importedHelperIndentifier,
+            filenameMap[filename].styleModuleImportMapIdentifier
+          );
         }
       },
-      Program () {
-        styleModuleImportMap = {};
+      Program (path: Object, stats: Object): void {
+        const filename = stats.file.opts.filename;
+
+        filenameMap[filename] = {
+          styleModuleImportMap: {}
+        };
       }
     }
   };
