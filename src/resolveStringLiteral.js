@@ -11,7 +11,7 @@ import type {
 export default (path: Object, styleModuleImportMap: StyleModuleImportMapType, styleNameAttribute: JSXAttribute): void => {
   const classNameAttribute = path.node.openingElement.attributes
     .find((attribute) => {
-      return attribute.name.name === 'className';
+      return typeof attribute.name !== 'undefined' && attribute.name.name === 'className';
     });
 
   const resolvedStyleName = getClassName(styleNameAttribute.value.value, styleModuleImportMap);
