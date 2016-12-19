@@ -5,4 +5,4 @@ const styleNameBar = 'bar.a-b';
 const styleNameFoo = 'a-b';
 
 <div styleName={styleNameBar}></div>;
-<div styleName={styleNameFoo}></div>;
+<div className='global' styleName={styleNameFoo}></div>;
