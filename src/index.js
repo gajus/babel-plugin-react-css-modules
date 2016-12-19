@@ -114,6 +114,7 @@ export default ({
           }
           replaceJsxExpressionContainer(
             t,
+            path,
             styleNameAttribute,
             filenameMap[filename].importedHelperIndentifier,
             filenameMap[filename].styleModuleImportMapIdentifier
