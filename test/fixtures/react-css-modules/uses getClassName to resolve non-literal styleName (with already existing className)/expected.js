@@ -13,5 +13,5 @@ const _styleModuleImportMap = {
 const styleNameBar = 'bar.a-b';
 const styleNameFoo = 'a-b';
 
-<div styleName={_getClassName(styleNameBar, _styleModuleImportMap)}></div>;
-<div styleName={_getClassName(styleNameFoo, _styleModuleImportMap)}></div>;
+<div className={_getClassName(styleNameBar, _styleModuleImportMap)}></div>;
+<div className={'global ' + _getClassName(styleNameFoo, _styleModuleImportMap)}></div>;
