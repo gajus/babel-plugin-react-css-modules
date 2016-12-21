@@ -22,11 +22,11 @@ const getClassNameForNamespacedStyleName = (styleName: string, styleModuleImport
   }
 
   if (!styleModuleImportMap[importName]) {
-    throw new Error('Import does not exist.');
+    throw new Error('CSS module import does not exist.');
   }
 
   if (!styleModuleImportMap[importName][moduleName]) {
-    throw new Error('Module does not exist.');
+    throw new Error('CSS module does not exist.');
   }
 
   return styleModuleImportMap[importName][moduleName];
@@ -53,7 +53,7 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
       const styleModuleMap: StyleModuleMapType = styleModuleImportMap[styleModuleImportMapKeys[0]];
 
       if (!styleModuleMap[styleName]) {
-        throw new Error('Module cannot be resolved.');
+        throw new Error('CSS module cannot be resolved.');
       }
 
       return styleModuleMap[styleName];
