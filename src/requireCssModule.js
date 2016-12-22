@@ -15,12 +15,14 @@ import Parser from 'postcss-modules-parser';
 import Scope from 'postcss-modules-scope';
 import Values from 'postcss-modules-values';
 import ScssSyntax from 'postcss-scss';
+import LessSyntax from 'postcss-less';
 import type {
   StyleModuleMapType
 } from './types';
 
 const getTokens = (runner, cssSourceFilePath: string): StyleModuleMapType => {
   const sourceFilePathIsScss = cssSourceFilePath.endsWith('.scss');
+  const sourceFilePathIsLess = cssSourceFilePath.endsWith('.less');
 
   const options: Object = {
     from: cssSourceFilePath
@@ -28,6 +30,10 @@ const getTokens = (runner, cssSourceFilePath: string): StyleModuleMapType => {
 
   if (sourceFilePathIsScss) {
     options.syntax = ScssSyntax;
+  }
+
+  if (sourceFilePathIsLess) {
+    options.syntax = LessSyntax;
   }
 
   const lazyResult = runner
