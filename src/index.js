@@ -17,6 +17,7 @@ export default ({
   types: BabelTypes
 }) => {
   const filenameMap = {};
+  const cursors = {};
 
   const setupFileForRuntimeResolution = (path, filename) => {
     const programPath = path.findParent((parentPath) => {
@@ -38,11 +39,7 @@ export default ({
       )
     );
 
-    const firstNonImportDeclarationNode = programPath.get('body').find((node) => {
-      return !t.isImportDeclaration(node);
-    });
-
-    firstNonImportDeclarationNode.insertBefore(
+    cursors[filename].insertAfter(
       t.variableDeclaration(
         'const',
         [
@@ -86,6 +83,45 @@ export default ({
         filenameMap[filename].styleModuleImportMap[styleImportName] = requireCssModule(targetResourcePath, {
           generateScopedName: stats.opts.generateScopedName
         });
+
+        const test = t.memberExpression(t.identifier('module'), t.identifier('hot'));
+        const consequent = t.blockStatement([
+          t.expressionStatement(
+            t.callExpression(
+              t.memberExpression(
+                t.memberExpression(t.identifier('module'), t.identifier('hot')),
+                t.identifier('accept')
+              ),
+              [
+                t.stringLiteral(path.node.source.value),
+                t.functionExpression(null, [], t.blockStatement([
+                  t.expressionStatement(
+                    t.callExpression(
+                      t.identifier('require'),
+                      [t.stringLiteral(path.node.source.value)]
+                    )
+                  )
+                ]))
+              ]
+            )
+          )
+        ]);
+
+        const hotAcceptStatement = t.ifStatement(test, consequent);
+
+        if (cursors[filename]) {
+          cursors[filename] = cursors[filename].insertAfter(hotAcceptStatement)[0];
+        } else {
+          const programPath = path.findParent((parentPath) => {
+            return parentPath.isProgram();
+          });
+
+          const firstNonImportDeclarationNode = programPath.get('body').find((node) => {
+            return !t.isImportDeclaration(node);
+          });
+
+          cursors[filename] = firstNonImportDeclarationNode.insertBefore(hotAcceptStatement)[0];
+        }
       },
       JSXElement (path: Object, stats: Object): void {
         const filename = stats.file.opts.filename;
@@ -127,6 +163,8 @@ export default ({
         filenameMap[filename] = {
           styleModuleImportMap: {}
         };
+
+        cursors[filename] = null;
       }
     }
   };
