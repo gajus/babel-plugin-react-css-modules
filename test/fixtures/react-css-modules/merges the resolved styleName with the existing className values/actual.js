@@ -1,3 +1,3 @@
 import './bar.css';
 
-<div className='apple banana' styleName="a"></div>;
+<div className='apple banana' styleName='a'></div>;

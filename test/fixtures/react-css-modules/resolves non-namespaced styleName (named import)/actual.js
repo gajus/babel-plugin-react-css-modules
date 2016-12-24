@@ -1,3 +1,3 @@
 import foo from './bar.css';
 
-<div styleName="a"></div>;
+<div styleName='a'></div>;
