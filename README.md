@@ -168,11 +168,31 @@ NODE_ENV=production ./test
 |Name|Description|Default|
 |---|---|---|
 |`generateScopedName`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|N/A (delegates default resolution to [postcss-modules](https://github.com/css-modules/postcss-modules))|
+|`filetypes`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugerss, LESS and SCSS. |Optional. If not configured, only css is supported.
 
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
 
 > Note:
 > The default configuration should work out of the box with the [css-loader](https://github.com/webpack/css-loader).
+
+### Configure syntax loaders
+
+Out of the box, only css files are supported. To add for example support for SCSS, perform the following two steps:
+
+1. Add the [postcss syntax loader](https://github.com/postcss/postcss#syntaxes) as dev dependency:
+
+```bash
+npm install postcss-scss --save-dev
+```
+
+2. Add a filetype syntax mapping to the babel plugin configuration
+
+```json
+"filetypes": {
+  ".scss": "postcss-scss"
+}
+```
+
 
 ## Installation
 
