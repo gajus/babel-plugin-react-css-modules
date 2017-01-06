@@ -8,6 +8,9 @@ import type {
   StyleModuleImportMapType
 } from './types';
 
+/**
+ * Updates the className value of a JSX element using a provided styleName attribute.
+ */
 export default (path: Object, styleModuleImportMap: StyleModuleImportMapType, styleNameAttribute: JSXAttribute): void => {
   const classNameAttribute = path.node.openingElement.attributes
     .find((attribute) => {

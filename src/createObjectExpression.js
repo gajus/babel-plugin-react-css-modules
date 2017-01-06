@@ -7,6 +7,10 @@ import BabelTypes, {
 type InputObjectType = {
   [key: string]: string | InputObjectType
 };
+
+/**
+ * Creates an AST representation of an InputObjectType shape object.
+ */
 const createObjectExpression = (t: BabelTypes, object: InputObjectType): ObjectExpression => {
   const properties = [];
 
