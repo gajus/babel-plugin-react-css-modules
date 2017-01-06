@@ -167,7 +167,7 @@ NODE_ENV=production ./test
 
 |Name|Description|Default|
 |---|---|---|
-|`generateScopedName`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|N/A (delegates default resolution to [postcss-modules](https://github.com/css-modules/postcss-modules))|
+|`generateScopedName`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|`[path]___[name]__[local]___[hash:base64:5]`|
 
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
 

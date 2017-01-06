@@ -51,7 +51,7 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
   // eslint-disable-next-line prefer-const
   let runner;
 
-  const scopedName = genericNames(options.generateScopedName);
+  const scopedName = genericNames(options.generateScopedName || '[path]___[name]__[local]___[hash:base64:5]');
 
   const fetch = (to: string, from: string) => {
     const fromDirectoryPath = dirname(from);
