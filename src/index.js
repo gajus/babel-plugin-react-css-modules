@@ -84,6 +84,7 @@ export default ({
         }
 
         filenameMap[filename].styleModuleImportMap[styleImportName] = requireCssModule(targetResourcePath, {
+          context: stats.opts.context,
           generateScopedName: stats.opts.generateScopedName
         });
       },
