@@ -6,6 +6,13 @@ const context = path.resolve(__dirname, 'src');
 module.exports = {
   context,
   entry: './index.js',
+  resolve: {
+    modulesDirectories: [
+      'src',
+      'src/sass',
+      'src/components'
+    ]
+  },
   module: {
     loaders: [
       {
