@@ -29,6 +29,8 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
   * [Runtime `styleName` resolution](#runtime-stylename-resolution)
 * [Limitations](#limitations)
 * [Have a question or want to suggest an improvement?](#have-a-question-or-want-to-suggest-an-improvement)
+* [FAQ](#faq)
+  * [How to refer to multiple modules?](#how-to-refer-to-multiple-modules)
 
 ## CSS Modules
 
@@ -344,3 +346,15 @@ const _styleModuleImportMap = {
 * Have a technical questions? [Ask on Stack Overflow.](http://stackoverflow.com/questions/ask?tags=babel-plugin-react-css-modules)
 * Have a feature suggestion or want to report an issue? [Raise an issues.](https://github.com/gajus/babel-plugin-react-css-modules/issues)
 * Want to say hello to other `babel-plugin-react-css-modules` users? [Chat on Gitter.](https://gitter.im/babel-plugin-react-css-modules)
+
+## FAQ
+
+### How to refer to multiple modules?
+
+`react-css-modules` had an option [`allowMultiple`](https://github.com/gajus/react-css-modules#allowmultiple). `allowMultiple` allows multiple CSS module names in a `styleName` declaration, e.g.
+
+```js
+<div styleName='foo bar' />
+```
+
+This behaviour is enabled by default in `babel-plugin-react-css-modules`.
