@@ -1,8 +1,15 @@
 // @flow
 
 import BabelTypes, {
+  binaryExpression,
+  Identifier,
+  isJSXExpressionContainer,
+  isStringLiteral,
+  jSXAttribute,
   JSXAttribute,
-  Identifier
+  jSXExpressionContainer,
+  jSXIdentifier,
+  stringLiteral
 } from 'babel-types';
 
 export default (
@@ -17,11 +24,12 @@ export default (
     .find((attribute) => {
       return typeof attribute.name !== 'undefined' && attribute.name.name === 'className';
     });
-  const classNameAttributeValue = classNameAttribute ? classNameAttribute.value.value : '';
 
   if (classNameAttribute) {
     path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(classNameAttribute), 1);
   }
+
+  path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(styleNameAttribute), 1);
 
   const styleNameExpression = t.callExpression(
     importedHelperIndentifier,
@@ -31,13 +39,42 @@ export default (
     ]
   );
 
-  styleNameAttribute.value = t.jSXExpressionContainer(
-    classNameAttribute ?
-      t.binaryExpression(
-        '+',
-        t.stringLiteral(classNameAttributeValue + ' '),
+  if (classNameAttribute) {
+    if (isStringLiteral(classNameAttribute.value)) {
+      path.node.openingElement.attributes.push(jSXAttribute(
+        jSXIdentifier('className'),
+        jSXExpressionContainer(
+          binaryExpression(
+            '+',
+            t.stringLiteral(classNameAttribute.value.value + ' '),
+            styleNameExpression
+          )
+        )
+      ));
+    } else if (isJSXExpressionContainer(classNameAttribute.value)) {
+      path.node.openingElement.attributes.push(jSXAttribute(
+        jSXIdentifier('className'),
+        jSXExpressionContainer(
+          binaryExpression(
+            '+',
+            classNameAttribute.value.expression,
+            binaryExpression(
+              '+',
+              stringLiteral(' '),
+              styleNameExpression
+            )
+          )
+        )
+      ));
+    } else {
+      throw new Error('Unexpected attribute value.');
+    }
+  } else {
+    path.node.openingElement.attributes.push(jSXAttribute(
+      jSXIdentifier('className'),
+      jSXExpressionContainer(
         styleNameExpression
-      ) : styleNameExpression
-  );
-  styleNameAttribute.name.name = 'className';
+      )
+    ));
+  }
 };
