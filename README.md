@@ -30,7 +30,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
 * [Limitations](#limitations)
 * [Have a question or want to suggest an improvement?](#have-a-question-or-want-to-suggest-an-improvement)
 * [FAQ](#faq)
-  * [How to refer to multiple modules?](#how-to-refer-to-multiple-modules)
+  * [How to reference multiple CSS modules?](#how-to-reference-multiple-css-modules)
 
 ## CSS Modules
 
@@ -349,7 +349,7 @@ const _styleModuleImportMap = {
 
 ## FAQ
 
-### How to refer to multiple modules?
+### How to reference multiple CSS modules?
 
 `react-css-modules` had an option [`allowMultiple`](https://github.com/gajus/react-css-modules#allowmultiple). `allowMultiple` allows multiple CSS module names in a `styleName` declaration, e.g.
 
