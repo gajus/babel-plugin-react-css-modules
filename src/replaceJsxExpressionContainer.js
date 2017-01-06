@@ -5,7 +5,13 @@ import BabelTypes, {
   Identifier
 } from 'babel-types';
 
-export default (t: BabelTypes, path: Object, styleNameAttribute: JSXAttribute, importedHelperIndentifier: Identifier, styleModuleImportMapIdentifier: Identifier): void => {
+export default (
+  t: BabelTypes,
+  path: Object,
+  styleNameAttribute: JSXAttribute,
+  importedHelperIndentifier: Identifier,
+  styleModuleImportMapIdentifier: Identifier
+): void => {
   const expressionContainerValue = styleNameAttribute.value;
   const classNameAttribute = path.node.openingElement.attributes
     .find((attribute) => {
