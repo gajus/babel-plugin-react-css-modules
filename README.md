@@ -20,6 +20,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
   * [Anonymous reference](#anonymous-reference)
   * [Named reference](#named-reference)
 * [Configuration](#configuration)
+  * [Configurate syntax loaders](#configurate-syntax-loaders)
 * [Installation](#installation)
   * [Demo](#demo)
 * [Example transpilations](#example-transpilations)
@@ -168,13 +169,32 @@ NODE_ENV=production ./test
 
 |Name|Description|Default|
 |---|---|---|
-|`generateScopedName`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|`[path]___[name]__[local]___[hash:base64:5]`|
 |`context`|Must match webpack [`context`](https://webpack.github.io/docs/configuration.html#context) configuration. [`css-loader`](https://github.com/webpack/css-loader) inherits `context` values from webpack. Other CSS module implementations might use different context resolution logic.|`process.cwd()`|
+|`filetypes`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugerss, LESS and SCSS. ||
+|`generateScopedName`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|`[path]___[name]__[local]___[hash:base64:5]`|
 
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
 
 > Note:
 > The default configuration should work out of the box with the [css-loader](https://github.com/webpack/css-loader).
+
+### Configurate syntax loaders
+
+To add support for different CSS syntaxes (e.g. SCSS), perform the following two steps:
+
+1. Add the [postcss syntax loader](https://github.com/postcss/postcss#syntaxes) as a development dependency:
+  
+  ```bash
+  npm install postcss-scss --save-dev
+  ```
+
+2. Add a filetype syntax mapping to the Babel plugin configuration
+  
+  ```json
+  "filetypes": {
+    ".scss": "postcss-scss"
+  }
+  ```
 
 ## Installation
 
