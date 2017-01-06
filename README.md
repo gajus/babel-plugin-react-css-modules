@@ -20,6 +20,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
   * [Anonymous reference](#anonymous-reference)
   * [Named reference](#named-reference)
 * [Configuration](#configuration)
+  * [Configurate syntax loaders](#configurate-syntax-loaders)
 * [Installation](#installation)
 * [Example transpilations](#example-transpilations)
   * [Anonymous `styleName` resolution](#anonymous-stylename-resolution)
@@ -176,24 +177,23 @@ Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-
 > Note:
 > The default configuration should work out of the box with the [css-loader](https://github.com/webpack/css-loader).
 
-### Configure syntax loaders
+### Configurate syntax loaders
 
-Out of the box, only css files are supported. To add for example support for SCSS, perform the following two steps:
+To add support for different CSS syntaxes (e.g. SCSS), perform the following two steps:
 
-1. Add the [postcss syntax loader](https://github.com/postcss/postcss#syntaxes) as dev dependency:
+1. Add the [postcss syntax loader](https://github.com/postcss/postcss#syntaxes) as a development dependency:
+  
+  ```bash
+  npm install postcss-scss --save-dev
+  ```
 
-```bash
-npm install postcss-scss --save-dev
-```
-
-2. Add a filetype syntax mapping to the babel plugin configuration
-
-```json
-"filetypes": {
-  ".scss": "postcss-scss"
-}
-```
-
+2. Add a filetype syntax mapping to the Babel plugin configuration
+  
+  ```json
+  "filetypes": {
+    ".scss": "postcss-scss"
+  }
+  ```
 
 ## Installation
 
