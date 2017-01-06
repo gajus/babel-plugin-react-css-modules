@@ -71,7 +71,8 @@ export default ({
 
         const filename = stats.file.opts.filename;
         const targetFileDirectoryPath = dirname(stats.file.opts.filename);
-        const targetResourcePath = resolve(targetFileDirectoryPath, path.node.source.value);
+
+        const targetResourcePath = path.node.source.value.startsWith('.') ? resolve(targetFileDirectoryPath, path.node.source.value) : require.resolve(path.node.source.value);
 
         let styleImportName: string;
 
