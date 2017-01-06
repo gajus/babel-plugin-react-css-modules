@@ -14,7 +14,8 @@
     "postcss-modules-local-by-default": "^1.1.1",
     "postcss-modules-parser": "^1.1.0",
     "postcss-modules-scope": "^1.0.2",
-    "postcss-modules-values": "^1.2.2"
+    "postcss-modules-values": "^1.2.2",
+    "postcss-scss": "^0.4.0"
   },
   "description": "Transforms styleName to className using compile time CSS module resolution.",
   "devDependencies": {
@@ -30,9 +31,7 @@
     "flow-bin": "^0.37.4",
     "husky": "^0.12.0",
     "mocha": "^3.2.0",
-    "semantic-release": "^6.3.5",
-    "postcss-less": "^0.15.0",
-    "postcss-scss": "^0.4.0"
+    "semantic-release": "^6.3.5"
   },
   "engines": {
     "node": ">5.0.0"
