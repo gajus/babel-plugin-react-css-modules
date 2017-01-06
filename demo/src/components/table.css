@@ -1,0 +1,28 @@
+.table {
+  display: table;
+}
+
+.row {
+  display: table-row;
+}
+
+.cell {
+  display: table-cell;
+  padding: 5px;
+}
+
+.cell:nth-child(1) {
+  background: #f00;
+}
+
+.cell:nth-child(2) {
+  background: #0f0;
+}
+
+.cell:nth-child(3) {
+  background: #00f;
+}
+
+.yellow {
+  background: #ff0!important;
+}

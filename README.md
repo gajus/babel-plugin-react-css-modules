@@ -21,6 +21,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
   * [Named reference](#named-reference)
 * [Configuration](#configuration)
 * [Installation](#installation)
+  * [Demo](#demo)
 * [Example transpilations](#example-transpilations)
   * [Anonymous `styleName` resolution](#anonymous-stylename-resolution)
   * [Named `styleName` resolution](#named-stylename-resolution)
@@ -181,6 +182,19 @@ When `babel-plugin-react-css-modules` cannot resolve CSS module at a compile tim
 
 ```bash
 npm install babel-plugin-react-css-modules --save
+```
+
+### Demo
+
+```bash
+git clone git@github.com:gajus/babel-plugin-react-css-modules.git
+cd ./babel-plugin-react-css-modules/demo
+npm install
+webpack-dev-server
+```
+
+```bash
+open http://localhost:8080/
 ```
 
 ## Conventions
