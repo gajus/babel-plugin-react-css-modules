@@ -7,10 +7,11 @@ module.exports = {
   context,
   entry: './index.js',
   resolve: {
-    modulesDirectories: [
+    modules: [
       'src',
       'src/sass',
-      'src/components'
+      'src/components',
+      'node_modules'
     ]
   },
   module: {
