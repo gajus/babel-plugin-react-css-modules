@@ -46,7 +46,7 @@ const getTokens = (runner, cssSourceFilePath: string, filetypes): StyleModuleMap
 
 type OptionsType = {|
   filetypes: Object,
-  generateScopedName?: string
+  generateScopedName?: string,
   context?: string
 |};
 
