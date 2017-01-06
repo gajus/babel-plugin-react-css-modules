@@ -44,14 +44,17 @@ const getTokens = (runner, cssSourceFilePath: string): StyleModuleMapType => {
 };
 
 type OptionsType = {|
-  generateScopedName?: string
+  generateScopedName?: string,
+  context?: string
 |};
 
 export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMapType => {
   // eslint-disable-next-line prefer-const
   let runner;
 
-  const scopedName = genericNames(options.generateScopedName || '[path]___[name]__[local]___[hash:base64:5]');
+  const scopedName = genericNames(options.generateScopedName || '[path]___[name]__[local]___[hash:base64:5]', {
+    context: options.context || process.cwd()
+  });
 
   const fetch = (to: string, from: string) => {
     const fromDirectoryPath = dirname(from);

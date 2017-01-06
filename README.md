@@ -168,6 +168,7 @@ NODE_ENV=production ./test
 |Name|Description|Default|
 |---|---|---|
 |`generateScopedName`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|`[path]___[name]__[local]___[hash:base64:5]`|
+|`context`|Must match webpack [`context`](https://webpack.github.io/docs/configuration.html#context) configuration. [`css-loader`](https://github.com/webpack/css-loader) inherits `context` values from webpack. Other CSS module implementations might use different context resolution logic.|`process.cwd()`|
 
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
 
