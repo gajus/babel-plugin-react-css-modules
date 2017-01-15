@@ -57,6 +57,43 @@ export default ({
     // console.log('setting up', filename, util.inspect(filenameMap,{depth: 5}))
   };
 
+  const addWebpackHotModuleAccept = (path) => {
+    const test = t.memberExpression(t.identifier('module'), t.identifier('hot'));
+    const consequent = t.blockStatement([
+      t.expressionStatement(
+        t.callExpression(
+          t.memberExpression(
+            t.memberExpression(t.identifier('module'), t.identifier('hot')),
+            t.identifier('accept')
+          ),
+          [
+            t.stringLiteral(path.node.source.value),
+            t.functionExpression(null, [], t.blockStatement([
+              t.expressionStatement(
+                t.callExpression(
+                  t.identifier('require'),
+                  [t.stringLiteral(path.node.source.value)]
+                )
+              )
+            ]))
+          ]
+        )
+      )
+    ]);
+
+    const programPath = path.findParent((parentPath) => {
+      return parentPath.isProgram();
+    });
+
+    const firstNonImportDeclarationNode = programPath.get('body').find((node) => {
+      return !t.isImportDeclaration(node);
+    });
+
+    const hotAcceptStatement = t.ifStatement(test, consequent);
+
+    firstNonImportDeclarationNode.insertBefore(hotAcceptStatement);
+  };
+
   return {
     inherits: babelPluginJsxSyntax,
     visitor: {
@@ -93,6 +130,10 @@ export default ({
           filetypes: stats.opts.filetypes || {},
           generateScopedName: stats.opts.generateScopedName
         });
+
+        if (stats.opts.webpackHotModuleReloading) {
+          addWebpackHotModuleAccept(path);
+        }
       },
       JSXElement (path: Object, stats: Object): void {
         const filename = stats.file.opts.filename;

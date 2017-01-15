@@ -31,6 +31,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
 * [Have a question or want to suggest an improvement?](#have-a-question-or-want-to-suggest-an-improvement)
 * [FAQ](#faq)
   * [How to reference multiple CSS modules?](#how-to-reference-multiple-css-modules)
+  * [How to live reload the CSS?](#hot-to-live-reload-the-css)
 
 ## CSS Modules
 
@@ -173,6 +174,7 @@ NODE_ENV=production ./test
 |---|---|---|
 |`context`|Must match webpack [`context`](https://webpack.github.io/docs/configuration.html#context) configuration. [`css-loader`](https://github.com/webpack/css-loader) inherits `context` values from webpack. Other CSS module implementations might use different context resolution logic.|`process.cwd()`|
 |`filetypes`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugerss, LESS and SCSS. ||
+|`webpackHotModuleReloading`|Enables hot reloading of CSS in webpack|`false`|
 |`generateScopedName`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|`[path]___[name]__[local]___[hash:base64:5]`|
 
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
@@ -185,13 +187,13 @@ Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-
 To add support for different CSS syntaxes (e.g. SCSS), perform the following two steps:
 
 1. Add the [postcss syntax loader](https://github.com/postcss/postcss#syntaxes) as a development dependency:
-  
+
   ```bash
   npm install postcss-scss --save-dev
   ```
 
 2. Add a filetype syntax mapping to the Babel plugin configuration
-  
+
   ```json
   "filetypes": {
     ".scss": "postcss-scss"
@@ -358,3 +360,21 @@ const _styleModuleImportMap = {
 ```
 
 This behaviour is enabled by default in `babel-plugin-react-css-modules`.
+
+## How to live reload the CSS?
+
+`babel-plugin-react-css-modules` utilises webpack [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) (HMR) to live reload the CSS.
+
+To enable live reloading of the CSS:
+
+* Enable [`webpackHotModuleReloading`](#configuration) `babel-plugin-react-css-modules` configuration.
+* Configure `webpack` to use HMR. Use [`--hot`](https://webpack.github.io/docs/webpack-dev-server.html) option if you are using `webpack-dev-server`.
+* Use [`style-loader`](https://github.com/webpack/style-loader) to load the style sheets.
+
+> Note:
+>
+> This enables live reloading of the CSS. To enable HMR of the React components, refer to the [Hot Module Replacement - React](https://webpack.js.org/guides/hmr-react/) guide.
+
+> Note:
+> 
+> This is a [webpack](https://webpack.github.io/) specific option. If you are using `babel-plugin-react-css-modules` in a different setup and require CSS live reloading, raise an issue describing your setup.
