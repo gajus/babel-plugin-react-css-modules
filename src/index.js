@@ -17,7 +17,6 @@ export default ({
   types: BabelTypes
 }) => {
   const filenameMap = {};
-  const cursors = {};
 
   const setupFileForRuntimeResolution = (path, filename) => {
     const programPath = path.findParent((parentPath) => {
@@ -39,7 +38,11 @@ export default ({
       )
     );
 
-    cursors[filename].insertAfter(
+    const firstNonImportDeclarationNode = programPath.get('body').find((node) => {
+      return !t.isImportDeclaration(node);
+    });
+
+    firstNonImportDeclarationNode.insertBefore(
       t.variableDeclaration(
         'const',
         [
@@ -52,6 +55,43 @@ export default ({
     );
     // eslint-disable-next-line
     // console.log('setting up', filename, util.inspect(filenameMap,{depth: 5}))
+  };
+
+  const addWebpackHotModuleAccept = (path) => {
+    const test = t.memberExpression(t.identifier('module'), t.identifier('hot'));
+    const consequent = t.blockStatement([
+      t.expressionStatement(
+        t.callExpression(
+          t.memberExpression(
+            t.memberExpression(t.identifier('module'), t.identifier('hot')),
+            t.identifier('accept')
+          ),
+          [
+            t.stringLiteral(path.node.source.value),
+            t.functionExpression(null, [], t.blockStatement([
+              t.expressionStatement(
+                t.callExpression(
+                  t.identifier('require'),
+                  [t.stringLiteral(path.node.source.value)]
+                )
+              )
+            ]))
+          ]
+        )
+      )
+    ]);
+
+    const programPath = path.findParent((parentPath) => {
+      return parentPath.isProgram();
+    });
+
+    const firstNonImportDeclarationNode = programPath.get('body').find((node) => {
+      return !t.isImportDeclaration(node);
+    });
+
+    const hotAcceptStatement = t.ifStatement(test, consequent);
+
+    firstNonImportDeclarationNode.insertBefore(hotAcceptStatement);
   };
 
   return {
@@ -84,43 +124,8 @@ export default ({
           generateScopedName: stats.opts.generateScopedName
         });
 
-        const test = t.memberExpression(t.identifier('module'), t.identifier('hot'));
-        const consequent = t.blockStatement([
-          t.expressionStatement(
-            t.callExpression(
-              t.memberExpression(
-                t.memberExpression(t.identifier('module'), t.identifier('hot')),
-                t.identifier('accept')
-              ),
-              [
-                t.stringLiteral(path.node.source.value),
-                t.functionExpression(null, [], t.blockStatement([
-                  t.expressionStatement(
-                    t.callExpression(
-                      t.identifier('require'),
-                      [t.stringLiteral(path.node.source.value)]
-                    )
-                  )
-                ]))
-              ]
-            )
-          )
-        ]);
-
-        const hotAcceptStatement = t.ifStatement(test, consequent);
-
-        if (cursors[filename]) {
-          cursors[filename] = cursors[filename].insertAfter(hotAcceptStatement)[0];
-        } else {
-          const programPath = path.findParent((parentPath) => {
-            return parentPath.isProgram();
-          });
-
-          const firstNonImportDeclarationNode = programPath.get('body').find((node) => {
-            return !t.isImportDeclaration(node);
-          });
-
-          cursors[filename] = firstNonImportDeclarationNode.insertBefore(hotAcceptStatement)[0];
+        if (stats.opts.webpackHotModuleReloading) {
+          addWebpackHotModuleAccept(path);
         }
       },
       JSXElement (path: Object, stats: Object): void {
@@ -163,8 +168,6 @@ export default ({
         filenameMap[filename] = {
           styleModuleImportMap: {}
         };
-
-        cursors[filename] = null;
       }
     }
   };
