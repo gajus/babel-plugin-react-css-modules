@@ -37,6 +37,9 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
 
   return styleNameValue
     .split(' ')
+    .filter((styleName) => {
+      return styleName;
+    })
     .map((styleName) => {
       if (isNamespacedStyleName(styleName)) {
         return getClassNameForNamespacedStyleName(styleName, styleModuleImportMap);

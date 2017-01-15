@@ -98,13 +98,18 @@ export default ({
     inherits: babelPluginJsxSyntax,
     visitor: {
       ImportDeclaration (path: Object, stats: Object): void {
-        if (!path.node.source.value.endsWith('.css') && !path.node.source.value.endsWith('.scss')) {
+        stats.opts.filetypes = stats.opts.filetypes || {};
+
+        const extension = path.node.source.value.lastIndexOf('.') > -1 ? path.node.source.value.substr(path.node.source.value.lastIndexOf('.')) : null;
+
+        if (extension !== '.css' && Object.keys(stats.opts.filetypes).indexOf(extension) < 0) {
           return;
         }
 
         const filename = stats.file.opts.filename;
         const targetFileDirectoryPath = dirname(stats.file.opts.filename);
-        const targetResourcePath = resolve(targetFileDirectoryPath, path.node.source.value);
+
+        const targetResourcePath = path.node.source.value.startsWith('.') ? resolve(targetFileDirectoryPath, path.node.source.value) : require.resolve(path.node.source.value);
 
         let styleImportName: string;
 
@@ -121,6 +126,8 @@ export default ({
         }
 
         filenameMap[filename].styleModuleImportMap[styleImportName] = requireCssModule(targetResourcePath, {
+          context: stats.opts.context,
+          filetypes: stats.opts.filetypes || {},
           generateScopedName: stats.opts.generateScopedName
         });
 

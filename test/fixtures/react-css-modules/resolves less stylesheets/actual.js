@@ -1,3 +1,3 @@
-import './bar.css';
+import './bar.less';
 
 <div styleName="a"></div>;
