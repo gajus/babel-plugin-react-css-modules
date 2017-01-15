@@ -31,6 +31,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
 * [Have a question or want to suggest an improvement?](#have-a-question-or-want-to-suggest-an-improvement)
 * [FAQ](#faq)
   * [How to reference multiple CSS modules?](#how-to-reference-multiple-css-modules)
+  * [How to live reload the CSS?](#hot-to-live-reload-the-css)
 
 ## CSS Modules
 
@@ -359,3 +360,21 @@ const _styleModuleImportMap = {
 ```
 
 This behaviour is enabled by default in `babel-plugin-react-css-modules`.
+
+## How to live reload the CSS?
+
+`babel-plugin-react-css-modules` utilises webpack [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) (HMR) to live reload the CSS.
+
+To enable live reloading of the CSS:
+
+* Enable [`webpackHotModuleReloading`](#configuration) `babel-plugin-react-css-modules` configuration.
+* Configure `webpack` to use HMR. Use [`--hot`](https://webpack.github.io/docs/webpack-dev-server.html) option if you are using `webpack-dev-server`.
+* Use [`style-loader`](https://github.com/webpack/style-loader) to load the style sheets.
+
+> Note:
+>
+> This enables live reloading of the CSS. To enable HMR of the React components, refer to the [Hot Module Replacement - React](https://webpack.js.org/guides/hmr-react/) guide.
+
+> Note:
+> 
+> This is a [webpack](https://webpack.github.io/) specific option. If you are using `babel-plugin-react-css-modules` in a different setup and require CSS live reloading, raise an issue describing your setup.
