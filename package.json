@@ -5,6 +5,7 @@
     "url": "http://gajus.com"
   },
   "dependencies": {
+    "ajv": "^4.11.4",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-types": "^6.19.0",
     "generic-names": "^1.0.2",

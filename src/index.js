@@ -6,10 +6,16 @@ import {
 } from 'path';
 import babelPluginJsxSyntax from 'babel-plugin-syntax-jsx';
 import BabelTypes from 'babel-types';
+import Ajv from 'ajv';
+import optionsSchema from './schemas/optionsSchema.json';
 import createObjectExpression from './createObjectExpression';
 import requireCssModule from './requireCssModule';
 import resolveStringLiteral from './resolveStringLiteral';
 import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
+
+const ajv = new Ajv();
+
+const validate = ajv.compile(optionsSchema);
 
 export default ({
   types: t
@@ -170,6 +176,13 @@ export default ({
         }
       },
       Program (path: Object, stats: Object): void {
+        if (!validate(stats.opts)) {
+          // eslint-disable-next-line no-console
+          console.error(validate.errors);
+
+          throw new Error('Invalid configuration');
+        }
+
         const filename = stats.file.opts.filename;
 
         filenameMap[filename] = {
