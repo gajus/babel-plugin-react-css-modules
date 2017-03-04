@@ -56,7 +56,7 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
       const styleModuleMap: StyleModuleMapType = styleModuleImportMap[styleModuleImportMapKeys[0]];
 
       if (!styleModuleMap[styleName]) {
-        throw new Error('CSS module cannot be resolved.');
+        throw new Error('Could not resolve the styleName \'' + styleName + '\'.');
       }
 
       return styleModuleMap[styleName];
