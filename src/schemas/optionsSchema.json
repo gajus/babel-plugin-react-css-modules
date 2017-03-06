@@ -5,11 +5,12 @@
       "type": "string"
     },
     "filetypes": {
-      "patternGroups": {
-        ".*": {
+      "patternProperties": {
+        "\\..*": {
           "type": "string"
         }
       },
+      "additionalProperties": false,
       "type": "object"
     },
     "generateScopedName": {
