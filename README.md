@@ -192,7 +192,7 @@ To add support for different CSS syntaxes (e.g. SCSS), perform the following two
   npm install postcss-scss --save-dev
   ```
 
-2. Add a filetype syntax mapping to the Babel plugin configuration
+2. Add a filetype syntax mapping to the Babel plugin configuration (leading period is required)
 
   ```json
   "filetypes": {
