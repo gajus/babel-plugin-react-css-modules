@@ -100,22 +100,42 @@ export default ({
     firstNonImportDeclarationNode.insertBefore(hotAcceptStatement);
   };
 
+  const getTargetResourcePath = (path: Object, stats:Object) => {
+    const targetFileDirectoryPath = dirname(stats.file.opts.filename);
+
+    if (path.node.source.value.startsWith('.')) {
+      return resolve(targetFileDirectoryPath, path.node.source.value);
+    }
+
+    return require.resolve(path.node.source.value);
+  };
+
+  const notForPlugin = (path: Object, stats: Object) => {
+    stats.opts.filetypes = stats.opts.filetypes || {};
+
+    const extension = path.node.source.value.lastIndexOf('.') > -1 ? path.node.source.value.substr(path.node.source.value.lastIndexOf('.')) : null;
+
+    if (extension !== '.css' && Object.keys(stats.opts.filetypes).indexOf(extension) < 0) {
+      return true;
+    }
+
+    if (stats.opts.exclude && getTargetResourcePath(path, stats).match(new RegExp(stats.opts.exclude))) {
+      return true;
+    }
+
+    return false;
+  };
+
   return {
     inherits: babelPluginJsxSyntax,
     visitor: {
       ImportDeclaration (path: Object, stats: Object): void {
-        stats.opts.filetypes = stats.opts.filetypes || {};
-
-        const extension = path.node.source.value.lastIndexOf('.') > -1 ? path.node.source.value.substr(path.node.source.value.lastIndexOf('.')) : null;
-
-        if (extension !== '.css' && Object.keys(stats.opts.filetypes).indexOf(extension) < 0) {
+        if (notForPlugin(path, stats)) {
           return;
         }
 
         const filename = stats.file.opts.filename;
-        const targetFileDirectoryPath = dirname(stats.file.opts.filename);
-
-        const targetResourcePath = path.node.source.value.startsWith('.') ? resolve(targetFileDirectoryPath, path.node.source.value) : require.resolve(path.node.source.value);
+        const targetResourcePath = getTargetResourcePath(path, stats);
 
         let styleImportName: string;
 

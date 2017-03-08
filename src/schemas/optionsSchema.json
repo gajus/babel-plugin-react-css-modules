@@ -18,6 +18,9 @@
     },
     "webpackHotModuleReloading": {
       "type": "boolean"
+    },
+    "exclude": {
+      "type": "string"
     }
   },
   "type": "object"
