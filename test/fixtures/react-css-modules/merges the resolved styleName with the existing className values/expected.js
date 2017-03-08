@@ -8,8 +8,8 @@ const _styleModuleImportMap = {
 };
 <div className="apple banana bar__a"></div>;
 
-<div className={this.props.className + ' bar__a'}></div>;
+<div className={(this.props.className ? this.props.className + ' ' : '') + 'bar__a'}></div>;
 
-<div className={(Math.random() > 0.5 ? 'apple' : 'banana') + ' bar__a'}></div>;
+<div className={((Math.random() > 0.5 ? 'apple' : 'banana') ? (Math.random() > 0.5 ? 'apple' : 'banana') + ' ' : '') + 'bar__a'}></div>;
 
-<div className={this.props.className + (' ' + _getClassName(foo, _styleModuleImportMap))}></div>;
+<div className={(this.props.className ? this.props.className + ' ' : '') + _getClassName(foo, _styleModuleImportMap)}></div>;
