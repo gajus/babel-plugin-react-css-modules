@@ -1,12 +1,12 @@
 // @flow
 
 import {
-  binaryExpression,
   isJSXExpressionContainer,
   isStringLiteral,
   JSXAttribute,
   stringLiteral
 } from 'babel-types';
+import conditionalClassMerge from './conditionalClassMerge';
 import getClassName from './getClassName';
 import type {
   StyleModuleImportMapType
@@ -27,10 +27,9 @@ export default (path: Object, styleModuleImportMap: StyleModuleImportMapType, st
     if (isStringLiteral(classNameAttribute.value)) {
       classNameAttribute.value.value += ' ' + resolvedStyleName;
     } else if (isJSXExpressionContainer(classNameAttribute.value)) {
-      classNameAttribute.value.expression = binaryExpression(
-        '+',
+      classNameAttribute.value.expression = conditionalClassMerge(
         classNameAttribute.value.expression,
-        stringLiteral(' ' + resolvedStyleName)
+        stringLiteral(resolvedStyleName)
       );
     } else {
       throw new Error('Unexpected attribute value.');

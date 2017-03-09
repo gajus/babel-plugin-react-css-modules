@@ -1,5 +1,4 @@
 // @flow
-
 import BabelTypes, {
   binaryExpression,
   Identifier,
@@ -8,9 +7,9 @@ import BabelTypes, {
   jSXAttribute,
   JSXAttribute,
   jSXExpressionContainer,
-  jSXIdentifier,
-  stringLiteral
+  jSXIdentifier
 } from 'babel-types';
+import conditionalClassMerge from './conditionalClassMerge';
 
 export default (
   t: BabelTypes,
@@ -55,14 +54,9 @@ export default (
       path.node.openingElement.attributes.push(jSXAttribute(
         jSXIdentifier('className'),
         jSXExpressionContainer(
-          binaryExpression(
-            '+',
+          conditionalClassMerge(
             classNameAttribute.value.expression,
-            binaryExpression(
-              '+',
-              stringLiteral(' '),
-              styleNameExpression
-            )
+            styleNameExpression
           )
         )
       ));
