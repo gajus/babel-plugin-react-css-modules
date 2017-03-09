@@ -18,15 +18,31 @@ const getClassNameForNamespacedStyleName = (styleName: string, styleModuleImport
   const moduleName = styleNameParts[1];
 
   if (!moduleName) {
+    // eslint-disable-next-line no-console
+    console.log({
+      moduleName
+    });
+
     throw new Error('Invalid style name.');
   }
 
   if (!styleModuleImportMap[importName]) {
-    throw new Error('CSS module import,' + importName + ', does not exist.');
+    // eslint-disable-next-line no-console
+    console.log({
+      importName
+    });
+
+    throw new Error('CSS module import does not exist.');
   }
 
   if (!styleModuleImportMap[importName][moduleName]) {
-    throw new Error('CSS module,' + moduleName + ', does not exist in import, ' + importName + '.');
+    // eslint-disable-next-line no-console
+    console.log({
+      importName,
+      moduleName
+    });
+
+    throw new Error('CSS module does not exist.');
   }
 
   return styleModuleImportMap[importName][moduleName];
@@ -56,7 +72,12 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
       const styleModuleMap: StyleModuleMapType = styleModuleImportMap[styleModuleImportMapKeys[0]];
 
       if (!styleModuleMap[styleName]) {
-        throw new Error('Could not resolve the styleName \'' + styleName + '\'.');
+        // eslint-disable-next-line no-console
+        console.log({
+          styleName
+        });
+
+        throw new Error('Could not resolve a styleName.');
       }
 
       return styleModuleMap[styleName];
