@@ -22,11 +22,11 @@ const getClassNameForNamespacedStyleName = (styleName: string, styleModuleImport
   }
 
   if (!styleModuleImportMap[importName]) {
-    throw new Error('CSS module import does not exist.');
+    throw new Error('CSS module import,' + importName + ', does not exist.');
   }
 
   if (!styleModuleImportMap[importName][moduleName]) {
-    throw new Error('CSS module does not exist.');
+    throw new Error('CSS module,' + moduleName + ', does not exist in import, ' + importName + '.');
   }
 
   return styleModuleImportMap[importName][moduleName];
