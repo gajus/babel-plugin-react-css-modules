@@ -26,14 +26,17 @@
     "babel-plugin-transform-es2015-parameters": "^6.18.0",
     "babel-plugin-transform-flow-strip-types": "^6.18.0",
     "babel-preset-es2015": "^6.18.0",
+    "better-npm-run": "^0.0.14",
     "eslint": "^3.11.1",
     "eslint-config-canonical": "^6.0.0",
     "flow-bin": "^0.37.4",
     "husky": "^0.12.0",
+    "mkdirp": "^0.5.1",
     "mocha": "^3.2.0",
-    "semantic-release": "^6.3.5",
     "postcss-less": "^0.15.0",
-    "postcss-scss": "^0.4.0"
+    "postcss-scss": "^0.4.0",
+    "rimraf": "^2.6.1",
+    "semantic-release": "^6.3.5"
   },
   "engines": {
     "node": ">5.0.0"
@@ -50,11 +53,31 @@
     "url": "https://github.com/gajus/babel-plugin-react-css-modules"
   },
   "scripts": {
-    "build-helper": "mkdir -p ./dist/browser && NODE_ENV=production babel ./src/getClassName.js --out-file ./dist/browser/getClassName.js --source-maps --no-babelrc --plugins transform-es2015-modules-commonjs,transform-flow-strip-types --presets es2015",
-    "build": "rm -fr ./dist && NODE_ENV=production babel ./src --out-dir ./dist --source-maps --copy-files && npm run build-helper",
+    "build-helper": "better-npm-run build-helper",
+    "build": "better-npm-run build",
     "lint": "eslint ./src",
     "precommit": "npm run test",
-    "test": "NODE_ENV=development npm run lint && npm run build && NODE_ENV=test mocha --compilers js:babel-register && flow"
+    "test": "npm run lint && npm run build && better-npm-run test"
+  },
+  "betterScripts": {
+    "build-helper": {
+      "command": "mkdirp ./dist/browser && babel ./src/getClassName.js --out-file ./dist/browser/getClassName.js --source-maps --no-babelrc --plugins transform-es2015-modules-commonjs,transform-flow-strip-types --presets es2015",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "build": {
+      "command": "rimraf ./dist && babel ./src --out-dir ./dist --source-maps --copy-files && npm run build-helper",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "test": {
+      "command": "mocha --compilers js:babel-register && flow",
+      "env": {
+        "NODE_ENV": "test"
+      }
+    }
   },
   "version": "1.0.0"
 }
