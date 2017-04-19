@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    [
+      "../../../../src",
+      {
+        "generateScopedName": "[name]__[local]",
+        "webpackHotModuleReloading": true
+      }
+    ]
+  ]
+}

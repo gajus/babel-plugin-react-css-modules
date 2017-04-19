@@ -97,7 +97,11 @@ export default ({
 
     const hotAcceptStatement = t.ifStatement(test, consequent);
 
-    firstNonImportDeclarationNode.insertBefore(hotAcceptStatement);
+    if (firstNonImportDeclarationNode) {
+      firstNonImportDeclarationNode.insertBefore(hotAcceptStatement);
+    } else {
+      programPath.pushContainer('body', hotAcceptStatement);
+    }
   };
 
   const getTargetResourcePath = (path: Object, stats:Object) => {
