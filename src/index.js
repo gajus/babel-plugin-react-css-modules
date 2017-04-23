@@ -167,33 +167,33 @@ export default ({
       },
       JSXElement (path: Object, stats: Object): void {
         const filename = stats.file.opts.filename;
-        const styleNameAttribute = path.node.openingElement.attributes
+        const styleAttribute = path.node.openingElement.attributes
           .find((attribute) => {
-            return typeof attribute.name !== 'undefined' && attribute.name.name === 'styleName';
+            return typeof attribute.name !== 'undefined' && (attribute.name.name === 'styleName' || attribute.name.name === 'styleId');
           });
 
-        if (!styleNameAttribute) {
+        if (!styleAttribute) {
           return;
         }
 
-        if (t.isStringLiteral(styleNameAttribute.value)) {
+        if (t.isStringLiteral(styleAttribute.value)) {
           resolveStringLiteral(
             path,
             filenameMap[filename].styleModuleImportMap,
-            styleNameAttribute
+            styleAttribute
           );
 
           return;
         }
 
-        if (t.isJSXExpressionContainer(styleNameAttribute.value)) {
+        if (t.isJSXExpressionContainer(styleAttribute.value)) {
           if (!filenameMap[filename].importedHelperIndentifier) {
             setupFileForRuntimeResolution(path, filename);
           }
           replaceJsxExpressionContainer(
             t,
             path,
-            styleNameAttribute,
+            styleAttribute,
             filenameMap[filename].importedHelperIndentifier,
             filenameMap[filename].styleModuleImportMapIdentifier
           );
