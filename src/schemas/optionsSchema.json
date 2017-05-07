@@ -4,23 +4,26 @@
     "context": {
       "type": "string"
     },
+    "exclude": {
+      "type": "string"
+    },
     "filetypes": {
+      "additionalProperties": false,
       "patternProperties": {
         "\\..*": {
           "type": "string"
         }
       },
-      "additionalProperties": false,
       "type": "object"
     },
     "generateScopedName": {
       "type": "string"
     },
-    "webpackHotModuleReloading": {
+    "removeImport": {
       "type": "boolean"
     },
-    "exclude": {
-      "type": "string"
+    "webpackHotModuleReloading": {
+      "type": "boolean"
     }
   },
   "type": "object"

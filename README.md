@@ -173,10 +173,11 @@ NODE_ENV=production ./test
 |Name|Description|Default|
 |---|---|---|
 |`context`|Must match webpack [`context`](https://webpack.github.io/docs/configuration.html#context) configuration. [`css-loader`](https://github.com/webpack/css-loader) inherits `context` values from webpack. Other CSS module implementations might use different context resolution logic.|`process.cwd()`|
-|`filetypes`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugerss, LESS and SCSS. ||
-|`webpackHotModuleReloading`|Enables hot reloading of CSS in webpack|`false`|
-|`generateScopedName`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|`[path]___[name]__[local]___[hash:base64:5]`|
 |`exclude`| a RegExp that will exclude otherwise included files e.g., to exclude all styles from node_modules `exclude: 'node_modules'`|
+|`filetypes`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugerss, LESS and SCSS. ||
+|`generateScopedName`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|`[path]___[name]__[local]___[hash:base64:5]`|
+|`removeImport`|Remove the matching style import. This option is used to enable server-side rendering.|`false`|
+|`webpackHotModuleReloading`|Enables hot reloading of CSS in webpack|`false`|
 
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
 
@@ -377,5 +378,5 @@ To enable live reloading of the CSS:
 > This enables live reloading of the CSS. To enable HMR of the React components, refer to the [Hot Module Replacement - React](https://webpack.js.org/guides/hmr-react/) guide.
 
 > Note:
-> 
+>
 > This is a [webpack](https://webpack.github.io/) specific option. If you are using `babel-plugin-react-css-modules` in a different setup and require CSS live reloading, raise an issue describing your setup.

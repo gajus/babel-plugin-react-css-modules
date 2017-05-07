@@ -164,6 +164,10 @@ export default ({
         if (stats.opts.webpackHotModuleReloading) {
           addWebpackHotModuleAccept(path);
         }
+
+        if (stats.opts.removeImport) {
+          path.remove();
+        }
       },
       JSXElement (path: Object, stats: Object): void {
         const filename = stats.file.opts.filename;
