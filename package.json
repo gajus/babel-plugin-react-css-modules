@@ -9,6 +9,7 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-types": "^6.19.0",
     "generic-names": "^1.0.2",
+    "node-sass": "^4.5.3",
     "postcss": "^5.2.6",
     "postcss-modules": "^0.6.2",
     "postcss-modules-extract-imports": "^1.0.1",
@@ -31,9 +32,9 @@
     "flow-bin": "^0.37.4",
     "husky": "^0.12.0",
     "mocha": "^3.2.0",
-    "semantic-release": "^6.3.5",
     "postcss-less": "^0.15.0",
-    "postcss-scss": "^0.4.0"
+    "postcss-scss": "^0.4.0",
+    "semantic-release": "^6.3.5"
   },
   "engines": {
     "node": ">4.0.0"
