@@ -380,3 +380,26 @@ To enable live reloading of the CSS:
 > Note:
 >
 > This is a [webpack](https://webpack.github.io/) specific option. If you are using `babel-plugin-react-css-modules` in a different setup and require CSS live reloading, raise an issue describing your setup.
+
+### How to use with webpack 2?
+In your webpack.config.js file you will need to add the babel-plugin-react-css-modules as a plugin to your babel loader.
+It will look like this:
+```
+module: {
+  rules: [
+    {
+      test: /\.jsx?$/,
+      use: {
+        loader:'babel-loader',
+        options: {
+          plugins: [require('babel-plugin-react-css-modules').default]
+        }},
+      exclude: /node_modules/
+    },
+    {
+      test: /\.css$/,
+      use: [ 'style-loader', 'css-loader?importLoader=1&modules&localIdentName=[path]___[name]__[local]___[hash:base64:5]', ],
+    },
+  ],
+}
+```
