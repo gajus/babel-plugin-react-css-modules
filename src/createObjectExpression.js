@@ -32,7 +32,7 @@ const createObjectExpression = (t: BabelTypes, object: InputObjectType): ObjectE
 
     properties.push(
       t.objectProperty(
-        t.identifier('\'' + name + '\''),
+        t.stringLiteral(name),
         newValue
       )
     );
