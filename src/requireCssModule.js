@@ -11,6 +11,7 @@ import postcss from 'postcss';
 import genericNames from 'generic-names';
 import ExtractImports from 'postcss-modules-extract-imports';
 import LocalByDefault from 'postcss-modules-local-by-default';
+import Nested from 'postcss-nested';
 import Parser from 'postcss-modules-parser';
 import Scope from 'postcss-modules-scope';
 import Values from 'postcss-modules-values';
@@ -66,6 +67,7 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
   };
 
   const plugins = [
+    Nested,
     Values,
     LocalByDefault,
     ExtractImports,
