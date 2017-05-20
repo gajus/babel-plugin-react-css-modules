@@ -15,13 +15,20 @@ import type {
 /**
  * Updates the className value of a JSX element using a provided styleName attribute.
  */
-export default (path: Object, styleModuleImportMap: StyleModuleImportMapType, styleNameAttribute: JSXAttribute): void => {
+export default (path: Object, styleModuleImportMap: StyleModuleImportMapType, styleAttribute: JSXAttribute): void => {
+  const resolvedStyleName = getClassName(styleAttribute.value.value, styleModuleImportMap);
+
+  if (styleAttribute.name.name === 'styleId') {
+    styleAttribute.name.name = 'id';
+    styleAttribute.value.value = resolvedStyleName;
+
+    return;
+  }
+
   const classNameAttribute = path.node.openingElement.attributes
     .find((attribute) => {
       return typeof attribute.name !== 'undefined' && attribute.name.name === 'className';
     });
-
-  const resolvedStyleName = getClassName(styleNameAttribute.value.value, styleModuleImportMap);
 
   if (classNameAttribute) {
     if (isStringLiteral(classNameAttribute.value)) {
@@ -35,9 +42,9 @@ export default (path: Object, styleModuleImportMap: StyleModuleImportMapType, st
       throw new Error('Unexpected attribute value.');
     }
 
-    path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(styleNameAttribute), 1);
+    path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(styleAttribute), 1);
   } else {
-    styleNameAttribute.name.name = 'className';
-    styleNameAttribute.value.value = resolvedStyleName;
+    styleAttribute.name.name = 'className';
+    styleAttribute.value.value = resolvedStyleName;
   }
 };
