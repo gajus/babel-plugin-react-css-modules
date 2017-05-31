@@ -2,11 +2,15 @@
 
 import {
   dirname,
-  resolve
+  resolve,
+  basename
 } from 'path';
 import {
-  readFileSync
+  readFileSync,
+  writeFileSync,
+  appendFileSync
 } from 'fs';
+import mkdirp from 'mkdirp';
 import postcss from 'postcss';
 import genericNames from 'generic-names';
 import ExtractImports from 'postcss-modules-extract-imports';
@@ -18,7 +22,40 @@ import type {
   StyleModuleMapType
 } from './types';
 
-const getTokens = (runner, cssSourceFilePath: string, filetypes): StyleModuleMapType => {
+const writeCssFile = (filename, content) => {
+  mkdirp.sync(dirname(filename));
+  writeFileSync(filename, content);
+};
+
+const appendCssFile = (filename, content) => {
+  mkdirp.sync(dirname(filename));
+  appendFileSync(filename, content);
+};
+
+let hasWrite = false;
+const cssSourceFilePathArr = [];
+
+const wirteCssToFile = (path, lazyResult) => {
+  const correspondingMapPath = `${path}.map`;
+
+  if (!hasWrite) {
+    writeCssFile(path, lazyResult.css);
+
+    if (lazyResult.map) {
+      writeCssFile(correspondingMapPath, lazyResult.map);
+    }
+
+    hasWrite = true;
+  } else {
+    appendCssFile(path, lazyResult.css);
+
+    if (lazyResult.map) {
+      appendCssFile(correspondingMapPath, lazyResult.map);
+    }
+  }
+};
+
+const getTokens = (runner, cssSourceFilePath: string, filetypes, extractCssOpts): StyleModuleMapType => {
   const extension = cssSourceFilePath.substr(cssSourceFilePath.lastIndexOf('.'));
   const syntax = filetypes[extension];
 
@@ -34,6 +71,19 @@ const getTokens = (runner, cssSourceFilePath: string, filetypes): StyleModuleMap
   const lazyResult = runner
     .process(readFileSync(cssSourceFilePath, 'utf-8'), options);
 
+  // only if the css which we import doesn't be written before,we wirte it to the file
+  if (cssSourceFilePathArr.indexOf(cssSourceFilePath) === -1 && extractCssOpts) {
+    if (extractCssOpts.to) {
+      const toPath = extractCssOpts.to;
+
+      wirteCssToFile(resolve(process.cwd(), `../../${toPath}`), lazyResult);
+    } else if (extractCssOpts.stayInOwnComponent) {
+      const filename = basename(cssSourceFilePath);
+
+      wirteCssToFile(resolve(cssSourceFilePath, `../cssModule/${filename}`), lazyResult);
+    }
+  }
+
   lazyResult
     .warnings()
     .forEach((message) => {
@@ -41,11 +91,15 @@ const getTokens = (runner, cssSourceFilePath: string, filetypes): StyleModuleMap
       console.warn(message.text);
     });
 
+  // after write css to the file,we push the path to the array to avoid we write the same css repeatedly
+  cssSourceFilePathArr.push(cssSourceFilePath);
+
   return lazyResult.root.tokens;
 };
 
 type OptionsType = {|
   filetypes: Object,
+  extractCss: Object,
   generateScopedName?: string,
   context?: string
 |};
@@ -62,7 +116,7 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
     const fromDirectoryPath = dirname(from);
     const toPath = resolve(fromDirectoryPath, to);
 
-    return getTokens(runner, toPath, options.filetypes);
+    return getTokens(runner, toPath, options.filetypes, options.extractCss);
   };
 
   const plugins = [
@@ -79,5 +133,5 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
 
   runner = postcss(plugins);
 
-  return getTokens(runner, cssSourceFilePath, options.filetypes);
+  return getTokens(runner, cssSourceFilePath, options.filetypes, options.extractCss);
 };

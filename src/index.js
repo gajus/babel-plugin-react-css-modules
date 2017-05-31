@@ -1,9 +1,6 @@
 // @flow
 
-import {
-  dirname,
-  resolve
-} from 'path';
+import {dirname, resolve} from 'path';
 import babelPluginJsxSyntax from 'babel-plugin-syntax-jsx';
 import BabelTypes from 'babel-types';
 import Ajv from 'ajv';
@@ -155,11 +152,15 @@ export default ({
           throw new Error('Unexpected use case.');
         }
 
-        filenameMap[filename].styleModuleImportMap[styleImportName] = requireCssModule(targetResourcePath, {
-          context: stats.opts.context,
-          filetypes: stats.opts.filetypes || {},
-          generateScopedName: stats.opts.generateScopedName
-        });
+        filenameMap[filename].styleModuleImportMap[styleImportName] = requireCssModule(
+          targetResourcePath,
+          {
+            context: stats.opts.context,
+            extractCss: stats.opts.extractCss,
+            filetypes: stats.opts.filetypes || {},
+            generateScopedName: stats.opts.generateScopedName
+          }
+        );
 
         if (stats.opts.webpackHotModuleReloading) {
           addWebpackHotModuleAccept(path);

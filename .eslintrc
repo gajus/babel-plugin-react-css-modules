@@ -2,5 +2,12 @@
   "extends": [
     "canonical"
   ],
+  "rules": {
+    "no-restricted-syntax": [
+      1,
+      "TemplateLiteral"
+    ],
+    "no-negated-condition": 0
+  },
   "root": true
 }

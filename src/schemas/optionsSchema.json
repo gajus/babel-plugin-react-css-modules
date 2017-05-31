@@ -1,6 +1,18 @@
 {
   "additionalProperties": false,
   "properties": {
+    "extractCss": {
+      "to": {
+        "type": "string"
+      },
+      "stayInOwnComponent": {
+        "type": "boolean"
+      },
+      "type": "object"
+    },
+    "processCss": {
+      "type": "string"
+    },
     "context": {
       "type": "string"
     },
