@@ -1,1 +1,16 @@
-{}
+{
+  "plugins"        : [
+    "transform-object-rest-spread",
+    [
+      "react-css-modules",
+      {
+        "extractCss": {
+          "to": "lib/cssDist/myApp.css"
+        },
+        "removeImport": true,
+        "generateScopedName": "[name]___[local]___[hash:base64:2]"
+      }
+    ]
+  ],
+  "presets"        : ["flow", "es2015", "react", "stage-0"]
+}
