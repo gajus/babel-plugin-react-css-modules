@@ -55,7 +55,7 @@ const wirteCssToFile = (path, lazyResult) => {
   }
 };
 
-const getTokens = (runner, cssSourceFilePath: string, filetypes, extractCssOpts?: object): StyleModuleMapType => {
+const getTokens = (runner, cssSourceFilePath: string, filetypes, extractCssOpts): StyleModuleMapType => {
   const extension = cssSourceFilePath.substr(cssSourceFilePath.lastIndexOf('.'));
   const syntax = filetypes[extension];
 

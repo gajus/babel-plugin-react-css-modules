@@ -1,6 +1,6 @@
 // @flow
 
-import { dirname, resolve, isAbsolute } from 'path';
+import {dirname, resolve} from 'path';
 import babelPluginJsxSyntax from 'babel-plugin-syntax-jsx';
 import BabelTypes from 'babel-types';
 import Ajv from 'ajv';
