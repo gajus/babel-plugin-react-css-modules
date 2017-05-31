@@ -99,6 +99,7 @@ const getTokens = (runner, cssSourceFilePath: string, filetypes, extractCssOpts)
 
 type OptionsType = {|
   filetypes: Object,
+  extractCss: Object,
   generateScopedName?: string,
   context?: string
 |};
