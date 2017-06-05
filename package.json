@@ -16,7 +16,7 @@
     "postcss-modules-parser": "^1.1.0",
     "postcss-modules-scope": "^1.0.2",
     "postcss-modules-values": "^1.2.2",
-    "postcss-nested": "^2.0.2"
+    "postcss-nested": "^1.0.1"
   },
   "description": "Transforms styleName to className using compile time CSS module resolution.",
   "devDependencies": {
