@@ -18,18 +18,53 @@ import type {
   StyleModuleMapType
 } from './types';
 
-const getTokens = (runner, cssSourceFilePath: string, filetypes): StyleModuleMapType => {
+type FileTypeOptions = {|
+  syntax: string,
+  plugins: Array<string>
+|};
+
+const getFiletypeOptions = (cssSourceFilePath: string, filetypes: Object): ?(string|FileTypeOptions) => {
   const extension = cssSourceFilePath.substr(cssSourceFilePath.lastIndexOf('.'));
-  const syntax = filetypes[extension];
+  const filetype = filetypes ? filetypes[extension] : null;
 
-  const options: Object = {
-    from: cssSourceFilePath
-  };
+  return filetype;
+}
 
-  if (syntax) {
-    // eslint-disable-next-line import/no-dynamic-require, global-require
-    options.syntax = require(syntax);
+const getSyntax = (filetypeOptions: ?(string|FileTypeOptions)) => {
+  if (!filetypeOptions) {
+    return null;
   }
+
+  if (typeof filetypeOptions === 'string') {
+    // eslint-disable-next-line import/no-dynamic-require, global-require
+    return require(filetypeOptions);
+  }
+
+  if (typeof filetypeOptions === 'object') {
+    // eslint-disable-next-line import/no-dynamic-require, global-require
+    return require(filetypeOptions.syntax);
+  }
+}
+
+const getExtraPlugins = (filetypeOptions: ?(string|FileTypeOptions)): Array<any> => {
+  console.log(filetypeOptions);
+  if (!filetypeOptions) {
+    return [];
+  }
+
+  if (typeof filetypeOptions === 'object') {
+    // eslint-disable-next-line import/no-dynamic-require, global-require
+    return filetypeOptions.plugins.map(plugin => require(plugin));
+  }
+
+  return [];
+}
+
+const getTokens = (runner, cssSourceFilePath: string, filetypeOptions: ?(string|FileTypeOptions)): StyleModuleMapType => {
+  const options: Object = {
+    from: cssSourceFilePath,
+    syntax: getSyntax(filetypeOptions)
+  };
 
   const lazyResult = runner
     .process(readFileSync(cssSourceFilePath, 'utf-8'), options);
@@ -58,14 +93,19 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
     context: options.context || process.cwd()
   });
 
+  const filetypeOptions = getFiletypeOptions(cssSourceFilePath, options.filetypes);
+
   const fetch = (to: string, from: string) => {
     const fromDirectoryPath = dirname(from);
     const toPath = resolve(fromDirectoryPath, to);
 
-    return getTokens(runner, toPath, options.filetypes);
+    return getTokens(runner, toPath, filetypeOptions);
   };
 
+  const extraPlugins = getExtraPlugins(filetypeOptions);
+
   const plugins = [
+    ...extraPlugins,
     Values,
     LocalByDefault,
     ExtractImports,
@@ -79,5 +119,5 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
 
   runner = postcss(plugins);
 
-  return getTokens(runner, cssSourceFilePath, options.filetypes);
+  return getTokens(runner, cssSourceFilePath, filetypeOptions);
 };
