@@ -55,7 +55,9 @@ const getExtraPlugins = (filetypeOptions: ?(string|FileTypeOptions)): Array<any>
 
   if (typeof filetypeOptions === 'object') {
     // eslint-disable-next-line import/no-dynamic-require, global-require
-    return filetypeOptions.plugins.map((plugin) => { return require(plugin); });
+    return filetypeOptions.plugins.map((plugin) => {
+      return require(plugin);
+    });
   }
 
   return [];
