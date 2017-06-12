@@ -54,8 +54,8 @@ const getExtraPlugins = (filetypeOptions: ?(string|FileTypeOptions)): Array<any>
   }
 
   if (typeof filetypeOptions === 'object') {
-    // eslint-disable-next-line import/no-dynamic-require, global-require
     return filetypeOptions.plugins.map((plugin) => {
+      // eslint-disable-next-line import/no-dynamic-require, global-require
       return require(plugin);
     });
   }
