@@ -28,7 +28,7 @@ const getFiletypeOptions = (cssSourceFilePath: string, filetypes: Object): ?(str
   const filetype = filetypes ? filetypes[extension] : null;
 
   return filetype;
-}
+};
 
 const getSyntax = (filetypeOptions: ?(string|FileTypeOptions)) => {
   if (!filetypeOptions) {
@@ -44,21 +44,22 @@ const getSyntax = (filetypeOptions: ?(string|FileTypeOptions)) => {
     // eslint-disable-next-line import/no-dynamic-require, global-require
     return require(filetypeOptions.syntax);
   }
-}
+
+  return null;
+};
 
 const getExtraPlugins = (filetypeOptions: ?(string|FileTypeOptions)): Array<any> => {
-  console.log(filetypeOptions);
   if (!filetypeOptions) {
     return [];
   }
 
   if (typeof filetypeOptions === 'object') {
     // eslint-disable-next-line import/no-dynamic-require, global-require
-    return filetypeOptions.plugins.map(plugin => require(plugin));
+    return filetypeOptions.plugins.map((plugin) => { return require(plugin); });
   }
 
   return [];
-}
+};
 
 const getTokens = (runner, cssSourceFilePath: string, filetypeOptions: ?(string|FileTypeOptions)): StyleModuleMapType => {
   const options: Object = {
