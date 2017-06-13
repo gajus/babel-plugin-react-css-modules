@@ -6,7 +6,7 @@ const _styleModuleImportMap = {
   'bar': {
     'a-b': 'bar__a-b'
   },
-  'random-test': {
+  './foo.css': {
     'a-b': 'foo__a-b'
   }
 };
