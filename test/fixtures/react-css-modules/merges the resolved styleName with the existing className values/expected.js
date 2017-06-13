@@ -2,7 +2,7 @@ import _getClassName from 'babel-plugin-react-css-modules/dist/browser/getClassN
 import './bar.css';
 
 const _styleModuleImportMap = {
-  'random-test': {
+  './bar.css': {
     'a': 'bar__a'
   }
 };
