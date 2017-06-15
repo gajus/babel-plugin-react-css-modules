@@ -5,7 +5,9 @@
       {
         "generateScopedName": "[name]__[local]",
         "filetypes": {
-          ".less": "postcss-less"
+          ".less": {
+            "syntax": "postcss-less"
+          }
         }
       }
     ]
