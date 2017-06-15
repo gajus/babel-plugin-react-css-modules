@@ -19,55 +19,47 @@ import type {
 } from './types';
 
 type FileTypeOptions = {|
-  syntax: string,
-  plugins: Array<string>
+  +syntax: string,
+  // eslint-disable-next-line no-undef
+  +plugins?: $ReadOnlyArray<string>
 |};
 
-const getFiletypeOptions = (cssSourceFilePath: string, filetypes: Object): ?(string|FileTypeOptions) => {
+const getFiletypeOptions = (cssSourceFilePath: string, filetypes: {[key: string]: FileTypeOptions}): ?FileTypeOptions => {
   const extension = cssSourceFilePath.substr(cssSourceFilePath.lastIndexOf('.'));
   const filetype = filetypes ? filetypes[extension] : null;
 
   return filetype;
 };
 
-const getSyntax = (filetypeOptions: ?(string|FileTypeOptions)) => {
+const getSyntax = (filetypeOptions: FileTypeOptions): ?(Function|Object) => {
   if (!filetypeOptions) {
     return null;
   }
 
-  if (typeof filetypeOptions === 'string') {
-    // eslint-disable-next-line import/no-dynamic-require, global-require
-    return require(filetypeOptions);
-  }
-
-  if (typeof filetypeOptions === 'object') {
-    // eslint-disable-next-line import/no-dynamic-require, global-require
-    return require(filetypeOptions.syntax);
-  }
-
-  return null;
+  // eslint-disable-next-line import/no-dynamic-require, global-require
+  return require(filetypeOptions.syntax);
 };
 
-const getExtraPlugins = (filetypeOptions: ?(string|FileTypeOptions)): Array<any> => {
-  if (!filetypeOptions) {
+// eslint-disable-next-line no-undef
+const getExtraPlugins = (filetypeOptions: ?FileTypeOptions): $ReadOnlyArray<any> => {
+  if (!filetypeOptions || !filetypeOptions.plugins) {
     return [];
   }
 
-  if (typeof filetypeOptions === 'object') {
-    return filetypeOptions.plugins.map((plugin) => {
-      // eslint-disable-next-line import/no-dynamic-require, global-require
-      return require(plugin);
-    });
-  }
-
-  return [];
+  return filetypeOptions.plugins.map((plugin) => {
+    // eslint-disable-next-line import/no-dynamic-require, global-require
+    return require(plugin);
+  });
 };
 
-const getTokens = (runner, cssSourceFilePath: string, filetypeOptions: ?(string|FileTypeOptions)): StyleModuleMapType => {
+const getTokens = (runner, cssSourceFilePath: string, filetypeOptions: ?FileTypeOptions): StyleModuleMapType => {
   const options: Object = {
-    from: cssSourceFilePath,
-    syntax: getSyntax(filetypeOptions)
+    from: cssSourceFilePath
   };
+
+  if (filetypeOptions) {
+    options.syntax = getSyntax(filetypeOptions);
+  }
 
   const lazyResult = runner
     .process(readFileSync(cssSourceFilePath, 'utf-8'), options);

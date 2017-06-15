@@ -11,25 +11,19 @@
       "additionalProperties": false,
       "patternProperties": {
         "\\..*": {
-          "oneOf": [
-            {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "syntax": {
               "type": "string"
             },
-            {
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "syntax": {
-                  "type": "string"
-                },
-                "plugins": {
-                  "type": "array",
-                  "items": { "type": "string" },
-                  "minItems": 1
-                }
+            "plugins": {
+              "type": "array",
+              "items": {
+                "type": "string"
               }
             }
-          ]
+          }
         }
       },
       "type": "object"
