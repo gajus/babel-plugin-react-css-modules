@@ -174,7 +174,7 @@ NODE_ENV=production ./test
 |---|---|---|
 |`context`|Must match webpack [`context`](https://webpack.github.io/docs/configuration.html#context) configuration. [`css-loader`](https://github.com/webpack/css-loader) inherits `context` values from webpack. Other CSS module implementations might use different context resolution logic.|`process.cwd()`|
 |`exclude`| a RegExp that will exclude otherwise included files e.g., to exclude all styles from node_modules `exclude: 'node_modules'`|
-|`filetypes`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugerss, LESS and SCSS. ||
+|`filetypes`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugerss, LESS and SCSS and extra plugins for them. ||
 |`generateScopedName`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|`[path]___[name]__[local]___[hash:base64:5]`|
 |`removeImport`|Remove the matching style import. This option is used to enable server-side rendering.|`false`|
 |`webpackHotModuleReloading`|Enables hot reloading of CSS in webpack|`false`|
@@ -198,7 +198,20 @@ To add support for different CSS syntaxes (e.g. SCSS), perform the following two
 
   ```json
   "filetypes": {
-    ".scss": "postcss-scss"
+    ".scss": {
+      "syntax": "postcss-scss"
+    }
+  }
+  ```
+
+  And optionaly specify extra plugins
+
+  ```json
+  "filetypes": {
+    ".scss": {
+      "syntax": "postcss-scss",
+      "plugins": ["postcss-nested"]
+    }
   }
   ```
 
