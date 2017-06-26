@@ -130,10 +130,31 @@ export default ({
     return false;
   };
 
+  const includeForPlugin = (path: Object, stats: Object) => {
+    stats.opts.filetypes = stats.opts.filetypes || {};
+
+    const extension = path.node.source.value.lastIndexOf('.') > -1 ? path.node.source.value.substr(path.node.source.value.lastIndexOf('.')) : null;
+
+    if (extension !== '.css' && Object.keys(stats.opts.filetypes).indexOf(extension) < 0) {
+      return false;
+    }
+
+    if (stats.opts.include && getTargetResourcePath(path, stats).match(new RegExp(stats.opts.include))) {
+      return true;
+    }
+
+    return false;
+  }
+
   return {
     inherits: babelPluginJsxSyntax,
     visitor: {
       ImportDeclaration (path: Object, stats: Object): void {
+
+        if (!includeForPlugin(path, stats)) {
+          return;
+        }
+
         if (notForPlugin(path, stats)) {
           return;
         }
