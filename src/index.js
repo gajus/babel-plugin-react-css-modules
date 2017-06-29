@@ -144,13 +144,12 @@ export default ({
     }
 
     return false;
-  }
+  };
 
   return {
     inherits: babelPluginJsxSyntax,
     visitor: {
       ImportDeclaration (path: Object, stats: Object): void {
-
         if (!includeForPlugin(path, stats)) {
           return;
         }
