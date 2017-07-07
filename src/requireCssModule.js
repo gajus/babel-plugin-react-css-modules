@@ -32,7 +32,7 @@ const getFiletypeOptions = (cssSourceFilePath: string, filetypes: {[key: string]
 };
 
 const getSyntax = (filetypeOptions: FileTypeOptions): ?(Function|Object) => {
-  if (!filetypeOptions) {
+  if (!filetypeOptions || !filetypeOptions.syntax) {
     return null;
   }
 
