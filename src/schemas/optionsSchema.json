@@ -29,7 +29,14 @@
       "type": "object"
     },
     "generateScopedName": {
-      "type": "string"
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "typeof": "function"
+        }
+      ]
     },
     "removeImport": {
       "type": "boolean"

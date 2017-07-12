@@ -15,6 +15,7 @@ import Parser from 'postcss-modules-parser';
 import Scope from 'postcss-modules-scope';
 import Values from 'postcss-modules-values';
 import type {
+  GenerateScopedNameConfigurationType,
   StyleModuleMapType
 } from './types';
 
@@ -80,8 +81,8 @@ const getTokens = (runner, cssSourceFilePath: string, filetypeOptions: ?Filetype
 };
 
 type OptionsType = {|
-  generateScopedName?: string,
   filetypes: FiletypesConfigurationType,
+  generateScopedName?: GenerateScopedNameConfigurationType,
   context?: string
 |};
 
@@ -89,9 +90,15 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
   // eslint-disable-next-line prefer-const
   let runner;
 
-  const scopedName = genericNames(options.generateScopedName || '[path]___[name]__[local]___[hash:base64:5]', {
-    context: options.context || process.cwd()
-  });
+  let generateScopedName;
+
+  if (options.generateScopedName && typeof options.generateScopedName === 'function') {
+    generateScopedName = options.generateScopedName;
+  } else {
+    generateScopedName = genericNames(options.generateScopedName || '[path]___[name]__[local]___[hash:base64:5]', {
+      context: options.context || process.cwd()
+    });
+  }
 
   const filetypeOptions = getFiletypeOptions(cssSourceFilePath, options.filetypes);
 
@@ -110,7 +117,7 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
     LocalByDefault,
     ExtractImports,
     new Scope({
-      generateScopedName: scopedName
+      generateScopedName
     }),
     new Parser({
       fetch

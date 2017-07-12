@@ -6,6 +6,7 @@ import {
 } from 'path';
 import babelPluginJsxSyntax from 'babel-plugin-syntax-jsx';
 import BabelTypes from 'babel-types';
+import ajvKeywords from 'ajv-keywords';
 import Ajv from 'ajv';
 import optionsSchema from './schemas/optionsSchema.json';
 import createObjectExpression from './createObjectExpression';
@@ -14,6 +15,8 @@ import resolveStringLiteral from './resolveStringLiteral';
 import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
 
 const ajv = new Ajv();
+
+ajvKeywords(ajv);
 
 const validate = ajv.compile(optionsSchema);
 
