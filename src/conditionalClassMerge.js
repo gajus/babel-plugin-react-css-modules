@@ -6,6 +6,8 @@ import {
   stringLiteral
 } from 'babel-types';
 
+/* eslint-disable flowtype/no-weak-types */
+
 export default (
   classNameExpression: any,
   styleNameExpression: any,

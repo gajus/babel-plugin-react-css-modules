@@ -13,6 +13,7 @@ import conditionalClassMerge from './conditionalClassMerge';
 
 export default (
   t: BabelTypes,
+  // eslint-disable-next-line flowtype/no-weak-types
   path: Object,
   styleNameAttribute: JSXAttribute,
   importedHelperIndentifier: Identifier,
