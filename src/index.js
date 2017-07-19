@@ -187,7 +187,8 @@ export default ({
           resolveStringLiteral(
             path,
             filenameMap[filename].styleModuleImportMap,
-            styleNameAttribute
+            styleNameAttribute,
+            {silenceStyleNameErrors: Boolean(stats.opts.silenceStyleNameErrors)}
           );
 
           return;
