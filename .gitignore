@@ -6,6 +6,7 @@ node_modules
 !.babelrc
 !.editorconfig
 !.eslintrc
+!.eslintignore
 !.flowconfig
 !.gitignore
 !.npmignore
