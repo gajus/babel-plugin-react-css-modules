@@ -43,6 +43,9 @@
     },
     "webpackHotModuleReloading": {
       "type": "boolean"
+    },
+    "silenceStyleNameErrors": {
+      "type": "boolean"
     }
   },
   "type": "object"
