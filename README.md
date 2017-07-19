@@ -193,6 +193,7 @@ Configure the options for the plugin within your `.babelrc` as follows:
 |`generateScopedName`|`?GenerateScopedNameConfigurationType`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|`[path]___[name]__[local]___[hash:base64:5]`|
 |`removeImport`|`boolean`|Remove the matching style import. This option is used to enable server-side rendering.|`false`|
 |`webpackHotModuleReloading`|`boolean`|Enables hot reloading of CSS in webpack|`false`|
+|`silenceStyleNameErrors`|`boolean`|Prevents errors being thrown for undefined CSS modules (using a `styleName` for which there is no CSS module defined).  Setting this option to `true` is equivalent to setting `errorWhenNotFound: false` in [react-css-modules](https://github.com/gajus/react-css-modules#errorwhennotfound). |`false`|
 
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
 
