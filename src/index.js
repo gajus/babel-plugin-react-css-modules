@@ -203,7 +203,8 @@ export default ({
             path,
             styleNameAttribute,
             filenameMap[filename].importedHelperIndentifier,
-            filenameMap[filename].styleModuleImportMapIdentifier
+            filenameMap[filename].styleModuleImportMapIdentifier,
+            {silenceStyleNameErrors: Boolean(stats.opts.silenceStyleNameErrors)}
           );
         }
       },

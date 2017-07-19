@@ -10,6 +10,11 @@ import BabelTypes, {
   jSXIdentifier
 } from 'babel-types';
 import conditionalClassMerge from './conditionalClassMerge';
+import createObjectExpression from './createObjectExpression';
+
+type OptionsType = {|
+  silenceStyleNameErrors: boolean
+|};
 
 export default (
   t: BabelTypes,
@@ -17,7 +22,8 @@ export default (
   path: Object,
   styleNameAttribute: JSXAttribute,
   importedHelperIndentifier: Identifier,
-  styleModuleImportMapIdentifier: Identifier
+  styleModuleImportMapIdentifier: Identifier,
+  options: OptionsType
 ): void => {
   const expressionContainerValue = styleNameAttribute.value;
   const classNameAttribute = path.node.openingElement.attributes
@@ -31,12 +37,18 @@ export default (
 
   path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(styleNameAttribute), 1);
 
+  const args = [
+    expressionContainerValue.expression,
+    styleModuleImportMapIdentifier
+  ];
+
+  if (options.silenceStyleNameErrors) {
+    args.push(createObjectExpression(t, options));
+  }
+
   const styleNameExpression = t.callExpression(
     importedHelperIndentifier,
-    [
-      expressionContainerValue.expression,
-      styleModuleImportMapIdentifier
-    ]
+    args
   );
 
   if (classNameAttribute) {
