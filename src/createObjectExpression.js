@@ -5,7 +5,7 @@ import BabelTypes, {
 } from 'babel-types';
 
 type InputObjectType = {
-  [key: string]: string | boolean | InputObjectType
+  [key: string]: *
 };
 
 /**
