@@ -14,7 +14,10 @@ import requireCssModule from './requireCssModule';
 import resolveStringLiteral from './resolveStringLiteral';
 import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
 
-const ajv = new Ajv();
+const ajv = new Ajv({
+  // eslint-disable-next-line id-match
+  $data: true
+});
 
 ajvKeywords(ajv);
 
