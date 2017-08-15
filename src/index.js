@@ -15,7 +15,8 @@ import resolveStringLiteral from './resolveStringLiteral';
 import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
 
 const ajv = new Ajv({
-  $data: true // eslint-disable-line id-match
+  // eslint-disable-next-line id-match
+  $data: true
 });
 
 ajvKeywords(ajv);
