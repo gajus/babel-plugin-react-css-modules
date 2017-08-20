@@ -11,3 +11,5 @@ export type StyleModuleImportMapType = {
 export type GenerateScopedNameType = (localName: string, resourcePath: string) => string;
 
 export type GenerateScopedNameConfigurationType = GenerateScopedNameType | string;
+
+export type HandleMissingStyleNameOptionType = 'throw' | 'warn' | 'ignore';

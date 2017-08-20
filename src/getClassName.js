@@ -2,42 +2,58 @@
 
 import type {
   StyleModuleMapType,
-  StyleModuleImportMapType
+  StyleModuleImportMapType,
+  HandleMissingStyleNameOptionType
 } from './types';
+import optionsDefaults from './schemas/optionsDefaults';
 
 const isNamespacedStyleName = (styleName: string): boolean => {
   return styleName.indexOf('.') !== -1;
 };
 
-const getClassNameForNamespacedStyleName = (styleName: string, styleModuleImportMap: StyleModuleImportMapType, silenceErrors: boolean): ?string => {
+const getClassNameForNamespacedStyleName = (
+  styleName: string,
+  styleModuleImportMap: StyleModuleImportMapType,
+  handleMissingStyleNameOption?: HandleMissingStyleNameOptionType
+): ?string => {
   // Note:
   // Do not use the desctructing syntax with Babel.
   // Desctructing adds _slicedToArray helper.
   const styleNameParts = styleName.split('.');
   const importName = styleNameParts[0];
   const moduleName = styleNameParts[1];
+  const handleMissingStyleName = handleMissingStyleNameOption || optionsDefaults.handleMissingStyleName;
 
   if (!moduleName) {
-    if (silenceErrors) {
-      return null;
-    } else {
+    if (handleMissingStyleName === 'throw') {
       throw new Error('Invalid style name.');
+    } else if (handleMissingStyleName === 'warn') {
+      // eslint-disable-next-line no-console
+      console.warn('Invalid style name.');
+    } else {
+      return null;
     }
   }
 
   if (!styleModuleImportMap[importName]) {
-    if (silenceErrors) {
-      return null;
-    } else {
+    if (handleMissingStyleName === 'throw') {
       throw new Error('CSS module import does not exist.');
+    } else if (handleMissingStyleName === 'warn') {
+      // eslint-disable-next-line no-console
+      console.warn('CSS module import does not exist.');
+    } else {
+      return null;
     }
   }
 
   if (!styleModuleImportMap[importName][moduleName]) {
-    if (silenceErrors) {
-      return null;
-    } else {
+    if (handleMissingStyleName === 'throw') {
       throw new Error('CSS module does not exist.');
+    } else if (handleMissingStyleName === 'warn') {
+      // eslint-disable-next-line no-console
+      console.warn('CSS module does not exist.');
+    } else {
+      return null;
     }
   }
 
@@ -45,12 +61,11 @@ const getClassNameForNamespacedStyleName = (styleName: string, styleModuleImport
 };
 
 type OptionsType = {|
-  silenceStyleNameErrors: boolean
+  handleMissingStyleName: HandleMissingStyleNameOptionType
 |};
 
-export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportMapType, options?: OptionsType): string => {
+export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportMapType, options: OptionsType): string => {
   const styleModuleImportMapKeys = Object.keys(styleModuleImportMap);
-  const silenceStyleNameErrors = Boolean(options && options.silenceStyleNameErrors);
 
   return styleNameValue
     .split(' ')
@@ -59,7 +74,7 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
     })
     .map((styleName) => {
       if (isNamespacedStyleName(styleName)) {
-        return getClassNameForNamespacedStyleName(styleName, styleModuleImportMap, silenceStyleNameErrors);
+        return getClassNameForNamespacedStyleName(styleName, styleModuleImportMap, options.handleMissingStyleName);
       }
 
       if (styleModuleImportMapKeys.length === 0) {
@@ -72,14 +87,20 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
 
       const styleModuleMap: StyleModuleMapType = styleModuleImportMap[styleModuleImportMapKeys[0]];
 
-      if (!styleModuleMap[styleName] && !silenceStyleNameErrors) {
-        throw new Error('Could not resolve the styleName \'' + styleName + '\'.');
+      if (!styleModuleMap[styleName]) {
+        if (options.handleMissingStyleName === 'throw') {
+          throw new Error('Could not resolve the styleName \'' + styleName + '\'.');
+        }
+        if (options.handleMissingStyleName === 'warn') {
+          // eslint-disable-next-line no-console
+          console.warn('Could not resolve the styleName \'' + styleName + '\'.');
+        }
       }
 
       return styleModuleMap[styleName];
     })
     .filter((className) => {
-      // Remove any styles which could not be found (if silenceStyleNameErrors)
+      // Remove any styles which could not be found (if handleMissingStyleName === 'ignore')
       return className;
     })
     .join(' ');

@@ -44,8 +44,8 @@
     "webpackHotModuleReloading": {
       "type": "boolean"
     },
-    "silenceStyleNameErrors": {
-      "type": "boolean"
+    "handleMissingStyleName": {
+      "enum": ["throw", "warn", "ignore"]
     }
   },
   "type": "object"

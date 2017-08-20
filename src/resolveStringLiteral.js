@@ -9,11 +9,12 @@ import {
 import conditionalClassMerge from './conditionalClassMerge';
 import getClassName from './getClassName';
 import type {
-  StyleModuleImportMapType
+  StyleModuleImportMapType,
+  HandleMissingStyleNameOptionType
 } from './types';
 
 type OptionsType = {|
-  silenceStyleNameErrors: boolean
+  handleMissingStyleName: HandleMissingStyleNameOptionType
 |};
 
 /**

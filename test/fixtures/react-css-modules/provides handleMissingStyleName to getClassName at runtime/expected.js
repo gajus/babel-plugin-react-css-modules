@@ -9,5 +9,5 @@ const _styleModuleImportMap = {
 const styleNameFoo = 'a-c';
 
 <div className={_getClassName(styleNameFoo, _styleModuleImportMap, {
-  'silenceStyleNameErrors': true
+  'handleMissingStyleName': 'ignore'
 })}></div>;

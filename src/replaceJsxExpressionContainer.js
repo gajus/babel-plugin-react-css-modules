@@ -9,11 +9,15 @@ import BabelTypes, {
   jSXExpressionContainer,
   jSXIdentifier
 } from 'babel-types';
+import type {
+  HandleMissingStyleNameOptionType
+} from './types';
 import conditionalClassMerge from './conditionalClassMerge';
 import createObjectExpression from './createObjectExpression';
+import optionsDefaults from './schemas/optionsDefaults';
 
 type OptionsType = {|
-  silenceStyleNameErrors: boolean
+  handleMissingStyleName: HandleMissingStyleNameOptionType
 |};
 
 export default (
@@ -42,7 +46,9 @@ export default (
     styleModuleImportMapIdentifier
   ];
 
-  if (options.silenceStyleNameErrors) {
+  // Only provide options argument if the options are something other than default
+  // This helps save a few bits in the generated user code
+  if (options.handleMissingStyleName !== optionsDefaults.handleMissingStyleName) {
     args.push(createObjectExpression(t, options));
   }
 
