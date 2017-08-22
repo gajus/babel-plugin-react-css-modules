@@ -9,19 +9,24 @@ import {
 import conditionalClassMerge from './conditionalClassMerge';
 import getClassName from './getClassName';
 import type {
-  StyleModuleImportMapType
+  StyleModuleImportMapType,
+  HandleMissingStyleNameOptionType
 } from './types';
+
+type OptionsType = {|
+  handleMissingStyleName: HandleMissingStyleNameOptionType
+|};
 
 /**
  * Updates the className value of a JSX element using a provided styleName attribute.
  */
-export default (path: *, styleModuleImportMap: StyleModuleImportMapType, styleNameAttribute: JSXAttribute): void => {
+export default (path: *, styleModuleImportMap: StyleModuleImportMapType, styleNameAttribute: JSXAttribute, options: OptionsType): void => {
   const classNameAttribute = path.node.openingElement.attributes
     .find((attribute) => {
       return typeof attribute.name !== 'undefined' && attribute.name.name === 'className';
     });
 
-  const resolvedStyleName = getClassName(styleNameAttribute.value.value, styleModuleImportMap);
+  const resolvedStyleName = getClassName(styleNameAttribute.value.value, styleModuleImportMap, options);
 
   if (classNameAttribute) {
     if (isStringLiteral(classNameAttribute.value)) {

@@ -43,6 +43,9 @@
     },
     "webpackHotModuleReloading": {
       "type": "boolean"
+    },
+    "handleMissingStyleName": {
+      "enum": ["throw", "warn", "ignore"]
     }
   },
   "type": "object"

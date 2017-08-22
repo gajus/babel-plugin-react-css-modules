@@ -9,6 +9,7 @@ import BabelTypes from 'babel-types';
 import ajvKeywords from 'ajv-keywords';
 import Ajv from 'ajv';
 import optionsSchema from './schemas/optionsSchema.json';
+import optionsDefaults from './schemas/optionsDefaults';
 import createObjectExpression from './createObjectExpression';
 import requireCssModule from './requireCssModule';
 import resolveStringLiteral from './resolveStringLiteral';
@@ -190,7 +191,8 @@ export default ({
           resolveStringLiteral(
             path,
             filenameMap[filename].styleModuleImportMap,
-            styleNameAttribute
+            styleNameAttribute,
+            {handleMissingStyleName: stats.opts.handleMissingStyleName || optionsDefaults.handleMissingStyleName}
           );
 
           return;
@@ -205,7 +207,8 @@ export default ({
             path,
             styleNameAttribute,
             filenameMap[filename].importedHelperIndentifier,
-            filenameMap[filename].styleModuleImportMapIdentifier
+            filenameMap[filename].styleModuleImportMapIdentifier,
+            {handleMissingStyleName: stats.opts.handleMissingStyleName || optionsDefaults.handleMissingStyleName}
           );
         }
       },

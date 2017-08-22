@@ -170,6 +170,38 @@ NODE_ENV=production ./test
 
 ## Configuration
 
+Configure the options for the plugin within your `.babelrc` as follows:
+
+```json
+{
+  "plugins": [
+    ["react-css-modules", {
+      "option": "value"
+    }]
+  ]
+}
+
+```
+
+### Options
+
+|Name|Type|Description|Default|
+|---|---|---|---|
+|`context`|`string`|Must match webpack [`context`](https://webpack.github.io/docs/configuration.html#context) configuration. [`css-loader`](https://github.com/webpack/css-loader) inherits `context` values from webpack. Other CSS module implementations might use different context resolution logic.|`process.cwd()`|
+|`exclude`|`string`|A RegExp that will exclude otherwise included files e.g., to exclude all styles from node_modules `exclude: 'node_modules'`|
+|`filetypes`|`?FiletypesConfigurationType`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugerss, LESS and SCSS and extra plugins for them. ||
+|`generateScopedName`|`?GenerateScopedNameConfigurationType`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|`[path]___[name]__[local]___[hash:base64:5]`|
+|`removeImport`|`boolean`|Remove the matching style import. This option is used to enable server-side rendering.|`false`|
+|`webpackHotModuleReloading`|`boolean`|Enables hot reloading of CSS in webpack|`false`|
+|`handleMissingStyleName`|`"throw"`, `"warn"`, `"ignore"`|Determines what should be done for undefined CSS modules (using a `styleName` for which there is no CSS module defined).  Setting this option to `"ignore"` is equivalent to setting `errorWhenNotFound: false` in [react-css-modules](https://github.com/gajus/react-css-modules#errorwhennotfound). |`"throw"`|
+
+Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
+
+> Note:
+> The default configuration should work out of the box with the [css-loader](https://github.com/webpack/css-loader).
+
+#### Option types (flow)
+
 ```js
 type FiletypeOptionsType = {|
   +syntax: string,
@@ -185,20 +217,6 @@ type GenerateScopedNameType = (localName: string, resourcePath: string) => strin
 type GenerateScopedNameConfigurationType = GenerateScopedNameType | string;
 
 ```
-
-|Name|Type|Description|Default|
-|---|---|---|---|
-|`context`|`string`|Must match webpack [`context`](https://webpack.github.io/docs/configuration.html#context) configuration. [`css-loader`](https://github.com/webpack/css-loader) inherits `context` values from webpack. Other CSS module implementations might use different context resolution logic.|`process.cwd()`|
-|`exclude`|`string`|A RegExp that will exclude otherwise included files e.g., to exclude all styles from node_modules `exclude: 'node_modules'`|
-|`filetypes`|`?FiletypesConfigurationType`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugerss, LESS and SCSS and extra plugins for them. ||
-|`generateScopedName`|`?GenerateScopedNameConfigurationType`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names)|`[path]___[name]__[local]___[hash:base64:5]`|
-|`removeImport`|`boolean`|Remove the matching style import. This option is used to enable server-side rendering.|`false`|
-|`webpackHotModuleReloading`|`boolean`|Enables hot reloading of CSS in webpack|`false`|
-
-Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
-
-> Note:
-> The default configuration should work out of the box with the [css-loader](https://github.com/webpack/css-loader).
 
 ### Configurate syntax loaders
 

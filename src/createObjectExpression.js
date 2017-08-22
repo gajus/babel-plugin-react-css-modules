@@ -5,7 +5,7 @@ import BabelTypes, {
 } from 'babel-types';
 
 type InputObjectType = {
-  [key: string]: string | InputObjectType
+  [key: string]: *
 };
 
 /**
@@ -26,6 +26,8 @@ const createObjectExpression = (t: BabelTypes, object: InputObjectType): ObjectE
       newValue = t.stringLiteral(value);
     } else if (typeof value === 'object') {
       newValue = createObjectExpression(t, value);
+    } else if (typeof value === 'boolean') {
+      newValue = t.booleanLiteral(value);
     } else {
       throw new Error('Unexpected type.');
     }
