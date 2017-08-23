@@ -63,8 +63,10 @@ type OptionsType = {|
   handleMissingStyleName: HandleMissingStyleNameOptionType
 |};
 
-export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportMapType, options: OptionsType): string => {
+export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportMapType, options?: OptionsType): string => {
   const styleModuleImportMapKeys = Object.keys(styleModuleImportMap);
+
+  const handleMissingStyleName = options && options.handleMissingStyleName;
 
   return styleNameValue
     .split(' ')
@@ -73,7 +75,7 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
     })
     .map((styleName) => {
       if (isNamespacedStyleName(styleName)) {
-        return getClassNameForNamespacedStyleName(styleName, styleModuleImportMap, options.handleMissingStyleName);
+        return getClassNameForNamespacedStyleName(styleName, styleModuleImportMap, handleMissingStyleName);
       }
 
       if (styleModuleImportMapKeys.length === 0) {
@@ -87,10 +89,10 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
       const styleModuleMap: StyleModuleMapType = styleModuleImportMap[styleModuleImportMapKeys[0]];
 
       if (!styleModuleMap[styleName]) {
-        if (options.handleMissingStyleName === 'throw') {
+        if (handleMissingStyleName === 'throw') {
           throw new Error('Could not resolve the styleName \'' + styleName + '\'.');
         }
-        if (options.handleMissingStyleName === 'warn') {
+        if (handleMissingStyleName === 'warn') {
           // eslint-disable-next-line no-console
           console.warn('Could not resolve the styleName \'' + styleName + '\'.');
         }

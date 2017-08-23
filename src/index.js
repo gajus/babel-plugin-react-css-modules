@@ -187,12 +187,16 @@ export default ({
           return;
         }
 
+        const handleMissingStyleName = stats.opts && stats.opts.handleMissingStyleName || optionsDefaults.handleMissingStyleName;
+
         if (t.isStringLiteral(styleNameAttribute.value)) {
           resolveStringLiteral(
             path,
             filenameMap[filename].styleModuleImportMap,
             styleNameAttribute,
-            {handleMissingStyleName: stats.opts.handleMissingStyleName || optionsDefaults.handleMissingStyleName}
+            {
+              handleMissingStyleName
+            }
           );
 
           return;
@@ -208,7 +212,9 @@ export default ({
             styleNameAttribute,
             filenameMap[filename].importedHelperIndentifier,
             filenameMap[filename].styleModuleImportMapIdentifier,
-            {handleMissingStyleName: stats.opts.handleMissingStyleName || optionsDefaults.handleMissingStyleName}
+            {
+              handleMissingStyleName
+            }
           );
         }
       },
