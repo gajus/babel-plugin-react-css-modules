@@ -188,6 +188,7 @@ export default ({
         }
 
         const handleMissingStyleName = stats.opts && stats.opts.handleMissingStyleName || optionsDefaults.handleMissingStyleName;
+        const styleNameFirst = stats.opts && stats.opts.styleNameFirst || false;
 
         if (t.isStringLiteral(styleNameAttribute.value)) {
           resolveStringLiteral(
@@ -195,7 +196,8 @@ export default ({
             filenameMap[filename].styleModuleImportMap,
             styleNameAttribute,
             {
-              handleMissingStyleName
+              handleMissingStyleName,
+              styleNameFirst
             }
           );
 
@@ -213,7 +215,8 @@ export default ({
             filenameMap[filename].importedHelperIndentifier,
             filenameMap[filename].styleModuleImportMapIdentifier,
             {
-              handleMissingStyleName
+              handleMissingStyleName,
+              styleNameFirst
             }
           );
         }
