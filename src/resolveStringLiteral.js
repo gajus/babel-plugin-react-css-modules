@@ -30,11 +30,16 @@ export default (path: *, styleModuleImportMap: StyleModuleImportMapType, styleNa
 
   if (classNameAttribute) {
     if (isStringLiteral(classNameAttribute.value)) {
-      classNameAttribute.value.value += ' ' + resolvedStyleName;
+      if (options.styleNameFirst) {
+        classNameAttribute.value.value = resolvedStyleName + ' ' + classNameAttribute.value.value;
+      } else {
+        classNameAttribute.value.value += ' ' + resolvedStyleName;
+      }
     } else if (isJSXExpressionContainer(classNameAttribute.value)) {
       classNameAttribute.value.expression = conditionalClassMerge(
         classNameAttribute.value.expression,
-        stringLiteral(resolvedStyleName)
+        stringLiteral(resolvedStyleName),
+        options.styleNameFirst
       );
     } else {
       throw new Error('Unexpected attribute value.');

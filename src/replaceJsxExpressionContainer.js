@@ -62,6 +62,12 @@ export default (
       path.node.openingElement.attributes.push(jSXAttribute(
         jSXIdentifier('className'),
         jSXExpressionContainer(
+          options.styleNameFirst ?
+          binaryExpression(
+            '+',
+            styleNameExpression,
+            t.stringLiteral(' ' + classNameAttribute.value.value),
+          ) :
           binaryExpression(
             '+',
             t.stringLiteral(classNameAttribute.value.value + ' '),
@@ -75,7 +81,8 @@ export default (
         jSXExpressionContainer(
           conditionalClassMerge(
             classNameAttribute.value.expression,
-            styleNameExpression
+            styleNameExpression,
+            options.styleNameFirst
           )
         )
       ));

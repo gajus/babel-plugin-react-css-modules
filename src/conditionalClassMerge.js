@@ -11,7 +11,24 @@ import {
 export default (
   classNameExpression: any,
   styleNameExpression: any,
+  styleNameFirst: boolean,
 ): any => {
+  if (styleNameFirst) {
+    return binaryExpression(
+      '+',
+      styleNameExpression,
+      conditionalExpression(
+        classNameExpression,
+        binaryExpression(
+          '+',
+          stringLiteral(' '),
+          classNameExpression
+        ),
+        stringLiteral('')
+      )
+    );
+  }
+
   return binaryExpression(
     '+',
     conditionalExpression(
