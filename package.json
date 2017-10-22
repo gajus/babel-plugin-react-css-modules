@@ -10,7 +10,7 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-types": "^6.19.0",
     "generic-names": "^1.0.2",
-    "postcss": "^5.2.6",
+    "postcss": "^6.0.13",
     "postcss-modules": "^0.6.2",
     "postcss-modules-extract-imports": "^1.0.1",
     "postcss-modules-local-by-default": "^1.1.1",
