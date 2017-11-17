@@ -263,7 +263,7 @@ npm install babel-plugin-react-css-modules --save
 git clone git@github.com:gajus/babel-plugin-react-css-modules.git
 cd ./babel-plugin-react-css-modules/demo
 npm install
-webpack-dev-server
+npm start
 ```
 
 ```bash
