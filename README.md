@@ -22,6 +22,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
 * [Configuration](#configuration)
   * [Configurate syntax loaders](#configurate-syntax-loaders)
 * [Installation](#installation)
+  * [React Native](#react-native)
   * [Demo](#demo)
 * [Example transpilations](#example-transpilations)
   * [Anonymous `styleName` resolution](#anonymous-stylename-resolution)
@@ -256,6 +257,21 @@ When `babel-plugin-react-css-modules` cannot resolve CSS module at a compile tim
 ```bash
 npm install babel-plugin-react-css-modules --save
 ```
+
+
+### React Native
+
+If you'd like to get this working in React Native, you're going to have to allow custom import extensions, via a `rn-cli.config.js` file:
+
+```js
+module.exports = {
+  getAssetExts() {
+    return ["scss"];
+  }
+}
+```
+
+Remember, also, that the bundler caches things like plugins and presets. If you want to change your `.babelrc` (to add this plugin) then you'll want to add the `--reset-cache` flag to the end of the package command. 
 
 ### Demo
 
