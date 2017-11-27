@@ -164,8 +164,8 @@ NODE_ENV=production ./test
 1. Iterates through all [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) element declarations.
 1. Parses the `styleName` attribute value into anonymous and named CSS module references.
 1. Finds the CSS class name matching the CSS module reference:
-  * If `styleName` value is a string literal, generates a string literal value.
-  * If `styleName` value is a [`jSXExpressionContainer`](https://github.com/babel/babel/tree/master/packages/babel-types#jsxexpressioncontainer), uses a helper function ([`getClassName`](./src/getClassName.js)) to construct the `className` value at the runtime.
+    * If `styleName` value is a string literal, generates a string literal value.
+    * If `styleName` value is a [`jSXExpressionContainer`](https://github.com/babel/babel/tree/master/packages/babel-types#jsxexpressioncontainer), uses a helper function ([`getClassName`](./src/getClassName.js)) to construct the `className` value at the runtime.
 1. Removes the `styleName` attribute from the element.
 1. Appends the resulting `className` to the existing `className` value (creates `className` attribute if one does not exist).
 
