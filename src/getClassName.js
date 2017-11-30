@@ -78,15 +78,27 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
       return styleName;
     })
     .map((styleName) => {
+      const includedStyleModuleImportMapKeys = styleModuleImportMapKeys.filter((x) => {
+        let shouldBeIncluded = true;
+
+        const satisfiesInclude = x.match(new RegExp(options.include));
+        if (options.include && !satisfiesInclude) shouldBeIncluded = false;
+
+        const satisfiesExclude = x.match(new RegExp(options.exclude));
+        if (options.exclude && satisfiesExclude) shouldBeIncluded = false;
+
+        return shouldBeIncluded;
+      });
+
       if (isNamespacedStyleName(styleName)) {
         return getClassNameForNamespacedStyleName(styleName, styleModuleImportMap, handleMissingStyleName);
       }
 
-      if (styleModuleImportMapKeys.length === 0) {
+      if (includedStyleModuleImportMapKeys.length === 0) {
         throw new Error('Cannot use styleName attribute without importing at least one stylesheet.');
       }
 
-      if (styleModuleImportMapKeys.length > 1) {
+      if (includedStyleModuleImportMapKeys.length > 1) {
         throw new Error('Cannot use anonymous style name with more than one stylesheet import.');
       }
 
