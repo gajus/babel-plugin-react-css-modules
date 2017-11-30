@@ -134,6 +134,10 @@ export default ({
       return true;
     }
 
+    if (stats.opts.include && getTargetResourcePath(path, stats).match(new RegExp(stats.opts.include))) {
+      return true;
+    }
+
     return false;
   };
 
