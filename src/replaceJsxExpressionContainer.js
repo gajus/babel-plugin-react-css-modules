@@ -53,7 +53,7 @@ export default (
   }
 
   const styleNameExpression = t.callExpression(
-    importedHelperIndentifier,
+    t.clone(importedHelperIndentifier),
     args
   );
 
