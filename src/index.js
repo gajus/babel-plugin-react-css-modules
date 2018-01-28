@@ -134,6 +134,10 @@ export default ({
       return true;
     }
 
+    if (stats.opts.include && !getTargetResourcePath(path, stats).match(new RegExp(stats.opts.include))) {
+      return true;
+    }
+
     return false;
   };
 
@@ -165,7 +169,9 @@ export default ({
         filenameMap[filename].styleModuleImportMap[styleImportName] = requireCssModule(targetResourcePath, {
           context: stats.opts.context,
           filetypes: stats.opts.filetypes || {},
-          generateScopedName: stats.opts.generateScopedName
+          generateScopedName: stats.opts.generateScopedName,
+          include: stats.opts.include,
+          exclude: stats.opts.exclude
         });
 
         if (stats.opts.webpackHotModuleReloading) {
@@ -188,6 +194,8 @@ export default ({
         }
 
         const handleMissingStyleName = stats.opts && stats.opts.handleMissingStyleName || optionsDefaults.handleMissingStyleName;
+        const include = stats.opts && stats.opts.include || optionsDefaults.include;
+        const exclude = stats.opts && stats.opts.exclude || optionsDefaults.exclude;
 
         if (t.isStringLiteral(styleNameAttribute.value)) {
           resolveStringLiteral(
@@ -195,7 +203,9 @@ export default ({
             filenameMap[filename].styleModuleImportMap,
             styleNameAttribute,
             {
-              handleMissingStyleName
+              handleMissingStyleName,
+              include,
+              exclude
             }
           );
 
