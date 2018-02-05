@@ -10,12 +10,12 @@ import conditionalClassMerge from './conditionalClassMerge';
 import getClassName from './getClassName';
 import type {
   StyleModuleImportMapType,
-    HandleMissingStyleNameOptionType
+  HandleMissingStyleNameOptionType
 } from './types';
 
 type OptionsType = {|
   handleMissingStyleName: HandleMissingStyleNameOptionType
-    |};
+|};
 
 /**
  * Updates the className value of a JSX element using a provided styleName attribute.
