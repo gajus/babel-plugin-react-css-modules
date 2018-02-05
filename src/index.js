@@ -27,8 +27,8 @@ const validate = ajv.compile(optionsSchema);
 export default ({
   types: t
 }: {
-  types: BabelTypes
-}) => {
+    types: BabelTypes
+  }) => {
   const filenameMap = {};
 
   const setupFileForRuntimeResolution = (path, filename) => {
@@ -178,44 +178,56 @@ export default ({
       },
       JSXElement (path: *, stats: *): void {
         const filename = stats.file.opts.filename;
-        const styleNameAttribute = path.node.openingElement.attributes
-          .find((attribute) => {
-            return typeof attribute.name !== 'undefined' && attribute.name.name === 'styleName';
+
+        let attributeNames = optionsDefaults.attributeNames;
+
+        if (stats.opts && stats.opts.attributeNames) {
+          attributeNames = Object.create(attributeNames);
+          for (const [name, value] of Object.entries(stats.opts.attributeNames)) {
+            attributeNames[name] = value;
+          }
+        }
+
+        const attributes = path.node.openingElement.attributes
+          .filter((attribute) => {
+            return typeof attribute.name !== 'undefined' && typeof attributeNames[attribute.name.name] === 'string';
           });
 
-        if (!styleNameAttribute) {
+        if (attributes.length === 0) {
           return;
         }
 
         const handleMissingStyleName = stats.opts && stats.opts.handleMissingStyleName || optionsDefaults.handleMissingStyleName;
 
-        if (t.isStringLiteral(styleNameAttribute.value)) {
-          resolveStringLiteral(
-            path,
-            filenameMap[filename].styleModuleImportMap,
-            styleNameAttribute,
-            {
-              handleMissingStyleName
+        for (const attribute of attributes) {
+          const destinationName = attributeNames[attribute.name.name];
+
+          if (t.isStringLiteral(attribute.value)) {
+            resolveStringLiteral(
+              path,
+              filenameMap[filename].styleModuleImportMap,
+              attribute,
+              destinationName,
+              {
+                handleMissingStyleName
+              }
+            );
+          } else if (t.isJSXExpressionContainer(attribute.value)) {
+            if (!filenameMap[filename].importedHelperIndentifier) {
+              setupFileForRuntimeResolution(path, filename);
             }
-          );
-
-          return;
-        }
-
-        if (t.isJSXExpressionContainer(styleNameAttribute.value)) {
-          if (!filenameMap[filename].importedHelperIndentifier) {
-            setupFileForRuntimeResolution(path, filename);
+            replaceJsxExpressionContainer(
+              t,
+              path,
+              attribute,
+              destinationName,
+              filenameMap[filename].importedHelperIndentifier,
+              filenameMap[filename].styleModuleImportMapIdentifier,
+              {
+                handleMissingStyleName
+              }
+            );
           }
-          replaceJsxExpressionContainer(
-            t,
-            path,
-            styleNameAttribute,
-            filenameMap[filename].importedHelperIndentifier,
-            filenameMap[filename].styleModuleImportMapIdentifier,
-            {
-              handleMissingStyleName
-            }
-          );
         }
       },
       Program (path: *, stats: *): void {

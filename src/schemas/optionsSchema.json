@@ -46,6 +46,22 @@
     },
     "handleMissingStyleName": {
       "enum": ["throw", "warn", "ignore"]
+    },
+    "attributeNames": {
+      "additionalProperties": false,
+      "patternProperties": {
+        ".*": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "type": "object"
     }
   },
   "type": "object"
