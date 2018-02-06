@@ -27,8 +27,8 @@ const validate = ajv.compile(optionsSchema);
 export default ({
   types: t
 }: {
-  types: BabelTypes
-}) => {
+    types: BabelTypes
+  }) => {
   const filenameMap = {};
 
   const setupFileForRuntimeResolution = (path, filename) => {
@@ -66,7 +66,7 @@ export default ({
         ]
       )
     );
-    // eslint-disable-next-line
+    // eslint-disable-next-line no-console
     // console.log('setting up', filename, util.inspect(filenameMap,{depth: 5}))
   };
 
@@ -182,10 +182,7 @@ export default ({
         let attributeNames = optionsDefaults.attributeNames;
 
         if (stats.opts && stats.opts.attributeNames) {
-          attributeNames = Object.create(attributeNames);
-          for (const [name, value] of Object.entries(stats.opts.attributeNames)) {
-            attributeNames[name] = value;
-          }
+          attributeNames = Object.assign({}, attributeNames, stats.opts.attributeNames);
         }
 
         const attributes = path.node.openingElement.attributes
