@@ -27,8 +27,8 @@ const validate = ajv.compile(optionsSchema);
 export default ({
   types: t
 }: {
-    types: BabelTypes
-  }) => {
+  types: BabelTypes
+}) => {
   const filenameMap = {};
 
   const setupFileForRuntimeResolution = (path, filename) => {
