@@ -21,6 +21,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
   * [Named reference](#named-reference)
 * [Configuration](#configuration)
   * [Configurate syntax loaders](#configurate-syntax-loaders)
+  * [Custom Attribute Mapping](#custom-attribute-mapping)
 * [Installation](#installation)
   * [React Native](#react-native)
   * [Demo](#demo)
@@ -195,6 +196,7 @@ Configure the options for the plugin within your `.babelrc` as follows:
 |`removeImport`|`boolean`|Remove the matching style import. This option is used to enable server-side rendering.|`false`|
 |`webpackHotModuleReloading`|`boolean`|Enables hot reloading of CSS in webpack|`false`|
 |`handleMissingStyleName`|`"throw"`, `"warn"`, `"ignore"`|Determines what should be done for undefined CSS modules (using a `styleName` for which there is no CSS module defined).  Setting this option to `"ignore"` is equivalent to setting `errorWhenNotFound: false` in [react-css-modules](https://github.com/gajus/react-css-modules#errorwhennotfound). |`"throw"`|
+|`attributeNames`|`?AttributeNameMapType`|Refer to [Custom Attribute Mapping](#custom-attribute-mapping)|`{"styleName": "className"}`|
 
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
 
@@ -216,6 +218,10 @@ type FiletypesConfigurationType = {
 type GenerateScopedNameType = (localName: string, resourcePath: string) => string;
 
 type GenerateScopedNameConfigurationType = GenerateScopedNameType | string;
+
+type AttributeNameMapType = {
+  [key: string]: string
+};
 
 ```
 
@@ -250,6 +256,16 @@ To add support for different CSS syntaxes (e.g. SCSS), perform the following two
   }
   ```
 
+### Custom Attribute Mapping
+
+You can set your own attribute mapping rules using the `attributeNames` option.
+
+It's an object, where keys are source attribute names and values are destination attribute names.
+
+For example, the [&lt;NavLink&gt;](https://github.com/ReactTraining/react-router/blob/master/packages/react-router-dom/docs/api/NavLink.md) component from [React Router](https://github.com/ReactTraining/react-router) has a `activeClassName` attribute to accept an additional class name. You can set `"attributeNames": { "activeStyleName": "activeClassName" }` to transform it.
+
+The default `styleName` -> `className` transformation **will not** be affected by an `attributeNames` value without a `styleName` key. Of course you can use `{ "styleName": "somethingOther" }` to change it, or use `{ "styleName": null }` to disable it.
+
 ## Installation
 
 When `babel-plugin-react-css-modules` cannot resolve CSS module at a compile time, it imports a helper function (read [Runtime `styleName` resolution](#runtime-stylename-resolution)). Therefore, you must install `babel-plugin-react-css-modules` as a direct dependency of the project.
@@ -271,7 +287,7 @@ module.exports = {
 }
 ```
 
-Remember, also, that the bundler caches things like plugins and presets. If you want to change your `.babelrc` (to add this plugin) then you'll want to add the `--reset-cache` flag to the end of the package command. 
+Remember, also, that the bundler caches things like plugins and presets. If you want to change your `.babelrc` (to add this plugin) then you'll want to add the `--reset-cache` flag to the end of the package command.
 
 ### Demo
 

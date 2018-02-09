@@ -24,22 +24,23 @@ export default (
   t: BabelTypes,
   // eslint-disable-next-line flowtype/no-weak-types
   path: Object,
-  styleNameAttribute: JSXAttribute,
+  sourceAttribute: JSXAttribute,
+  destinationName: string,
   importedHelperIndentifier: Identifier,
   styleModuleImportMapIdentifier: Identifier,
   options: OptionsType
 ): void => {
-  const expressionContainerValue = styleNameAttribute.value;
-  const classNameAttribute = path.node.openingElement.attributes
+  const expressionContainerValue = sourceAttribute.value;
+  const destinationAttribute = path.node.openingElement.attributes
     .find((attribute) => {
-      return typeof attribute.name !== 'undefined' && attribute.name.name === 'className';
+      return typeof attribute.name !== 'undefined' && attribute.name.name === destinationName;
     });
 
-  if (classNameAttribute) {
-    path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(classNameAttribute), 1);
+  if (destinationAttribute) {
+    path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(destinationAttribute), 1);
   }
 
-  path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(styleNameAttribute), 1);
+  path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(sourceAttribute), 1);
 
   const args = [
     expressionContainerValue.expression,
@@ -57,24 +58,24 @@ export default (
     args
   );
 
-  if (classNameAttribute) {
-    if (isStringLiteral(classNameAttribute.value)) {
+  if (destinationAttribute) {
+    if (isStringLiteral(destinationAttribute.value)) {
       path.node.openingElement.attributes.push(jSXAttribute(
-        jSXIdentifier('className'),
+        jSXIdentifier(destinationName),
         jSXExpressionContainer(
           binaryExpression(
             '+',
-            t.stringLiteral(classNameAttribute.value.value + ' '),
+            t.stringLiteral(destinationAttribute.value.value + ' '),
             styleNameExpression
           )
         )
       ));
-    } else if (isJSXExpressionContainer(classNameAttribute.value)) {
+    } else if (isJSXExpressionContainer(destinationAttribute.value)) {
       path.node.openingElement.attributes.push(jSXAttribute(
-        jSXIdentifier('className'),
+        jSXIdentifier(destinationName),
         jSXExpressionContainer(
           conditionalClassMerge(
-            classNameAttribute.value.expression,
+            destinationAttribute.value.expression,
             styleNameExpression
           )
         )
@@ -84,7 +85,7 @@ export default (
     }
   } else {
     path.node.openingElement.attributes.push(jSXAttribute(
-      jSXIdentifier('className'),
+      jSXIdentifier(destinationName),
       jSXExpressionContainer(
         styleNameExpression
       )
