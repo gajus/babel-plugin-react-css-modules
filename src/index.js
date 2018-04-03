@@ -118,7 +118,7 @@ export default ({
       return resolve(targetFileDirectoryPath, path.node.source.value);
     }
 
-    return require.resolve(path.node.source.value);
+    return require.resolve(path.node.source.value, {paths: [stats.opts.context]});
   };
 
   const notForPlugin = (path: *, stats: *) => {
