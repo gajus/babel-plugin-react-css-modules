@@ -15,7 +15,14 @@
           "properties": {
             "plugins": {
               "items": {
-                "type": "string"
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
               },
               "type": "array"
             },

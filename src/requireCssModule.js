@@ -21,7 +21,7 @@ import type {
 
 type FiletypeOptionsType = {|
   +syntax: string,
-  +plugins?: $ReadOnlyArray<string>
+  +plugins?: $ReadOnlyArray<string | $ReadOnlyArray<[string, mixed]>>
 |};
 
 type FiletypesConfigurationType = {
@@ -52,6 +52,13 @@ const getExtraPlugins = (filetypeOptions: ?FiletypeOptionsType): $ReadOnlyArray<
   }
 
   return filetypeOptions.plugins.map((plugin) => {
+    if (Array.isArray(plugin)) {
+      const [pluginName, pluginOptions] = plugin;
+
+      // eslint-disable-next-line import/no-dynamic-require, global-require
+      return require(pluginName)(pluginOptions);
+    }
+
     // eslint-disable-next-line import/no-dynamic-require, global-require
     return require(plugin);
   });
