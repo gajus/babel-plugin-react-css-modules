@@ -208,7 +208,7 @@ Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-
 ```js
 type FiletypeOptionsType = {|
   +syntax: string,
-  +plugins?: $ReadOnlyArray<string>
+  +plugins?: $ReadOnlyArray<string | $ReadOnlyArray<[string, mixed]>>
 |};
 
 type FiletypesConfigurationType = {
@@ -251,11 +251,25 @@ To add support for different CSS syntaxes (e.g. SCSS), perform the following two
   "filetypes": {
     ".scss": {
       "syntax": "postcss-scss",
-      "plugins": ["postcss-nested"]
+      "plugins": [
+        "postcss-nested"
+      ]
     }
   }
   ```
-
+  
+  Postcss plugins can have options specified by wrapping the name and an options object in an array inside your config
+  
+  ```json
+    "plugins": [
+      ["postcss-import-sync2", {
+        "path": ["src/styles", "shared/styles"]
+      }],
+      "postcss-nested"
+    ]
+  ```  
+   
+  
 ### Custom Attribute Mapping
 
 You can set your own attribute mapping rules using the `attributeNames` option.
