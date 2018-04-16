@@ -252,15 +252,24 @@ To add support for different CSS syntaxes (e.g. SCSS), perform the following two
     ".scss": {
       "syntax": "postcss-scss",
       "plugins": [
-        ["postcss-import-sync2", {
-          "path": ["src/styles", "shared/styles"]
-        }],
         "postcss-nested"
       ]
     }
   }
   ```
-
+  
+  Postcss plugins can have options specified by wrapping the name and an options object in an array inside your config
+  
+  ```json
+    "plugins": [
+      ["postcss-import-sync2", {
+        "path": ["src/styles", "shared/styles"]
+      }],
+      "postcss-nested"
+    ]
+  ```  
+   
+  
 ### Custom Attribute Mapping
 
 You can set your own attribute mapping rules using the `attributeNames` option.
