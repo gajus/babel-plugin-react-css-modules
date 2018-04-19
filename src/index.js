@@ -130,6 +130,11 @@ export default ({
       return true;
     }
 
+    // Ignore weird Webpack imports that start with `!`.
+    if (path.node.source.value.startsWith('!')) {
+      return true;
+    }
+
     if (stats.opts.exclude && getTargetResourcePath(path, stats).match(new RegExp(stats.opts.exclude))) {
       return true;
     }
