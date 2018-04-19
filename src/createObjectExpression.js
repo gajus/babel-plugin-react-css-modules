@@ -29,7 +29,7 @@ const createObjectExpression = (t: BabelTypes, object: InputObjectType): ObjectE
     } else if (typeof value === 'boolean') {
       newValue = t.booleanLiteral(value);
     } else {
-      throw new TypeError('Unexpected type.');
+      throw new TypeError('Unexpected type: ' + typeof value);
     }
 
     properties.push(

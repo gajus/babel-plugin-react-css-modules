@@ -28,10 +28,10 @@ const getClassNameForNamespacedStyleName = (
 
   if (!moduleName) {
     if (handleMissingStyleName === 'throw') {
-      throw new Error('Invalid style name.');
+      throw new Error('Invalid style name: ' + styleName);
     } else if (handleMissingStyleName === 'warn') {
       // eslint-disable-next-line no-console
-      console.warn('Invalid style name.');
+      console.warn('Invalid style name: ' + styleName);
     } else {
       return null;
     }
@@ -39,10 +39,10 @@ const getClassNameForNamespacedStyleName = (
 
   if (!styleModuleImportMap[importName]) {
     if (handleMissingStyleName === 'throw') {
-      throw new Error('CSS module import does not exist.');
+      throw new Error('CSS module import does not exist: ' + importName);
     } else if (handleMissingStyleName === 'warn') {
       // eslint-disable-next-line no-console
-      console.warn('CSS module import does not exist.');
+      console.warn('CSS module import does not exist: ' + importName);
     } else {
       return null;
     }
@@ -50,10 +50,10 @@ const getClassNameForNamespacedStyleName = (
 
   if (!styleModuleImportMap[importName][moduleName]) {
     if (handleMissingStyleName === 'throw') {
-      throw new Error('CSS module does not exist.');
+      throw new Error('CSS module does not exist: ' + moduleName);
     } else if (handleMissingStyleName === 'warn') {
       // eslint-disable-next-line no-console
-      console.warn('CSS module does not exist.');
+      console.warn('CSS module does not exist: ' + moduleName);
     } else {
       return null;
     }
@@ -83,11 +83,13 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
       }
 
       if (styleModuleImportMapKeys.length === 0) {
-        throw new Error('Cannot use styleName attribute without importing at least one stylesheet.');
+        throw new Error('Cannot use styleName attribute for style name \'' + styleName +
+          '\' without importing at least one stylesheet.');
       }
 
       if (styleModuleImportMapKeys.length > 1) {
-        throw new Error('Cannot use anonymous style name with more than one stylesheet import.');
+        throw new Error('Cannot use anonymous style name \'' + styleName +
+          '\' with more than one stylesheet import.');
       }
 
       const styleModuleMap: StyleModuleMapType = styleModuleImportMap[styleModuleImportMapKeys[0]];
