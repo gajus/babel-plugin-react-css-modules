@@ -42,7 +42,7 @@ export default (
         stringLiteral(resolvedStyleName)
       );
     } else {
-      throw new Error('Unexpected attribute value.');
+      throw new Error('Unexpected attribute value:' + destinationAttribute.value);
     }
 
     path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(sourceAttribute), 1);

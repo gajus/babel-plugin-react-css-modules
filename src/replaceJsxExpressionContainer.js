@@ -81,7 +81,7 @@ export default (
         )
       ));
     } else {
-      throw new Error('Unexpected attribute value.');
+      throw new Error('Unexpected attribute value: ' + destinationAttribute.value);
     }
   } else {
     path.node.openingElement.attributes.push(jSXAttribute(
