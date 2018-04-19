@@ -32,6 +32,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
 * [Limitations](#limitations)
 * [Have a question or want to suggest an improvement?](#have-a-question-or-want-to-suggest-an-improvement)
 * [FAQ](#faq)
+  * [How to port from react-css-modules?](#how-to-port-from-react-css-modules)
   * [How to reference multiple CSS modules?](#how-to-reference-multiple-css-modules)
   * [How to live reload the CSS?](#hot-to-live-reload-the-css)
 
@@ -446,6 +447,19 @@ const _styleModuleImportMap = {
 
 ## FAQ
 
+### How to port from react-css-modules?
+
+In theory, it should be extremely straightforward to port from react-css-modules:
+
+ * Remove react-css-modules.
+ * Add babel-plugin-react-css-modules.
+ * Configure your .babelrc.
+ * Remove all uses of the cssModules decorator / HOC.
+ * Get your linter and tests to pass again.
+ * Test.
+
+Nonetheless, there are occasionally a few gotchas. See [Porting from react-css-modules to babel-plugin-react-css-modules (with Less)](http://www.jjinux.com/2018/04/javascript-porting-from-react-css.html) for details on how one team overcame the obstacles they encountered.
+
 ### How to reference multiple CSS modules?
 
 `react-css-modules` had an option [`allowMultiple`](https://github.com/gajus/react-css-modules#allowmultiple). `allowMultiple` allows multiple CSS module names in a `styleName` declaration, e.g.
@@ -456,7 +470,7 @@ const _styleModuleImportMap = {
 
 This behaviour is enabled by default in `babel-plugin-react-css-modules`.
 
-## How to live reload the CSS?
+### How to live reload the CSS?
 
 `babel-plugin-react-css-modules` utilises webpack [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) (HMR) to live reload the CSS.
 
