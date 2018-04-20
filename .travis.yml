@@ -6,9 +6,7 @@ script:
   - npm run build
   - npm run test
 after_success:
-  - semantic-release pre
-  - npm publish
-  - semantic-release post
+  - semantic-release
 notifications:
   email: false
 sudo: false
