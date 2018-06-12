@@ -7,6 +7,7 @@ import {
 import {
   readFileSync
 } from 'fs';
+import sass from 'node-sass';
 import postcss from 'postcss';
 import genericNames from 'generic-names';
 import ExtractImports from 'postcss-modules-extract-imports';
@@ -70,12 +71,19 @@ const getTokens = (runner, cssSourceFilePath: string, filetypeOptions: ?Filetype
     from: cssSourceFilePath
   };
 
+  let fileContents = readFileSync(cssSourceFilePath, 'utf-8');
+
   if (filetypeOptions) {
-    options.syntax = getSyntax(filetypeOptions);
+    if (filetypeOptions.syntax === 'node-sass') {
+      fileContents = sass.renderSync({file: cssSourceFilePath});
+      fileContents = fileContents.css.toString();
+    } else {
+      options.syntax = getSyntax(filetypeOptions);
+    }
   }
 
   const lazyResult = runner
-    .process(readFileSync(cssSourceFilePath, 'utf-8'), options);
+    .process(fileContents, options);
 
   lazyResult
     .warnings()
