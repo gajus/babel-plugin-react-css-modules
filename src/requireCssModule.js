@@ -22,12 +22,18 @@ import type {
 
 type FiletypeOptionsType = {|
   +syntax: string,
-  +plugins?: $ReadOnlyArray<string | $ReadOnlyArray<[string, mixed]>>
+  +plugins?: $ReadOnlyArray<string | $ReadOnlyArray<[string, mixed]>>,
+  +importer?: string | $ReadOnlyArray<string>
 |};
 
 type FiletypesConfigurationType = {
   [key: string]: FiletypeOptionsType
 };
+
+type SassOptionsType = {|
+  file: string,
+  importer?: Array<[mixed]>
+|};
 
 const getFiletypeOptions = (cssSourceFilePath: string, filetypes: FiletypesConfigurationType): ?FiletypeOptionsType => {
   const extension = cssSourceFilePath.substr(cssSourceFilePath.lastIndexOf('.'));
@@ -75,8 +81,16 @@ const getTokens = (runner, cssSourceFilePath: string, filetypeOptions: ?Filetype
 
   if (filetypeOptions) {
     if (filetypeOptions.syntax === 'node-sass') {
-      fileContents = sass.renderSync({file: cssSourceFilePath});
-      fileContents = fileContents.css.toString();
+      const sassOptions: SassOptionsType = {file: cssSourceFilePath};
+
+      if (filetypeOptions.importer) {
+        sassOptions.importer = [].concat(filetypeOptions.importer).map((importerName) => {
+          // eslint-disable-next-line import/no-dynamic-require, global-require
+          return require(importerName);
+        });
+      }
+
+      fileContents = sass.renderSync(sassOptions).css.toString();
     } else {
       options.syntax = getSyntax(filetypeOptions);
     }
