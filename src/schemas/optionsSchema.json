@@ -28,6 +28,16 @@
             },
             "syntax": {
               "type": "string"
+            },
+            "importer": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array"
+                }
+              ]
             }
           },
           "type": "object"
