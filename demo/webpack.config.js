@@ -23,7 +23,7 @@ module.exports = {
           plugins: [
             'transform-react-jsx',
             [
-              'react-css-modules',
+              require('../dist/index.js').default,
               {
                 context
               }
