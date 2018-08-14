@@ -13,6 +13,7 @@ import optionsDefaults from './schemas/optionsDefaults';
 import createObjectExpression from './createObjectExpression';
 import requireCssModule from './requireCssModule';
 import resolveStringLiteral from './resolveStringLiteral';
+import resolveJSXExpression from './resolveJSXExpression';
 import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
 
 const ajv = new Ajv({
@@ -210,6 +211,18 @@ export default ({
               }
             );
           } else if (t.isJSXExpressionContainer(attribute.value)) {
+            if(t.isCallExpression(attribute.value.expression)) {
+              resolveJSXExpression(
+                path,
+                filenameMap[filename].styleModuleImportMap,
+                attribute,
+                destinationName,
+                {
+                  handleMissingStyleName
+                }
+              );
+              return;
+            }
             if (!filenameMap[filename].importedHelperIndentifier) {
               setupFileForRuntimeResolution(path, filename);
             }
