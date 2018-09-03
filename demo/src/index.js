@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import AnonymouseStyleResolution from './components/AnonymouseStyleResolution';
+import AnonymousStyleResolution from './components/AnonymousStyleResolution';
 import NamedStyleResolution from './components/NamedStyleResolution';
 import RuntimeStyleResolution from './components/RuntimeStyleResolution';
 
 ReactDom.render(<div>
-  <AnonymouseStyleResolution />
+  <AnonymousStyleResolution />
   <NamedStyleResolution />
   <RuntimeStyleResolution />
 </div>, document.getElementById('main'));
