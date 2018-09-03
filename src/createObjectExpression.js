@@ -2,7 +2,7 @@
 
 import BabelTypes, {
   ObjectExpression
-} from 'babel-types';
+} from '@babel/types';
 
 type InputObjectType = {
   [key: string]: *

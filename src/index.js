@@ -4,8 +4,8 @@ import {
   dirname,
   resolve
 } from 'path';
-import babelPluginJsxSyntax from 'babel-plugin-syntax-jsx';
-import BabelTypes from 'babel-types';
+import babelPluginJsxSyntax from '@babel/plugin-syntax-jsx';
+import BabelTypes from '@babel/types';
 import ajvKeywords from 'ajv-keywords';
 import Ajv from 'ajv';
 import optionsSchema from './schemas/optionsSchema.json';

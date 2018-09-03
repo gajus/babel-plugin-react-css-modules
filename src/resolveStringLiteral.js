@@ -5,7 +5,7 @@ import {
   isStringLiteral,
   JSXAttribute,
   stringLiteral
-} from 'babel-types';
+} from '@babel/types';
 import conditionalClassMerge from './conditionalClassMerge';
 import getClassName from './getClassName';
 import type {
@@ -25,7 +25,8 @@ export default (
   styleModuleImportMap: StyleModuleImportMapType,
   sourceAttribute: JSXAttribute,
   destinationName: string,
-  options: OptionsType): void => {
+  options: OptionsType
+): void => {
   const resolvedStyleName = getClassName(sourceAttribute.value.value, styleModuleImportMap, options);
 
   const destinationAttribute = path.node.openingElement.attributes

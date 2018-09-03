@@ -28,6 +28,12 @@ type FiletypesConfigurationType = {
   [key: string]: FiletypeOptionsType
 };
 
+type OptionsType = {|
+  filetypes: FiletypesConfigurationType,
+  generateScopedName?: GenerateScopedNameConfigurationType,
+  context?: string
+|};
+
 const getFiletypeOptions = (cssSourceFilePath: string, filetypes: FiletypesConfigurationType): ?FiletypeOptionsType => {
   const extension = cssSourceFilePath.substr(cssSourceFilePath.lastIndexOf('.'));
   const filetype = filetypes ? filetypes[extension] : null;
@@ -86,12 +92,6 @@ const getTokens = (runner, cssSourceFilePath: string, filetypeOptions: ?Filetype
 
   return lazyResult.root.tokens;
 };
-
-type OptionsType = {|
-  filetypes: FiletypesConfigurationType,
-  generateScopedName?: GenerateScopedNameConfigurationType,
-  context?: string
-|};
 
 export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMapType => {
   // eslint-disable-next-line prefer-const

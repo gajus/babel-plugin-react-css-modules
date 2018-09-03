@@ -6,6 +6,10 @@ import type {
   HandleMissingStyleNameOptionType
 } from './types';
 
+type OptionsType = {|
+  handleMissingStyleName: HandleMissingStyleNameOptionType
+|};
+
 const DEFAULT_HANDLE_MISSING_STYLENAME_OPTION = 'throw';
 
 const isNamespacedStyleName = (styleName: string): boolean => {
@@ -61,10 +65,6 @@ const getClassNameForNamespacedStyleName = (
 
   return styleModuleImportMap[importName][moduleName];
 };
-
-type OptionsType = {|
-  handleMissingStyleName: HandleMissingStyleNameOptionType
-|};
 
 export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportMapType, options?: OptionsType): string => {
   const styleModuleImportMapKeys = Object.keys(styleModuleImportMap);
