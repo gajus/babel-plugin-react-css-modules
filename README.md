@@ -75,7 +75,7 @@ and a corresponding CSS file that matches those CSS classes.
 
 Awesome!
 
-However, there are several several disadvantages of using CSS modules this way:
+However, there are several disadvantages of using CSS modules this way:
 
 * You have to use `camelCase` CSS class names.
 * You have to use `styles` object whenever constructing a `className`.
