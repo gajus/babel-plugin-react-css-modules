@@ -167,7 +167,7 @@ NODE_ENV=production ./test
 1. Parses the `styleName` attribute value into anonymous and named CSS module references.
 1. Finds the CSS class name matching the CSS module reference:
     * If `styleName` value is a string literal, generates a string literal value.
-    * If `styleName` value is a [`jSXExpressionContainer`](https://github.com/babel/babel/tree/master/packages/babel-types#jsxexpressioncontainer), uses a helper function ([`getClassName`](./src/getClassName.js)) to construct the `className` value at the runtime.
+    * If `styleName` value is a [`jSXExpressionContainer`](https://babeljs.io/docs/en/next/babel-types.html#jsxexpressioncontainer), uses a helper function ([`getClassName`](./src/getClassName.js)) to construct the `className` value at the runtime.
 1. Removes the `styleName` attribute from the element.
 1. Appends the resulting `className` to the existing `className` value (creates `className` attribute if one does not exist).
 
@@ -190,9 +190,9 @@ Configure the options for the plugin within your `.babelrc` as follows:
 
 |Name|Type|Description|Default|
 |---|---|---|---|
-|`context`|`string`|Must match webpack [`context`](https://webpack.github.io/docs/configuration.html#context) configuration. [`css-loader`](https://github.com/webpack/css-loader) inherits `context` values from webpack. Other CSS module implementations might use different context resolution logic.|`process.cwd()`|
+|`context`|`string`|Must match webpack [`context`](https://webpack.js.org/configuration/entry-context/#context) configuration. [`css-loader`](https://github.com/webpack/css-loader) inherits `context` values from webpack. Other CSS module implementations might use different context resolution logic.|`process.cwd()`|
 |`exclude`|`string`|A RegExp that will exclude otherwise included files e.g., to exclude all styles from node_modules `exclude: 'node_modules'`|
-|`filetypes`|`?FiletypesConfigurationType`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugerss, LESS and SCSS and extra plugins for them. ||
+|`filetypes`|`?FiletypesConfigurationType`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugarss, LESS and SCSS and extra plugins for them. ||
 |`generateScopedName`|`?GenerateScopedNameConfigurationType`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names). If you use this option, make sure it matches the value of `localIdentName` in webpack config. See this [issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/108#issuecomment-334351241) |`[path]___[name]__[local]___[hash:base64:5]`|
 |`removeImport`|`boolean`|Remove the matching style import. This option is used to enable server-side rendering.|`false`|
 |`webpackHotModuleReloading`|`boolean`|Enables hot reloading of CSS in webpack|`false`|
