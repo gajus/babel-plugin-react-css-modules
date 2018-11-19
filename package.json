@@ -24,9 +24,11 @@
     "@babel/core": "^7.0.0",
     "@babel/helper-plugin-test-runner": "^7.0.0",
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.1.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/register": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
     "babel-plugin-tester": "^5.5.1",
     "eslint": "^5.5.0",
     "eslint-config-canonical": "^12.0.0",
@@ -66,7 +68,7 @@
   },
   "scripts": {
     "build": "rm -fr ./dist && NODE_ENV=production babel ./src --out-dir ./dist --source-maps --copy-files && npm run build-helper",
-    "build-helper": "mkdir -p ./dist/browser && NODE_ENV=production babel ./src/getClassName.js --out-file ./dist/browser/getClassName.js --source-maps --no-babelrc --plugins transform-es2015-modules-commonjs,transform-flow-strip-types --presets es2015",
+    "build-helper": "mkdir -p ./dist/browser && NODE_ENV=production babel ./src/getClassName.js --out-file ./dist/browser/getClassName.js --source-maps --no-babelrc --plugins @babel/plugin-transform-modules-commonjs,@babel/plugin-transform-flow-strip-types --presets @babel/preset-env",
     "lint": "eslint ./src && flow",
     "test": "jest"
   },
