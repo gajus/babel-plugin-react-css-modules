@@ -1,4 +1,5 @@
 {
+  "sourceType": "script",
   "plugins": [
     [
       "../../../../src",

@@ -3,7 +3,8 @@
     [
       "../../../../src",
       {
-        "generateScopedName": "[name]__[local]"
+        "generateScopedName": "[name]__[local]",
+        "handleMissingStyleName": "ignore"
       }
     ]
   ]
