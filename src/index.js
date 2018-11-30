@@ -121,6 +121,10 @@ export default ({
     return require.resolve(path.node.source.value);
   };
 
+  const isFilenameExcluded = (filename, exclude) => {
+    return filename.match(new RegExp(exclude));
+  };
+
   const notForPlugin = (path: *, stats: *) => {
     stats.opts.filetypes = stats.opts.filetypes || {};
 
@@ -130,7 +134,9 @@ export default ({
       return true;
     }
 
-    if (stats.opts.exclude && getTargetResourcePath(path, stats).match(new RegExp(stats.opts.exclude))) {
+    const filename = getTargetResourcePath(path, stats);
+
+    if (stats.opts.exclude && isFilenameExcluded(filename, stats.opts.exclude)) {
       return true;
     }
 
@@ -178,6 +184,10 @@ export default ({
       },
       JSXElement (path: *, stats: *): void {
         const filename = stats.file.opts.filename;
+
+        if (stats.opts.exclude && isFilenameExcluded(filename, stats.opts.exclude)) {
+          return;
+        }
 
         let attributeNames = optionsDefaults.attributeNames;
 
