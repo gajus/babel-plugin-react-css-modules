@@ -4,7 +4,7 @@
     "start": "webpack-dev-server"
   },
   "dependencies": {
-    "babel-plugin-react-css-modules": "^4.0.0",
+    "babel-plugin-react-css-modules": "^5.0.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "webpack": "^2.7.0"
