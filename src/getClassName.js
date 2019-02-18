@@ -72,6 +72,8 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
   const handleMissingStyleName = options && options.handleMissingStyleName ||
     DEFAULT_HANDLE_MISSING_STYLENAME_OPTION;
 
+  if (!styleNameValue) return '';
+
   return styleNameValue
     .split(' ')
     .filter((styleName) => {
