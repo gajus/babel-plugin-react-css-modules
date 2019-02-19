@@ -74,7 +74,7 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
 
   if (!styleNameValue) {
     return '';
-  };
+  }
 
   return styleNameValue
     .split(' ')
