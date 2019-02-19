@@ -1,0 +1,15 @@
+{
+  "plugins": [
+    ["module-resolver", {
+      "alias": {
+        "abs": "./test/fixtures/react-css-modules/resolves absolute path stylesheets"
+      }
+    }],
+    [
+      "../../../../src",
+      {
+        "generateScopedName": "[name]__[local]"
+      }
+    ]
+  ]
+}

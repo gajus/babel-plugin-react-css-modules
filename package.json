@@ -29,6 +29,7 @@
     "@babel/register": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
+    "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-tester": "^5.5.1",
     "eslint": "^5.5.0",
     "eslint-config-canonical": "^12.0.0",
