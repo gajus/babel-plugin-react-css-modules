@@ -5,12 +5,11 @@ import type {
   StyleModuleImportMapType,
   HandleMissingStyleNameOptionType
 } from './types';
+import optionsDefaults from './schemas/optionsDefaults';
 
 type OptionsType = {|
   handleMissingStyleName: HandleMissingStyleNameOptionType
 |};
-
-const DEFAULT_HANDLE_MISSING_STYLENAME_OPTION = 'throw';
 
 const isNamespacedStyleName = (styleName: string): boolean => {
   return styleName.indexOf('.') !== -1;
@@ -28,7 +27,7 @@ const getClassNameForNamespacedStyleName = (
   const importName = styleNameParts[0];
   const moduleName = styleNameParts[1];
   const handleMissingStyleName = handleMissingStyleNameOption ||
-    DEFAULT_HANDLE_MISSING_STYLENAME_OPTION;
+    optionsDefaults.handleMissingStyleName;
 
   if (!moduleName) {
     if (handleMissingStyleName === 'throw') {
@@ -70,7 +69,7 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
   const styleModuleImportMapKeys = Object.keys(styleModuleImportMap);
 
   const handleMissingStyleName = options && options.handleMissingStyleName ||
-    DEFAULT_HANDLE_MISSING_STYLENAME_OPTION;
+    optionsDefaults.handleMissingStyleName;
 
   if (!styleNameValue) {
     return '';
