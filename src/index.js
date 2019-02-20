@@ -121,7 +121,7 @@ export default ({
       return resolve(targetFileDirectoryPath, path.node.source.value);
     }
 
-    return path.node.source.value;
+    return require.resolve(path.node.source.value);
   };
 
   const isFilenameExcluded = (filename, exclude) => {
