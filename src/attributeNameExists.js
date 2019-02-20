@@ -2,11 +2,7 @@
 
 import optionsDefaults from './schemas/optionsDefaults';
 
-const attributeNameExists = (path: *, stats: *): boolean => {
-  const programPath = path.findParent((parentPath) => {
-    return parentPath.isProgram();
-  });
-
+const attributeNameExists = (programPath: *, stats: *): boolean => {
   let exists = false;
 
   programPath.traverse({

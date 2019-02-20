@@ -32,6 +32,8 @@ export default ({
 }) => {
   const filenameMap = {};
 
+  let skipImport = false;
+
   const setupFileForRuntimeResolution = (path, filename) => {
     const programPath = path.findParent((parentPath) => {
       return parentPath.isProgram();
@@ -148,15 +150,7 @@ export default ({
     inherits: babelPluginJsxSyntax,
     visitor: {
       ImportDeclaration (path: *, stats: *): void {
-        if (stats.opts.webpackHotModuleReloading) {
-          addWebpackHotModuleAccept(path);
-        }
-
-        if (stats.opts.skipAbsentStyleName && !attributeNameExists(path, stats)) {
-          return;
-        }
-
-        if (notForPlugin(path, stats)) {
+        if (skipImport || notForPlugin(path, stats)) {
           return;
         }
 
@@ -182,6 +176,10 @@ export default ({
           filetypes: stats.opts.filetypes || {},
           generateScopedName: stats.opts.generateScopedName
         });
+
+        if (stats.opts.webpackHotModuleReloading) {
+          addWebpackHotModuleAccept(path);
+        }
 
         if (stats.opts.removeImport) {
           path.remove();
@@ -255,6 +253,10 @@ export default ({
         filenameMap[filename] = {
           styleModuleImportMap: {}
         };
+
+        if (stats.opts.skipAbsentStyleName && !attributeNameExists(path, stats)) {
+          skipImport = true;
+        }
       }
     }
   };
