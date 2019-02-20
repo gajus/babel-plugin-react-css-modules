@@ -14,6 +14,7 @@ import createObjectExpression from './createObjectExpression';
 import requireCssModule from './requireCssModule';
 import resolveStringLiteral from './resolveStringLiteral';
 import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
+import attributeNameExists from './attributeNameExists';
 
 const ajv = new Ajv({
   // eslint-disable-next-line id-match
@@ -118,7 +119,7 @@ export default ({
       return resolve(targetFileDirectoryPath, path.node.source.value);
     }
 
-    return require.resolve(path.node.source.value);
+    return path.node.source.value;
   };
 
   const isFilenameExcluded = (filename, exclude) => {
@@ -147,6 +148,14 @@ export default ({
     inherits: babelPluginJsxSyntax,
     visitor: {
       ImportDeclaration (path: *, stats: *): void {
+        if (stats.opts.webpackHotModuleReloading) {
+          addWebpackHotModuleAccept(path);
+        }
+
+        if (stats.opts.skipAbsentStyleName && !attributeNameExists(path, stats)) {
+          return;
+        }
+
         if (notForPlugin(path, stats)) {
           return;
         }
@@ -173,10 +182,6 @@ export default ({
           filetypes: stats.opts.filetypes || {},
           generateScopedName: stats.opts.generateScopedName
         });
-
-        if (stats.opts.webpackHotModuleReloading) {
-          addWebpackHotModuleAccept(path);
-        }
 
         if (stats.opts.removeImport) {
           path.remove();

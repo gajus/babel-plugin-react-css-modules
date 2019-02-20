@@ -69,6 +69,9 @@
         }
       },
       "type": "object"
+    },
+    "skipAbsentStyleName": {
+      "type": "boolean"
     }
   },
   "type": "object"
