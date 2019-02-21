@@ -5,24 +5,21 @@ import optionsDefaults from './schemas/optionsDefaults';
 const attributeNameExists = (programPath: *, stats: *): boolean => {
   let exists = false;
 
+  let attributeNames = optionsDefaults.attributeNames;
+
+  if (stats.opts && stats.opts.attributeNames) {
+    attributeNames = Object.assign({}, attributeNames, stats.opts.attributeNames);
+  }
+
   programPath.traverse({
-    JSXElement (jSXpath: *) {
+    JSXAttribute (attrPath: *) {
       if (exists) {
         return;
       }
 
-      let attributeNames = optionsDefaults.attributeNames;
+      const attribute = attrPath.node;
 
-      if (stats.opts && stats.opts.attributeNames) {
-        attributeNames = Object.assign({}, attributeNames, stats.opts.attributeNames);
-      }
-
-      const attributes = jSXpath.node.openingElement.attributes
-        .filter((attribute) => {
-          return typeof attribute.name !== 'undefined' && typeof attributeNames[attribute.name.name] === 'string';
-        });
-
-      if (attributes.length) {
+      if (typeof attribute.name !== 'undefined' && typeof attributeNames[attribute.name.name] === 'string') {
         exists = true;
       }
     }
