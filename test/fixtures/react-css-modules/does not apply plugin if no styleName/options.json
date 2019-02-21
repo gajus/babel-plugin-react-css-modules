@@ -4,7 +4,7 @@
       "../../../../src",
       {
         "generateScopedName": "[name]__[local]",
-        "skipAbsentStyleName": true
+        "skip": true
       }
     ]
   ]

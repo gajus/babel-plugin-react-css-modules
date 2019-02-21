@@ -70,7 +70,7 @@
       },
       "type": "object"
     },
-    "skipAbsentStyleName": {
+    "skip": {
       "type": "boolean"
     }
   },
