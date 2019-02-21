@@ -18,6 +18,7 @@ import type {
   GenerateScopedNameConfigurationType,
   StyleModuleMapType
 } from './types';
+import optionsDefaults from './schemas/optionsDefaults';
 
 type FiletypeOptionsType = {|
   +syntax: string,
@@ -102,7 +103,7 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
   if (options.generateScopedName && typeof options.generateScopedName === 'function') {
     generateScopedName = options.generateScopedName;
   } else {
-    generateScopedName = genericNames(options.generateScopedName || '[path]___[name]__[local]___[hash:base64:5]', {
+    generateScopedName = genericNames(options.generateScopedName || optionsDefaults.generateScopedName, {
       context: options.context || process.cwd()
     });
   }
