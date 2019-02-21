@@ -198,6 +198,7 @@ Configure the options for the plugin within your `.babelrc` as follows:
 |`webpackHotModuleReloading`|`boolean`|Enables hot reloading of CSS in webpack|`false`|
 |`handleMissingStyleName`|`"throw"`, `"warn"`, `"ignore"`|Determines what should be done for undefined CSS modules (using a `styleName` for which there is no CSS module defined).  Setting this option to `"ignore"` is equivalent to setting `errorWhenNotFound: false` in [react-css-modules](https://github.com/gajus/react-css-modules#errorwhennotfound). |`"throw"`|
 |`attributeNames`|`?AttributeNameMapType`|Refer to [Custom Attribute Mapping](#custom-attribute-mapping)|`{"styleName": "className"}`|
+|`skip`|`boolean`|Whether to apply plugin if no matching `attributeNames` found in the file|`false`|
 
 Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
 

@@ -14,6 +14,7 @@ import createObjectExpression from './createObjectExpression';
 import requireCssModule from './requireCssModule';
 import resolveStringLiteral from './resolveStringLiteral';
 import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
+import attributeNameExists from './attributeNameExists';
 
 const ajv = new Ajv({
   // eslint-disable-next-line id-match
@@ -30,6 +31,8 @@ export default ({
   types: BabelTypes
 }) => {
   const filenameMap = {};
+
+  let skip = false;
 
   const setupFileForRuntimeResolution = (path, filename) => {
     const programPath = path.findParent((parentPath) => {
@@ -147,7 +150,7 @@ export default ({
     inherits: babelPluginJsxSyntax,
     visitor: {
       ImportDeclaration (path: *, stats: *): void {
-        if (notForPlugin(path, stats)) {
+        if (skip || notForPlugin(path, stats)) {
           return;
         }
 
@@ -183,6 +186,10 @@ export default ({
         }
       },
       JSXElement (path: *, stats: *): void {
+        if (skip) {
+          return;
+        }
+
         const filename = stats.file.opts.filename;
 
         if (stats.opts.exclude && isFilenameExcluded(filename, stats.opts.exclude)) {
@@ -250,6 +257,10 @@ export default ({
         filenameMap[filename] = {
           styleModuleImportMap: {}
         };
+
+        if (stats.opts.skip && !attributeNameExists(path, stats)) {
+          skip = true;
+        }
       }
     }
   };
