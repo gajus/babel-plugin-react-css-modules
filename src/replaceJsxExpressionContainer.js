@@ -11,15 +11,11 @@ import BabelTypes, {
   jSXIdentifier
 } from '@babel/types';
 import type {
-  HandleMissingStyleNameOptionType
+  GetClassNameOptionsType
 } from './types';
 import conditionalClassMerge from './conditionalClassMerge';
 import createObjectExpression from './createObjectExpression';
 import optionsDefaults from './schemas/optionsDefaults';
-
-type OptionsType = {|
-  handleMissingStyleName: HandleMissingStyleNameOptionType
-|};
 
 export default (
   t: BabelTypes,
@@ -29,7 +25,7 @@ export default (
   destinationName: string,
   importedHelperIndentifier: Identifier,
   styleModuleImportMapIdentifier: Identifier,
-  options: OptionsType
+  options: GetClassNameOptionsType
 ): void => {
   const expressionContainerValue = sourceAttribute.value;
   const destinationAttribute = path.node.openingElement.attributes
@@ -50,7 +46,8 @@ export default (
 
   // Only provide options argument if the options are something other than default
   // This helps save a few bits in the generated user code
-  if (options.handleMissingStyleName !== optionsDefaults.handleMissingStyleName) {
+  if (options.handleMissingStyleName !== optionsDefaults.handleMissingStyleName ||
+    options.autoResolveMultipleImports !== optionsDefaults.autoResolveMultipleImports) {
     args.push(createObjectExpression(t, options));
   }
 

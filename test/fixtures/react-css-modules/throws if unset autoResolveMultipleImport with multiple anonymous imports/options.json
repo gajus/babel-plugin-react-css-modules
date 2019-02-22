@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    [
+      "../../../../src",
+      {
+        "generateScopedName": "[name]__[local]"
+      }
+    ]
+  ],
+  "throws": "Cannot use anonymous style name 'a' with more than one stylesheet import without setting 'autoResolveMultipleImports' to true."
+}
