@@ -212,9 +212,15 @@ export default ({
         }
 
         const handleMissingStyleName = stats.opts && stats.opts.handleMissingStyleName || optionsDefaults.handleMissingStyleName;
+        const autoResolveMultipleImports = stats.opts && stats.opts.autoResolveMultipleImports || optionsDefaults.autoResolveMultipleImports;
 
         for (const attribute of attributes) {
           const destinationName = attributeNames[attribute.name.name];
+
+          const options = {
+            autoResolveMultipleImports,
+            handleMissingStyleName
+          };
 
           if (t.isStringLiteral(attribute.value)) {
             resolveStringLiteral(
@@ -222,9 +228,7 @@ export default ({
               filenameMap[filename].styleModuleImportMap,
               attribute,
               destinationName,
-              {
-                handleMissingStyleName
-              }
+              options
             );
           } else if (t.isJSXExpressionContainer(attribute.value)) {
             if (!filenameMap[filename].importedHelperIndentifier) {
@@ -237,9 +241,7 @@ export default ({
               destinationName,
               filenameMap[filename].importedHelperIndentifier,
               filenameMap[filename].styleModuleImportMapIdentifier,
-              {
-                handleMissingStyleName
-              }
+              options
             );
           }
         }

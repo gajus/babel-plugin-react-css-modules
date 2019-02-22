@@ -72,6 +72,9 @@
     },
     "skip": {
       "type": "boolean"
+    },
+    "autoResolveMultipleImports": {
+      "type": "boolean"
     }
   },
   "type": "object"

@@ -28,6 +28,9 @@ const createObjectExpression = (t: BabelTypes, object: InputObjectType): ObjectE
       newValue = createObjectExpression(t, value);
     } else if (typeof value === 'boolean') {
       newValue = t.booleanLiteral(value);
+    } else if (typeof value === 'undefined') {
+      // eslint-disable-next-line no-continue
+      continue;
     } else {
       throw new TypeError('Unexpected type: ' + typeof value);
     }

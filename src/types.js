@@ -13,3 +13,8 @@ export type GenerateScopedNameType = (localName: string, resourcePath: string) =
 export type GenerateScopedNameConfigurationType = GenerateScopedNameType | string;
 
 export type HandleMissingStyleNameOptionType = 'throw' | 'warn' | 'ignore';
+
+export type GetClassNameOptionsType = {|
+  handleMissingStyleName: HandleMissingStyleNameOptionType,
+  autoResolveMultipleImports: boolean
+|};
