@@ -1,0 +1,12 @@
+{
+  "plugins": [
+    [
+      "../../../../src",
+      {
+        "generateScopedName": "[name]__[local]",
+        "autoResolveMultipleImports": true
+      }
+    ]
+  ],
+  "throws": "Cannot resolve styleName \"b\" because it is present in multiple imports:\n\n\t./foo.css\n\t./bar.css\n\nYou can resolve this by using a named import, e.g:\n\n\timport foo from \"./foo.css\";\n\t<div styleName=\"foo.b\" />\n\n"
+}
