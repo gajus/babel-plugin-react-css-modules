@@ -87,10 +87,10 @@ const getClassNameFromMultipleImports = (
 export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportMapType, options?: GetClassNameOptionsType): string => {
   const styleModuleImportMapKeys = Object.keys(styleModuleImportMap);
 
-  const handleMissingStyleName = options && options.handleMissingStyleName ||
-    optionsDefaults.handleMissingStyleName;
-
-  const autoResolveMultipleImports = options && options.autoResolveMultipleImports;
+  const {
+    handleMissingStyleName = optionsDefaults.handleMissingStyleName,
+    autoResolveMultipleImports = optionsDefaults.autoResolveMultipleImports
+  } = options || {};
 
   if (!styleNameValue) {
     return '';

@@ -211,8 +211,10 @@ export default ({
           return;
         }
 
-        const handleMissingStyleName = stats.opts && stats.opts.handleMissingStyleName || optionsDefaults.handleMissingStyleName;
-        const autoResolveMultipleImports = stats.opts && stats.opts.autoResolveMultipleImports || optionsDefaults.autoResolveMultipleImports;
+        const {
+          handleMissingStyleName = optionsDefaults.handleMissingStyleName,
+          autoResolveMultipleImports = optionsDefaults.autoResolveMultipleImports
+        } = stats.opts || {};
 
         for (const attribute of attributes) {
           const destinationName = attributeNames[attribute.name.name];
