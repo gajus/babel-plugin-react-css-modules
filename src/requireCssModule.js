@@ -18,6 +18,7 @@ import type {
   GenerateScopedNameConfigurationType,
   StyleModuleMapType
 } from './types';
+import findMatchedFiletype from './findMatchedFiletype';
 import optionsDefaults from './schemas/optionsDefaults';
 
 type FiletypeOptionsType = {|
@@ -36,10 +37,9 @@ type OptionsType = {|
 |};
 
 const getFiletypeOptions = (cssSourceFilePath: string, filetypes: FiletypesConfigurationType): ?FiletypeOptionsType => {
-  const extension = cssSourceFilePath.substr(cssSourceFilePath.lastIndexOf('.'));
-  const filetype = filetypes ? filetypes[extension] : null;
+  const matchedKey = findMatchedFiletype(cssSourceFilePath, Object.keys(filetypes));
 
-  return filetype;
+  return matchedKey ? filetypes && filetypes[matchedKey] : null;
 };
 
 // eslint-disable-next-line flowtype/no-weak-types

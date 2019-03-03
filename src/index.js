@@ -15,6 +15,7 @@ import requireCssModule from './requireCssModule';
 import resolveStringLiteral from './resolveStringLiteral';
 import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
 import attributeNameExists from './attributeNameExists';
+import findMatchedFiletype from './findMatchedFiletype';
 
 const ajv = new Ajv({
   // eslint-disable-next-line id-match
@@ -131,15 +132,21 @@ export default ({
   const notForPlugin = (path: *, stats: *) => {
     stats.opts.filetypes = stats.opts.filetypes || {};
 
-    const extension = path.node.source.value.lastIndexOf('.') > -1 ? path.node.source.value.substr(path.node.source.value.lastIndexOf('.')) : null;
-
-    if (extension !== '.css' && Object.keys(stats.opts.filetypes).indexOf(extension) < 0) {
+    // @HACK
+    if (path.node.source.value.indexOf('babel-plugin-react-css-modules') === 0) {
       return true;
     }
 
     const filename = getTargetResourcePath(path, stats);
 
     if (stats.opts.exclude && isFilenameExcluded(filename, stats.opts.exclude)) {
+      return true;
+    }
+
+    const filetypeKeys = Object.keys(stats.opts.filetypes);
+
+    filetypeKeys.push('.css');
+    if (!findMatchedFiletype(filename, filetypeKeys)) {
       return true;
     }
 
