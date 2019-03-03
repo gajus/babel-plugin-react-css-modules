@@ -3,11 +3,10 @@
 export default (sourceFilePath: string, filetypes: $ReadOnlyArray<string>): ?string => {
   // Try to match as the RegExp pattern
   for (const pattern of filetypes) {
-    if (pattern.match(/^\.[a-z0-9A-Z]+?$/)) {
-      continue;
-    }
-    if (sourceFilePath.match(new RegExp(pattern))) {
-      return pattern;
+    if (!pattern.match(/^\.[a-z0-9A-Z]+?$/)) {
+      if (sourceFilePath.match(new RegExp(pattern))) {
+        return pattern;
+      }
     }
   }
 
