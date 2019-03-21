@@ -5,9 +5,8 @@ import {
   memberExpression,
   binaryExpression,
   stringLiteral,
-  identifier,
-  callExpression,
-  arrayExpression
+  logicalExpression,
+  identifier
 } from '@babel/types';
 import optionsDefaults from './schemas/optionsDefaults';
 
@@ -30,11 +29,6 @@ const createSpreadMapper = (path: *, stats: *): { [destinationName: string]: Exp
     return pair[0];
   });
 
-  // To be used during spread cleanup
-  const spreadExcludeKeys = attributes.reduce((excludes, pair) => {
-    return excludes.concat(pair);
-  }, []);
-
   path.traverse({
     JSXSpreadAttribute (spreadPath: *) {
       const spread = spreadPath.node;
@@ -49,28 +43,27 @@ const createSpreadMapper = (path: *, stats: *): { [destinationName: string]: Exp
             binaryExpression(
               '+',
               stringLiteral(' '),
-              memberExpression(
-                spread.argument,
-                identifier(destinationName),
-              ),
+              logicalExpression(
+                '||',
+                memberExpression(
+                  spread.argument,
+                  identifier(destinationName),
+                ),
+                stringLiteral('')
+              )
             ),
           );
         } else {
-          result[destinationName] = memberExpression(
-            spread.argument,
-            identifier(destinationName),
+          result[destinationName] = logicalExpression(
+            '||',
+            memberExpression(
+              spread.argument,
+              identifier(destinationName),
+            ),
+            stringLiteral('')
           );
         }
       }
-
-      // Cleanup spreaded properties to prevent possibility
-      // of replacing the final/actual className
-      spread.argument = callExpression(
-        stats.addHelper('objectWithoutProperties'),
-        [spread.argument, arrayExpression(spreadExcludeKeys.map((key) => {
-          return stringLiteral(key);
-        }))]
-      );
     }
   });
 
