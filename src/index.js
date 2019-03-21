@@ -16,6 +16,7 @@ import resolveStringLiteral from './resolveStringLiteral';
 import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
 import attributeNameExists from './attributeNameExists';
 import createSpreadMapper from './createSpreadMapper';
+import handleSpreadClassName from './handleSpreadClassName';
 
 const ajv = new Ajv({
   // eslint-disable-next-line id-match
@@ -233,8 +234,7 @@ export default ({
               filenameMap[filename].styleModuleImportMap,
               attribute,
               destinationName,
-              options,
-              spreadMap[destinationName]
+              options
             );
           } else if (t.isJSXExpressionContainer(attribute.value)) {
             if (!filenameMap[filename].importedHelperIndentifier) {
@@ -247,7 +247,14 @@ export default ({
               destinationName,
               filenameMap[filename].importedHelperIndentifier,
               filenameMap[filename].styleModuleImportMapIdentifier,
-              options,
+              options
+            );
+          }
+
+          if (spreadMap[destinationName]) {
+            handleSpreadClassName(
+              path,
+              destinationName,
               spreadMap[destinationName]
             );
           }
