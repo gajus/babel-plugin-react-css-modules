@@ -8,7 +8,9 @@ import BabelTypes, {
   jSXAttribute,
   JSXAttribute,
   jSXExpressionContainer,
-  jSXIdentifier
+  jSXIdentifier,
+  stringLiteral,
+  Expression
 } from '@babel/types';
 import type {
   GetClassNameOptionsType
@@ -25,7 +27,8 @@ export default (
   destinationName: string,
   importedHelperIndentifier: Identifier,
   styleModuleImportMapIdentifier: Identifier,
-  options: GetClassNameOptionsType
+  options: GetClassNameOptionsType,
+  fromSpread?: Expression
 ): void => {
   const expressionContainerValue = sourceAttribute.value;
   const destinationAttribute = path.node.openingElement.attributes
@@ -81,11 +84,35 @@ export default (
     } else {
       throw new Error('Unexpected attribute value: ' + destinationAttribute.value);
     }
+
+    if (fromSpread) {
+      destinationAttribute.value = jSXExpressionContainer(
+        binaryExpression(
+          '+',
+          destinationAttribute.value.expression,
+          binaryExpression(
+            '+',
+            stringLiteral(' '),
+            fromSpread
+          )
+        )
+      );
+    }
   } else {
     path.node.openingElement.attributes.push(jSXAttribute(
       jSXIdentifier(destinationName),
       jSXExpressionContainer(
-        styleNameExpression
+        fromSpread ?
+          binaryExpression(
+            '+',
+            styleNameExpression,
+            binaryExpression(
+              '+',
+              stringLiteral(' '),
+              fromSpread
+            )
+          ) :
+          styleNameExpression
       )
     ));
   }

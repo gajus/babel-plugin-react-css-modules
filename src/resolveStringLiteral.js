@@ -4,7 +4,10 @@ import {
   isJSXExpressionContainer,
   isStringLiteral,
   JSXAttribute,
-  stringLiteral
+  jSXExpressionContainer,
+  binaryExpression,
+  stringLiteral,
+  Expression
 } from '@babel/types';
 import conditionalClassMerge from './conditionalClassMerge';
 import getClassName from './getClassName';
@@ -21,7 +24,8 @@ export default (
   styleModuleImportMap: StyleModuleImportMapType,
   sourceAttribute: JSXAttribute,
   destinationName: string,
-  options: GetClassNameOptionsType
+  options: GetClassNameOptionsType,
+  fromSpread?: Expression
 ): void => {
   const resolvedStyleName = getClassName(sourceAttribute.value.value, styleModuleImportMap, options);
 
@@ -33,11 +37,37 @@ export default (
   if (destinationAttribute) {
     if (isStringLiteral(destinationAttribute.value)) {
       destinationAttribute.value.value += ' ' + resolvedStyleName;
+      if (fromSpread) {
+        destinationAttribute.value = jSXExpressionContainer(
+          binaryExpression(
+            '+',
+            destinationAttribute.value,
+            binaryExpression(
+              '+',
+              stringLiteral(' '),
+              fromSpread
+            )
+          )
+        );
+      }
     } else if (isJSXExpressionContainer(destinationAttribute.value)) {
       destinationAttribute.value.expression = conditionalClassMerge(
         destinationAttribute.value.expression,
         stringLiteral(resolvedStyleName)
       );
+      if (fromSpread) {
+        destinationAttribute.value = jSXExpressionContainer(
+          binaryExpression(
+            '+',
+            destinationAttribute.value.expression,
+            binaryExpression(
+              '+',
+              stringLiteral(' '),
+              fromSpread
+            )
+          )
+        );
+      }
     } else {
       throw new Error('Unexpected attribute value:' + destinationAttribute.value);
     }
@@ -46,5 +76,19 @@ export default (
   } else {
     sourceAttribute.name.name = destinationName;
     sourceAttribute.value.value = resolvedStyleName;
+
+    if (fromSpread) {
+      sourceAttribute.value = jSXExpressionContainer(
+        binaryExpression(
+          '+',
+          sourceAttribute.value,
+          binaryExpression(
+            '+',
+            stringLiteral(' '),
+            fromSpread
+          )
+        )
+      );
+    }
   }
 };

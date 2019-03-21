@@ -15,6 +15,7 @@ import requireCssModule from './requireCssModule';
 import resolveStringLiteral from './resolveStringLiteral';
 import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
 import attributeNameExists from './attributeNameExists';
+import createSpreadMapper from './createSpreadMapper';
 
 const ajv = new Ajv({
   // eslint-disable-next-line id-match
@@ -216,6 +217,8 @@ export default ({
           autoResolveMultipleImports = optionsDefaults.autoResolveMultipleImports
         } = stats.opts || {};
 
+        const spreadMap = createSpreadMapper(path, stats);
+
         for (const attribute of attributes) {
           const destinationName = attributeNames[attribute.name.name];
 
@@ -230,7 +233,8 @@ export default ({
               filenameMap[filename].styleModuleImportMap,
               attribute,
               destinationName,
-              options
+              options,
+              spreadMap[destinationName]
             );
           } else if (t.isJSXExpressionContainer(attribute.value)) {
             if (!filenameMap[filename].importedHelperIndentifier) {
@@ -243,7 +247,8 @@ export default ({
               destinationName,
               filenameMap[filename].importedHelperIndentifier,
               filenameMap[filename].styleModuleImportMapIdentifier,
-              options
+              options,
+              spreadMap[destinationName]
             );
           }
         }
