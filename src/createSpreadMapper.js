@@ -6,7 +6,8 @@ import {
   binaryExpression,
   stringLiteral,
   logicalExpression,
-  identifier
+  identifier,
+  isJSXSpreadAttribute
 } from '@babel/types';
 import optionsDefaults from './schemas/optionsDefaults';
 
@@ -29,43 +30,44 @@ const createSpreadMapper = (path: *, stats: *): { [destinationName: string]: Exp
     return pair[0];
   });
 
-  path.traverse({
-    JSXSpreadAttribute (spreadPath: *) {
-      const spread = spreadPath.node;
+  const spreadAttributes = path.node.openingElement.attributes
+    .filter((attr) => {
+      return isJSXSpreadAttribute(attr);
+    });
 
-      for (const attributeKey of attributeKeys) {
-        const destinationName = attributeNames[attributeKey];
+  for (const spread of spreadAttributes) {
+    for (const attributeKey of attributeKeys) {
+      const destinationName = attributeNames[attributeKey];
 
-        if (result[destinationName]) {
-          result[destinationName] = binaryExpression(
+      if (result[destinationName]) {
+        result[destinationName] = binaryExpression(
+          '+',
+          result[destinationName],
+          binaryExpression(
             '+',
-            result[destinationName],
-            binaryExpression(
-              '+',
-              stringLiteral(' '),
-              logicalExpression(
-                '||',
-                memberExpression(
-                  spread.argument,
-                  identifier(destinationName),
-                ),
-                stringLiteral('')
-              )
-            ),
-          );
-        } else {
-          result[destinationName] = logicalExpression(
-            '||',
-            memberExpression(
-              spread.argument,
-              identifier(destinationName),
-            ),
-            stringLiteral('')
-          );
-        }
+            stringLiteral(' '),
+            logicalExpression(
+              '||',
+              memberExpression(
+                spread.argument,
+                identifier(destinationName),
+              ),
+              stringLiteral('')
+            )
+          ),
+        );
+      } else {
+        result[destinationName] = logicalExpression(
+          '||',
+          memberExpression(
+            spread.argument,
+            identifier(destinationName),
+          ),
+          stringLiteral('')
+        );
       }
     }
-  });
+  }
 
   return result;
 };
