@@ -20,3 +20,7 @@ const rest2 = {};
 // Should not do anything
 <div {...rest} {...rest2}></div>;
 <div {...rest} {...rest2} className="b"></div>;
+
+<div styleName="a">
+  <div {...rest} activeStyleName="a"></div>
+</div>

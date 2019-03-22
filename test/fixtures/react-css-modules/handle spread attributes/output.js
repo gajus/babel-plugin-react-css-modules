@@ -14,3 +14,6 @@ const rest2 = {};
 
 <div {...rest} {...rest2}></div>;
 <div {...rest} {...rest2} className="b"></div>;
+<div className="foo__a">
+  <div {...rest} activeClassName={"foo__a" + (" " + (rest.activeClassName || ""))}></div>
+</div>;
