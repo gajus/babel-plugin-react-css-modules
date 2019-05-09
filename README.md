@@ -1,6 +1,6 @@
 # babel-plugin-react-css-modules
 
-![[GitSpo Mentions](https://gitspo.com/mentions/gajus/babel-plugin-react-css-modules)](https://gitspo.com/badges/gajus/babel-plugin-react-css-modules?style=flat-square)
+[![GitSpo Mentions](https://gitspo.com/badges/gajus/babel-plugin-react-css-modules?style=flat-square)](https://gitspo.com/mentions/gajus/babel-plugin-react-css-modules)
 [![Travis build status](http://img.shields.io/travis/gajus/babel-plugin-react-css-modules/master.svg?style=flat-square)](https://travis-ci.org/gajus/babel-plugin-react-css-modules)
 [![NPM version](http://img.shields.io/npm/v/babel-plugin-react-css-modules.svg?style=flat-square)](https://www.npmjs.org/package/babel-plugin-react-css-modules)
 [![Canonical Code Style](https://img.shields.io/badge/code%20style-canonical-blue.svg?style=flat-square)](https://github.com/gajus/canonical)
