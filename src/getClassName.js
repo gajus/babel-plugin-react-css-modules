@@ -120,6 +120,7 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
         return getClassNameFromMultipleImports(styleName, styleModuleImportMap, handleMissingStyleName);
       }
 
+      // There is only one imported CSS module file.
       const styleModuleMap: StyleModuleMapType = styleModuleImportMap[styleModuleImportMapKeys[0]];
 
       if (!styleModuleMap[styleName]) {

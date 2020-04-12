@@ -129,6 +129,7 @@ export default ({
     return filename.match(new RegExp(exclude));
   };
 
+  // decide whether the import statement should be processed as CSS module
   const notForPlugin = (path: *, stats: *) => {
     stats.opts.filetypes = stats.opts.filetypes || {};
 
@@ -144,13 +145,9 @@ export default ({
     }
 
     const filetypeKeys = Object.keys(stats.opts.filetypes);
-
     filetypeKeys.push('.css');
-    if (!findMatchedFiletype(filename, filetypeKeys)) {
-      return true;
-    }
 
-    return false;
+    return !findMatchedFiletype(filename, filetypeKeys);
   };
 
   return {
