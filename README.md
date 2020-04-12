@@ -1,5 +1,6 @@
 # babel-plugin-react-css-modules
 
+[![GitSpo Mentions](https://gitspo.com/badges/mentions/gajus/babel-plugin-react-css-modules?style=flat-square)](https://gitspo.com/mentions/gajus/babel-plugin-react-css-modules)
 [![Travis build status](http://img.shields.io/travis/gajus/babel-plugin-react-css-modules/master.svg?style=flat-square)](https://travis-ci.org/gajus/babel-plugin-react-css-modules)
 [![NPM version](http://img.shields.io/npm/v/babel-plugin-react-css-modules.svg?style=flat-square)](https://www.npmjs.org/package/babel-plugin-react-css-modules)
 [![Canonical Code Style](https://img.shields.io/badge/code%20style-canonical-blue.svg?style=flat-square)](https://github.com/gajus/canonical)
@@ -162,7 +163,7 @@ NODE_ENV=production ./test
 ## How does it work?
 
 1. Builds index of all stylesheet imports per file (imports of files with `.css` or `.scss` extension).
-1. Uses [postcss](https://github.com/postcss/postcss) to parse the matching CSS files.
+1. Uses [postcss](https://github.com/postcss/postcss) to parse the matching CSS files into a lookup of CSS module references.
 1. Iterates through all [JSX](https://facebook.github.io/react/docs/jsx-in-depth.html) element declarations.
 1. Parses the `styleName` attribute value into anonymous and named CSS module references.
 1. Finds the CSS class name matching the CSS module reference:
@@ -238,7 +239,7 @@ To add support for different CSS syntaxes (e.g. SCSS), perform the following two
   npm install postcss-scss --save-dev
   ```
 
-2. Add a filetype syntax mapping to the Babel plugin configuration
+2. Add a `filetypes` syntax mapping to the Babel plugin configuration. For example for SCSS:
 
   ```json
   "filetypes": {
@@ -248,7 +249,7 @@ To add support for different CSS syntaxes (e.g. SCSS), perform the following two
   }
   ```
 
-  And optionaly specify extra plugins
+  And optionally specify extra plugins:
 
   ```json
   "filetypes": {
@@ -260,9 +261,11 @@ To add support for different CSS syntaxes (e.g. SCSS), perform the following two
     }
   }
   ```
-  
-  Postcss plugins can have options specified by wrapping the name and an options object in an array inside your config
-  
+
+  > NOTE: [`postcss-nested`](https://github.com/postcss/postcss-nested) is added as an extra plugin for demonstration purposes only. It's not needed with [`postcss-scss`](https://github.com/postcss/postcss-scss) because SCSS already supports nesting.
+
+  Postcss plugins can have options specified by wrapping the name and an options object in an array inside your config: 
+
   ```json
     "plugins": [
       ["postcss-import-sync2", {
@@ -270,9 +273,9 @@ To add support for different CSS syntaxes (e.g. SCSS), perform the following two
       }],
       "postcss-nested"
     ]
-  ```  
-   
-  
+  ```
+
+
 ### Custom Attribute Mapping
 
 You can set your own attribute mapping rules using the `attributeNames` option.
@@ -474,18 +477,47 @@ This behaviour is enabled by default in `babel-plugin-react-css-modules`.
 
 ### How to live reload the CSS?
 
-`babel-plugin-react-css-modules` utilises webpack [Hot Module Replacement](https://webpack.github.io/docs/hot-module-replacement.html) (HMR) to live reload the CSS.
+`babel-plugin-react-css-modules` utilises webpack [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/#root) (HMR) to live reload the CSS.
 
 To enable live reloading of the CSS:
 
 * Enable [`webpackHotModuleReloading`](#configuration) `babel-plugin-react-css-modules` configuration.
-* Configure `webpack` to use HMR. Use [`--hot`](https://webpack.github.io/docs/webpack-dev-server.html) option if you are using `webpack-dev-server`.
+* Configure `webpack` to use HMR. Use [`--hot`](https://webpack.js.org/configuration/dev-server/#root) option if you are using `webpack-dev-server`.
 * Use [`style-loader`](https://github.com/webpack/style-loader) to load the style sheets.
 
 > Note:
 >
-> This enables live reloading of the CSS. To enable HMR of the React components, refer to the [Hot Module Replacement - React](https://webpack.js.org/guides/hmr-react/) guide.
+> This enables live reloading of the CSS. To enable HMR of the React components, refer to the [Hot Module Replacement - React](https://webpack.js.org/guides/hot-module-replacement/#other-code-and-frameworks) guide.
 
 > Note:
 >
 > This is a [webpack](https://webpack.github.io/) specific option. If you are using `babel-plugin-react-css-modules` in a different setup and require CSS live reloading, raise an issue describing your setup.
+
+### I get a "Cannot use styleName attribute for style name '`[X]`' without importing at least one stylesheet." error
+
+First, ensure that you are correctly importing the CSS file following the [conventions](#conventions).
+
+If you are correctly importing but using different CSS (such as SCSS), this is likely happening because your CSS file wasn't able to be successfully parsed. You need to [configure a syntax loader](#configurate-syntax-loaders).
+
+### I get a "Could not resolve the styleName '`[X]`' error but the class exists in the CSS included in the browser.
+
+First, verify that the CSS is being included in the browser. Remove from `styleName` the reference to the CSS class that's failing and view the page. Search through the `<style>` tags that have been added to the `<head>` and find the one related to your CSS module. Copy the code into your editor and search for the class name.
+
+Once you've verified that the class is being rendered in CSS, the likely cause is that the `babel-plugin-react-css-modules` is unable to find your CSS class in the parsed code. If you're using different CSS (such as SCSS), verify that you have [configured a syntax loader](#configurate-syntax-loaders).
+
+However, if you're using a syntaxes such as [`postcss-scss`](https://github.com/postcss/postcss-scss) or [`postcss-less`](https://github.com/webschik/postcss-less), they do not compile down to CSS. So if you are programmatically building a class name (see below), webpack will be able to generate the rendered CSS from SCSS/LESS, but `babel-plugin-react-css-modules` will not be able to parse the SCSS/LESS.
+
+A SCSS example:
+
+```scss
+$scales: 10, 20, 30, 40, 50;
+
+@each $scale in $scales {
+  .icon-#{$scale} {
+    width: $scale;
+    height: $scale;
+  }
+  }
+```
+
+`babel-plugin-react-css-modules` will not receive `icon-10` or `icon-50`, but `icon-#{$scale}`. That is why you receive the error that `styleName` `"icon-10"` cannot be found.
