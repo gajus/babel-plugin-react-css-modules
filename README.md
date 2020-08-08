@@ -11,7 +11,7 @@ _A customized fork of [https://www.npmjs.com/package/babel-plugin-react-css-modu
 
 Transforms `styleName` to `className` using compile time [CSS module](#css-modules) resolution.
 
-In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules), `babel-plugin-react-css-modules` has a lot smaller performance overhead (0-10% vs +50%; see [Performance](#performance)) and a lot smaller size footprint (less than 2kb vs 17kb react-css-modules + lodash dependency).
+In contrast to [`react-css-modules`](https://github.com/birdofpreyru/react-css-modules), `babel-plugin-react-css-modules` has a lot smaller performance overhead (0-10% vs +50%; see [Performance](#performance)) and a lot smaller size footprint (less than 2kb vs 17kb react-css-modules + lodash dependency).
 
 * [CSS Modules](#css-modules)
 * [Difference from `react-css-modules`](#difference-from-react-css-modules)
@@ -119,7 +119,7 @@ Using `babel-plugin-react-css-modules`:
 
 ## Difference from `react-css-modules`
 
-[`react-css-modules`](https://github.com/gajus/react-css-modules) introduced a convention of using `styleName` attribute to reference [CSS module](https://github.com/css-modules/css-modules). `react-css-modules` is a higher-order [React](https://facebook.github.io/react/) component. It is using the `styleName` value to construct the `className` value at the run-time. This abstraction frees a developer from needing to reference the imported styles object when using CSS modules ([What's the problem?](https://github.com/gajus/react-css-modules#whats-the-problem)). However, this approach has a measurable performance penalty (see [Performance](#performance)).
+[`react-css-modules`](https://github.com/birdofpreyru/react-css-modules) introduced a convention of using `styleName` attribute to reference [CSS module](https://github.com/css-modules/css-modules). `react-css-modules` is a higher-order [React](https://facebook.github.io/react/) component. It is using the `styleName` value to construct the `className` value at the run-time. This abstraction frees a developer from needing to reference the imported styles object when using CSS modules ([What's the problem?](https://github.com/birdofpreyru/react-css-modules#whats-the-problem)). However, this approach has a measurable performance penalty (see [Performance](#performance)).
 
 `babel-plugin-react-css-modules` solves the developer experience problem without impacting the performance.
 
@@ -151,7 +151,7 @@ View the [./benchmark](./benchmark).
 Run the benchmark:
 
 ```bash
-git clone git@github.com:gajus/babel-plugin-react-css-modules.git
+git clone git@github.com:birdofpreyru/babel-plugin-react-css-modules.git
 cd ./babel-plugin-react-css-modules
 npm install
 npm run build
@@ -179,7 +179,7 @@ Configure the options for the plugin within your `.babelrc` as follows:
 ```json
 {
   "plugins": [
-    ["react-css-modules", {
+    ["@dr.pogodin/react-css-modules", {
       "option": "value"
     }]
   ]
@@ -194,15 +194,15 @@ Configure the options for the plugin within your `.babelrc` as follows:
 |`context`|`string`|Must match webpack [`context`](https://webpack.js.org/configuration/entry-context/#context) configuration. [`css-loader`](https://github.com/webpack/css-loader) inherits `context` values from webpack. Other CSS module implementations might use different context resolution logic.|`process.cwd()`|
 |`exclude`|`string`|A RegExp that will exclude otherwise included files e.g., to exclude all styles from node_modules `exclude: 'node_modules'`|
 |`filetypes`|`?FiletypesConfigurationType`|Configure [postcss syntax loaders](https://github.com/postcss/postcss#syntaxes) like sugarss, LESS and SCSS and extra plugins for them. ||
-|`generateScopedName`|`?GenerateScopedNameConfigurationType`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names). If you use this option, make sure it matches the value of `localIdentName` in webpack config. See this [issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/108#issuecomment-334351241) |`[path]___[name]__[local]___[hash:base64:5]`|
+|`generateScopedName`|`?GenerateScopedNameConfigurationType`|Refer to [Generating scoped names](https://github.com/css-modules/postcss-modules#generating-scoped-names). If you use this option, make sure it matches the value of `localIdentName` in webpack config. See this [issue](https://github.com/birdofpreyru/babel-plugin-react-css-modules/issues/108#issuecomment-334351241) |`[path]___[name]__[local]___[hash:base64:5]`|
 |`removeImport`|`boolean`|Remove the matching style import. This option is used to enable server-side rendering.|`false`|
 |`webpackHotModuleReloading`|`boolean`|Enables hot reloading of CSS in webpack|`false`|
-|`handleMissingStyleName`|`"throw"`, `"warn"`, `"ignore"`|Determines what should be done for undefined CSS modules (using a `styleName` for which there is no CSS module defined).  Setting this option to `"ignore"` is equivalent to setting `errorWhenNotFound: false` in [react-css-modules](https://github.com/gajus/react-css-modules#errorwhennotfound). |`"throw"`|
+|`handleMissingStyleName`|`"throw"`, `"warn"`, `"ignore"`|Determines what should be done for undefined CSS modules (using a `styleName` for which there is no CSS module defined).  Setting this option to `"ignore"` is equivalent to setting `errorWhenNotFound: false` in [react-css-modules](https://github.com/birdofpreyru/react-css-modules#errorwhennotfound). |`"throw"`|
 |`attributeNames`|`?AttributeNameMapType`|Refer to [Custom Attribute Mapping](#custom-attribute-mapping)|`{"styleName": "className"}`|
 |`skip`|`boolean`|Whether to apply plugin if no matching `attributeNames` found in the file|`false`|
 |`autoResolveMultipleImports`|`boolean`|Allow multiple anonymous imports if `styleName` is only in one of them.|`false`|
 
-Missing a configuration? [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
+Missing a configuration? [Raise an issue](https://github.com/birdofpreyru/babel-plugin-react-css-modules/issues/new?title=New%20configuration:).
 
 > Note:
 > The default configuration should work out of the box with the [css-loader](https://github.com/webpack/css-loader).
@@ -291,7 +291,7 @@ The default `styleName` -> `className` transformation **will not** be affected b
 When `babel-plugin-react-css-modules` cannot resolve CSS module at a compile time, it imports a helper function (read [Runtime `styleName` resolution](#runtime-stylename-resolution)). Therefore, you must install `babel-plugin-react-css-modules` as a direct dependency of the project.
 
 ```bash
-npm install babel-plugin-react-css-modules --save
+npm install @dr.pogodin/babel-plugin-react-css-modules --save
 ```
 
 
@@ -312,7 +312,7 @@ Remember, also, that the bundler caches things like plugins and presets. If you 
 ### Demo
 
 ```bash
-git clone git@github.com:gajus/babel-plugin-react-css-modules.git
+git clone git@github.com:birdofpreyru/babel-plugin-react-css-modules.git
 cd ./babel-plugin-react-css-modules/demo
 npm install
 npm start
@@ -387,7 +387,7 @@ import './bar.css';
 When a file imports multiple stylesheets, you must use a [named reference](#named-reference).
 
 > Have suggestions for an alternative behaviour?
-> [Raise an issue](https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=Suggestion%20for%20alternative%20handling%20of%20multiple%20stylesheet%20imports) with your suggestion.
+> [Raise an issue](https://github.com/birdofpreyru/babel-plugin-react-css-modules/issues/new?title=Suggestion%20for%20alternative%20handling%20of%20multiple%20stylesheet%20imports) with your suggestion.
 
 Input:
 
@@ -412,7 +412,7 @@ import bar from './bar1.css';
 
 ### Runtime `styleName` resolution
 
-When the value of `styleName` cannot be determined at the compile time, `babel-plugin-react-css-modules` inlines all possible styles into the file. It then uses [`getClassName`](https://github.com/gajus/babel-plugin-react-css-modules/blob/master/src/getClassName.js) helper function to resolve the `styleName` value at the runtime.
+When the value of `styleName` cannot be determined at the compile time, `babel-plugin-react-css-modules` inlines all possible styles into the file. It then uses [`getClassName`](https://github.com/birdofpreyru/babel-plugin-react-css-modules/blob/master/src/getClassName.js) helper function to resolve the `styleName` value at the runtime.
 
 Input:
 
@@ -442,12 +442,12 @@ const _styleModuleImportMap = {
 
 ## Limitations
 
-* [Establish a convention for extending the styles object at the runtime](https://github.com/gajus/babel-plugin-react-css-modules/issues/1)
+* [Establish a convention for extending the styles object at the runtime](https://github.com/birdofpreyru/babel-plugin-react-css-modules/issues/1)
 
 ## Have a question or want to suggest an improvement?
 
 * Have a technical questions? [Ask on Stack Overflow.](http://stackoverflow.com/questions/ask?tags=babel-plugin-react-css-modules)
-* Have a feature suggestion or want to report an issue? [Raise an issues.](https://github.com/gajus/babel-plugin-react-css-modules/issues)
+* Have a feature suggestion or want to report an issue? [Raise an issues.](https://github.com/birdofpreyru/babel-plugin-react-css-modules/issues)
 * Want to say hello to other `babel-plugin-react-css-modules` users? [Chat on Gitter.](https://gitter.im/babel-plugin-react-css-modules)
 
 ## FAQ
@@ -467,7 +467,7 @@ If you are still having problems, refer to one of the user submitted guides:
 
 ### How to reference multiple CSS modules?
 
-`react-css-modules` had an option [`allowMultiple`](https://github.com/gajus/react-css-modules#allowmultiple). `allowMultiple` allows multiple CSS module names in a `styleName` declaration, e.g.
+`react-css-modules` had an option [`allowMultiple`](https://github.com/birdofpreyru/react-css-modules#allowmultiple). `allowMultiple` allows multiple CSS module names in a `styleName` declaration, e.g.
 
 ```js
 <div styleName='foo bar' />
