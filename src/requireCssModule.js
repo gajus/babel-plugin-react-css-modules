@@ -7,8 +7,10 @@ import {
 import {
   readFileSync,
 } from 'fs';
+import {
+  getModulesOptions,
+} from 'css-loader/dist/utils';
 import postcss from 'postcss';
-import genericNames from 'generic-names';
 import ExtractImports from 'postcss-modules-extract-imports';
 import LocalByDefault from 'postcss-modules-local-by-default';
 import Parser from 'postcss-modules-parser';
@@ -43,6 +45,12 @@ type OptionsType = {|
   generateScopedName?: GenerateScopedNameConfigurationType,
   context?: string,
 |};
+
+// As of now CSS loader does not export its default getLocalIdent(..) function,
+// which we need to generate the classnames. However, this goofy way to get it
+// works fine. If one day internal changes in css-loader break this workaround,
+// it will be necessary just to commit them a patch which exports the function.
+const {getLocalIdent} = getModulesOptions({modules: true}, {});
 
 const getFiletypeOptions = (cssSourceFilePath: string, filetypes: FiletypesConfigurationType): ?FiletypeOptionsType => {
   const extension = cssSourceFilePath.slice(cssSourceFilePath.lastIndexOf('.'));
@@ -112,9 +120,17 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
   if (options.generateScopedName && typeof options.generateScopedName === 'function') {
     generateScopedName = options.generateScopedName;
   } else {
-    generateScopedName = genericNames(options.generateScopedName || optionsDefaults.generateScopedName, {
-      context: options.context || process.cwd(),
-    });
+    generateScopedName = (clazz, resourcePath) => {
+      return getLocalIdent(
+        {resourcePath},
+        options.generateScopedName || optionsDefaults.generateScopedName,
+        clazz,
+        {
+          context: options.context || process.cwd(),
+          hashPrefix: '',
+        },
+      );
+    };
   }
 
   const filetypeOptions = getFiletypeOptions(cssSourceFilePath, options.filetypes);
