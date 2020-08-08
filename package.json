@@ -1,9 +1,4 @@
 {
-  "author": {
-    "email": "gajus@gajus.com",
-    "name": "Gajus Kuizinas",
-    "url": "http://gajus.com"
-  },
   "dependencies": {
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "@babel/types": "^7.0.0",
@@ -39,7 +34,7 @@
     "postcss-scss": "^2.0.0"
   },
   "engines": {
-    "node": ">8.0.0"
+    "node": "^12.18.3"
   },
   "jest": {
     "modulePathIgnorePatterns": [
@@ -54,10 +49,10 @@
   ],
   "license": "BSD-3-Clause",
   "main": "dist/index.js",
-  "name": "babel-plugin-react-css-modules",
+  "name": "@dr.pogodin/babel-plugin-react-css-modules",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gajus/babel-plugin-react-css-modules"
+    "url": "https://github.com/birdofpreyru/babel-plugin-react-css-modules"
   },
   "scripts": {
     "build": "rm -fr ./dist && NODE_ENV=production babel ./src --out-dir ./dist --source-maps --copy-files && npm run build-helper",

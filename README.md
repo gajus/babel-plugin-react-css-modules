@@ -1,11 +1,11 @@
 # babel-plugin-react-css-modules
 
-[![GitSpo Mentions](https://gitspo.com/badges/mentions/gajus/babel-plugin-react-css-modules?style=flat-square)](https://gitspo.com/mentions/gajus/babel-plugin-react-css-modules)
-[![Travis build status](http://img.shields.io/travis/gajus/babel-plugin-react-css-modules/master.svg?style=flat-square)](https://travis-ci.org/gajus/babel-plugin-react-css-modules)
-[![NPM version](http://img.shields.io/npm/v/babel-plugin-react-css-modules.svg?style=flat-square)](https://www.npmjs.org/package/babel-plugin-react-css-modules)
-[![Canonical Code Style](https://img.shields.io/badge/code%20style-canonical-blue.svg?style=flat-square)](https://github.com/gajus/canonical)
-[![Gitter](https://img.shields.io/gitter/room/babel-plugin-react-css-modules/Lobby.svg?style=flat-square)](https://gitter.im/babel-plugin-react-css-modules/Lobby)
-[![Twitter Follow](https://img.shields.io/twitter/follow/kuizinas.svg?style=social&label=Follow)](https://twitter.com/kuizinas)
+![Master Build Status](https://img.shields.io/circleci/project/github/birdofpreyru/babel-plugin-react-css-modules/master.svg?label=master)
+![Dev Build Status](https://img.shields.io/circleci/project/github/birdofpreyru/babel-plugin-react-css-modules/devel.svg?label=devel)
+![Latest NPM Release](https://img.shields.io/npm/v/@dr.pogodin/babel-plugin-react-css-modules.svg)
+![NPM Downloads](https://img.shields.io/npm/dm/@dr.pogodin/babel-plugin-react-css-modules.svg)
+
+_A customized fork of [https://www.npmjs.com/package/babel-plugin-react-css-modules](https://www.npmjs.com/package/babel-plugin-react-css-modules), upgraded to use latest versions of all dependencies, and compatible with the latest `css-loader`(v4+)._
 
 <img src='./.README/babel-plugin-react-css-modules.png' height='150' />
 

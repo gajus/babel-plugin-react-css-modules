@@ -170,7 +170,7 @@ export default ({
           styleImportName = path.node.specifiers[0].local.name;
         } else {
           // eslint-disable-next-line no-console
-          console.warn('Please report your use case. https://github.com/gajus/babel-plugin-react-css-modules/issues/new?title=Unexpected+use+case.');
+          console.warn('Please report your use case. https://github.com/birdofpreyru/babel-plugin-react-css-modules/issues/new?title=Unexpected+use+case.');
 
           throw new Error('Unexpected use case.');
         }
