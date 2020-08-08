@@ -1,0 +1,48 @@
+defaults: &defaults
+  docker:
+    - image: circleci/node:lts
+
+version: 2
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          key: node-modules-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          key: node-modules-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run: npm run build
+      - run: npm test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+  release:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run: npm publish --access public
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test:
+          filters:
+            tags:
+              only: /.*/
+      - release:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+          requires:
+            - test
