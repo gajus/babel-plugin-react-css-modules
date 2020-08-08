@@ -1,6 +1,7 @@
 // @flow
 
 import {
+  cloneNode,
   Expression,
   isStringLiteral,
   isJSXExpressionContainer,
@@ -27,7 +28,7 @@ const handleSpreadClassName = (
     destinationAttribute.value = jsxExpressionContainer(
       binaryExpression(
         '+',
-        destinationAttribute.value,
+        cloneNode(destinationAttribute.value),
         binaryExpression(
           '+',
           stringLiteral(' '),
@@ -39,7 +40,7 @@ const handleSpreadClassName = (
     destinationAttribute.value = jsxExpressionContainer(
       binaryExpression(
         '+',
-        destinationAttribute.value.expression,
+        cloneNode(destinationAttribute.value.expression),
         binaryExpression(
           '+',
           stringLiteral(' '),

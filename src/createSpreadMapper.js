@@ -1,6 +1,7 @@
 // @flow
 
 import {
+  cloneNode,
   Expression,
   memberExpression,
   binaryExpression,
@@ -48,14 +49,14 @@ const createSpreadMapper = (path: *, stats: *): {
           '+',
           result[destinationName],
           conditionalExpression(
-            spread.argument,
+            cloneNode(spread.argument),
             binaryExpression(
               '+',
               stringLiteral(' '),
               logicalExpression(
                 '||',
                 memberExpression(
-                  spread.argument,
+                  cloneNode(spread.argument),
                   identifier(destinationName),
                 ),
                 stringLiteral(''),
@@ -66,11 +67,11 @@ const createSpreadMapper = (path: *, stats: *): {
         );
       } else {
         result[destinationName] = conditionalExpression(
-          spread.argument,
+          cloneNode(spread.argument),
           logicalExpression(
             '||',
             memberExpression(
-              spread.argument,
+              cloneNode(spread.argument),
               identifier(destinationName),
             ),
             stringLiteral(''),

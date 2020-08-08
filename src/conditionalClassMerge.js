@@ -2,6 +2,7 @@
 
 import {
   binaryExpression,
+  cloneNode,
   conditionalExpression,
   stringLiteral,
 } from '@babel/types';
@@ -15,14 +16,14 @@ export default (
   return binaryExpression(
     '+',
     conditionalExpression(
-      classNameExpression,
+      cloneNode(classNameExpression),
       binaryExpression(
         '+',
-        classNameExpression,
+        cloneNode(classNameExpression),
         stringLiteral(' '),
       ),
       stringLiteral(''),
     ),
-    styleNameExpression,
+    cloneNode(styleNameExpression),
   );
 };

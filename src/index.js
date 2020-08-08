@@ -97,7 +97,9 @@ export default ({
         'const',
         [
           types.variableDeclarator(
-            filenameMap[filename].styleModuleImportMapIdentifier,
+            types.cloneNode(
+              filenameMap[filename].styleModuleImportMapIdentifier,
+            ),
             createObjectExpression(types, filenameMap[filename].styleModuleImportMap),
           ),
         ],
@@ -240,13 +242,14 @@ export default ({
             if (!filenameMap[filename].importedHelperIndentifier) {
               setupFileForRuntimeResolution(path, filename);
             }
+
             replaceJsxExpressionContainer(
               types,
               path,
               attribute,
               destinationName,
               filenameMap[filename].importedHelperIndentifier,
-              filenameMap[filename].styleModuleImportMapIdentifier,
+              types.cloneNode(filenameMap[filename].styleModuleImportMapIdentifier),
               options,
             );
           }
