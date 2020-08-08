@@ -1,11 +1,13 @@
 // @flow
 
 export type StyleModuleMapType = {
-  [key: string]: string
+  [key: string]: string,
+  ...
 };
 
 export type StyleModuleImportMapType = {
-  [key: string]: StyleModuleMapType
+  [key: string]: StyleModuleMapType,
+  ...
 };
 
 export type GenerateScopedNameType = (localName: string, resourcePath: string) => string;
@@ -16,5 +18,5 @@ export type HandleMissingStyleNameOptionType = 'throw' | 'warn' | 'ignore';
 
 export type GetClassNameOptionsType = {|
   handleMissingStyleName: HandleMissingStyleNameOptionType,
-  autoResolveMultipleImports: boolean
+  autoResolveMultipleImports: boolean,
 |};

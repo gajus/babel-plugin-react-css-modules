@@ -2,8 +2,9 @@
 
 import {
   binaryExpression,
+  cloneNode,
   conditionalExpression,
-  stringLiteral
+  stringLiteral,
 } from '@babel/types';
 
 /* eslint-disable flowtype/no-weak-types */
@@ -15,14 +16,14 @@ export default (
   return binaryExpression(
     '+',
     conditionalExpression(
-      classNameExpression,
+      cloneNode(classNameExpression),
       binaryExpression(
         '+',
-        classNameExpression,
-        stringLiteral(' ')
+        cloneNode(classNameExpression),
+        stringLiteral(' '),
       ),
-      stringLiteral('')
+      stringLiteral(''),
     ),
-    styleNameExpression
+    cloneNode(styleNameExpression),
   );
 };

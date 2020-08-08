@@ -2,13 +2,15 @@
 
 import {
   dirname,
-  resolve
+  resolve,
 } from 'path';
 import {
-  readFileSync
+  readFileSync,
 } from 'fs';
+import {
+  getModulesOptions,
+} from 'css-loader/dist/utils';
 import postcss from 'postcss';
-import genericNames from 'generic-names';
 import ExtractImports from 'postcss-modules-extract-imports';
 import LocalByDefault from 'postcss-modules-local-by-default';
 import Parser from 'postcss-modules-parser';
@@ -16,34 +18,49 @@ import Scope from 'postcss-modules-scope';
 import Values from 'postcss-modules-values';
 import type {
   GenerateScopedNameConfigurationType,
-  StyleModuleMapType
+  StyleModuleMapType,
 } from './types';
 import optionsDefaults from './schemas/optionsDefaults';
 
+/* eslint-disable flowtype/no-mixed */
+type PluginType = string | $ReadOnlyArray<[string, mixed]>;
+/* eslint-enable flowtype/no-mixed */
+
 type FiletypeOptionsType = {|
   +syntax: string,
-  +plugins?: $ReadOnlyArray<string | $ReadOnlyArray<[string, mixed]>>
+  +plugins?: $ReadOnlyArray<PluginType>,
 |};
 
 type FiletypesConfigurationType = {
-  [key: string]: FiletypeOptionsType
+  [key: string]: FiletypeOptionsType,
+  ...
 };
+
+/* eslint-disable flowtype/no-weak-types */
+type SyntaxType = Function | Object;
+/* eslint-enable flowtype/no-weak-types */
 
 type OptionsType = {|
   filetypes: FiletypesConfigurationType,
   generateScopedName?: GenerateScopedNameConfigurationType,
-  context?: string
+  context?: string,
 |};
 
+// As of now CSS loader does not export its default getLocalIdent(..) function,
+// which we need to generate the classnames. However, this goofy way to get it
+// works fine. If one day internal changes in css-loader break this workaround,
+// it will be necessary just to commit them a patch which exports the function.
+const {getLocalIdent} = getModulesOptions({modules: true}, {});
+
 const getFiletypeOptions = (cssSourceFilePath: string, filetypes: FiletypesConfigurationType): ?FiletypeOptionsType => {
-  const extension = cssSourceFilePath.substr(cssSourceFilePath.lastIndexOf('.'));
+  const extension = cssSourceFilePath.slice(cssSourceFilePath.lastIndexOf('.'));
   const filetype = filetypes ? filetypes[extension] : null;
 
   return filetype;
 };
 
 // eslint-disable-next-line flowtype/no-weak-types
-const getSyntax = (filetypeOptions: FiletypeOptionsType): ?(Function | Object) => {
+const getSyntax = (filetypeOptions: FiletypeOptionsType): ?(SyntaxType) => {
   if (!filetypeOptions || !filetypeOptions.syntax) {
     return null;
   }
@@ -74,7 +91,7 @@ const getExtraPlugins = (filetypeOptions: ?FiletypeOptionsType): $ReadOnlyArray<
 const getTokens = (runner, cssSourceFilePath: string, filetypeOptions: ?FiletypeOptionsType): StyleModuleMapType => {
   // eslint-disable-next-line flowtype/no-weak-types
   const options: Object = {
-    from: cssSourceFilePath
+    from: cssSourceFilePath,
   };
 
   if (filetypeOptions) {
@@ -103,9 +120,17 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
   if (options.generateScopedName && typeof options.generateScopedName === 'function') {
     generateScopedName = options.generateScopedName;
   } else {
-    generateScopedName = genericNames(options.generateScopedName || optionsDefaults.generateScopedName, {
-      context: options.context || process.cwd()
-    });
+    generateScopedName = (clazz, resourcePath) => {
+      return getLocalIdent(
+        {resourcePath},
+        options.generateScopedName || optionsDefaults.generateScopedName,
+        clazz,
+        {
+          context: options.context || process.cwd(),
+          hashPrefix: '',
+        },
+      );
+    };
   }
 
   const filetypeOptions = getFiletypeOptions(cssSourceFilePath, options.filetypes);
@@ -125,11 +150,11 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
     LocalByDefault,
     ExtractImports,
     new Scope({
-      generateScopedName
+      generateScopedName,
     }),
     new Parser({
-      fetch
-    })
+      fetch,
+    }),
   ];
 
   runner = postcss(plugins);

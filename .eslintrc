@@ -3,5 +3,8 @@
     "canonical",
     "canonical/flowtype"
   ],
-  "root": true
+  "root": true,
+  "rules": {
+    "import/max-dependencies": 0
+  }
 }

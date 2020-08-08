@@ -1,18 +1,19 @@
 // @flow
 
 import {
+  cloneNode,
   Expression,
   isStringLiteral,
   isJSXExpressionContainer,
   jsxExpressionContainer,
   binaryExpression,
-  stringLiteral
+  stringLiteral,
 } from '@babel/types';
 
 const handleSpreadClassName = (
   path: *,
   destinationName: string,
-  classNamesFromSpread: Expression
+  classNamesFromSpread: Expression,
 ) => {
   const destinationAttribute = path.node.openingElement.attributes
     .find((attribute) => {
@@ -27,25 +28,25 @@ const handleSpreadClassName = (
     destinationAttribute.value = jsxExpressionContainer(
       binaryExpression(
         '+',
-        destinationAttribute.value,
+        cloneNode(destinationAttribute.value),
         binaryExpression(
           '+',
           stringLiteral(' '),
           classNamesFromSpread,
-        )
-      )
+        ),
+      ),
     );
   } else if (isJSXExpressionContainer(destinationAttribute.value)) {
     destinationAttribute.value = jsxExpressionContainer(
       binaryExpression(
         '+',
-        destinationAttribute.value.expression,
+        cloneNode(destinationAttribute.value.expression),
         binaryExpression(
           '+',
           stringLiteral(' '),
-          classNamesFromSpread
-        )
-      )
+          classNamesFromSpread,
+        ),
+      ),
     );
   }
 };
