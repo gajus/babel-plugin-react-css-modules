@@ -4,13 +4,13 @@ import {
   isJSXExpressionContainer,
   isStringLiteral,
   JSXAttribute,
-  stringLiteral
+  stringLiteral,
 } from '@babel/types';
 import conditionalClassMerge from './conditionalClassMerge';
 import getClassName from './getClassName';
 import type {
   StyleModuleImportMapType,
-  GetClassNameOptionsType
+  GetClassNameOptionsType,
 } from './types';
 
 /**
@@ -21,7 +21,7 @@ export default (
   styleModuleImportMap: StyleModuleImportMapType,
   sourceAttribute: JSXAttribute,
   destinationName: string,
-  options: GetClassNameOptionsType
+  options: GetClassNameOptionsType,
 ): void => {
   const resolvedStyleName = getClassName(sourceAttribute.value.value, styleModuleImportMap, options);
 
@@ -36,7 +36,7 @@ export default (
     } else if (isJSXExpressionContainer(destinationAttribute.value)) {
       destinationAttribute.value.expression = conditionalClassMerge(
         destinationAttribute.value.expression,
-        stringLiteral(resolvedStyleName)
+        stringLiteral(resolvedStyleName),
       );
     } else {
       throw new Error('Unexpected attribute value:' + destinationAttribute.value);

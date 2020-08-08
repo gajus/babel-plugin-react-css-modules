@@ -2,7 +2,7 @@
 
 import {
   dirname,
-  resolve
+  resolve,
 } from 'path';
 import babelPluginJsxSyntax from '@babel/plugin-syntax-jsx';
 import BabelTypes from '@babel/types';
@@ -20,18 +20,50 @@ import handleSpreadClassName from './handleSpreadClassName';
 
 const ajv = new Ajv({
   // eslint-disable-next-line id-match
-  $data: true
+  $data: true,
 });
 
 ajvKeywords(ajv);
 
 const validate = ajv.compile(optionsSchema);
 
+const getTargetResourcePath = (path: *, stats: *) => {
+  const targetFileDirectoryPath = dirname(stats.file.opts.filename);
+
+  if (path.node.source.value.startsWith('.')) {
+    return resolve(targetFileDirectoryPath, path.node.source.value);
+  }
+
+  return require.resolve(path.node.source.value);
+};
+
+const isFilenameExcluded = (filename, exclude) => {
+  return filename.match(new RegExp(exclude));
+};
+
+const notForPlugin = (path: *, stats: *) => {
+  stats.opts.filetypes = stats.opts.filetypes || {};
+
+  const extension = path.node.source.value.lastIndexOf('.') > -1 ? path.node.source.value.slice(path.node.source.value.lastIndexOf('.')) : null;
+
+  if (extension !== '.css' && !Object.keys(stats.opts.filetypes).includes(extension)) {
+    return true;
+  }
+
+  const filename = getTargetResourcePath(path, stats);
+
+  if (stats.opts.exclude && isFilenameExcluded(filename, stats.opts.exclude)) {
+    return true;
+  }
+
+  return false;
+};
+
 export default ({
-  types: t
-}: {
-  types: BabelTypes
-}) => {
+  types,
+}: {|
+  types: BabelTypes,
+|}) => {
   const filenameMap = {};
 
   let skip = false;
@@ -46,57 +78,57 @@ export default ({
 
     programPath.unshiftContainer(
       'body',
-      t.importDeclaration(
+      types.importDeclaration(
         [
-          t.importDefaultSpecifier(
-            filenameMap[filename].importedHelperIndentifier
-          )
+          types.importDefaultSpecifier(
+            filenameMap[filename].importedHelperIndentifier,
+          ),
         ],
-        t.stringLiteral('babel-plugin-react-css-modules/dist/browser/getClassName')
-      )
+        types.stringLiteral('babel-plugin-react-css-modules/dist/browser/getClassName'),
+      ),
     );
 
     const firstNonImportDeclarationNode = programPath.get('body').find((node) => {
-      return !t.isImportDeclaration(node);
+      return !types.isImportDeclaration(node);
     });
 
     firstNonImportDeclarationNode.insertBefore(
-      t.variableDeclaration(
+      types.variableDeclaration(
         'const',
         [
-          t.variableDeclarator(
+          types.variableDeclarator(
             filenameMap[filename].styleModuleImportMapIdentifier,
-            createObjectExpression(t, filenameMap[filename].styleModuleImportMap)
-          )
-        ]
-      )
+            createObjectExpression(types, filenameMap[filename].styleModuleImportMap),
+          ),
+        ],
+      ),
     );
     // eslint-disable-next-line no-console
     // console.log('setting up', filename, util.inspect(filenameMap,{depth: 5}))
   };
 
   const addWebpackHotModuleAccept = (path) => {
-    const test = t.memberExpression(t.identifier('module'), t.identifier('hot'));
-    const consequent = t.blockStatement([
-      t.expressionStatement(
-        t.callExpression(
-          t.memberExpression(
-            t.memberExpression(t.identifier('module'), t.identifier('hot')),
-            t.identifier('accept')
+    const test = types.memberExpression(types.identifier('module'), types.identifier('hot'));
+    const consequent = types.blockStatement([
+      types.expressionStatement(
+        types.callExpression(
+          types.memberExpression(
+            types.memberExpression(types.identifier('module'), types.identifier('hot')),
+            types.identifier('accept'),
           ),
           [
-            t.stringLiteral(path.node.source.value),
-            t.functionExpression(null, [], t.blockStatement([
-              t.expressionStatement(
-                t.callExpression(
-                  t.identifier('require'),
-                  [t.stringLiteral(path.node.source.value)]
-                )
-              )
-            ]))
-          ]
-        )
-      )
+            types.stringLiteral(path.node.source.value),
+            types.functionExpression(null, [], types.blockStatement([
+              types.expressionStatement(
+                types.callExpression(
+                  types.identifier('require'),
+                  [types.stringLiteral(path.node.source.value)],
+                ),
+              ),
+            ])),
+          ],
+        ),
+      ),
     ]);
 
     const programPath = path.findParent((parentPath) => {
@@ -104,48 +136,16 @@ export default ({
     });
 
     const firstNonImportDeclarationNode = programPath.get('body').find((node) => {
-      return !t.isImportDeclaration(node);
+      return !types.isImportDeclaration(node);
     });
 
-    const hotAcceptStatement = t.ifStatement(test, consequent);
+    const hotAcceptStatement = types.ifStatement(test, consequent);
 
     if (firstNonImportDeclarationNode) {
       firstNonImportDeclarationNode.insertBefore(hotAcceptStatement);
     } else {
       programPath.pushContainer('body', hotAcceptStatement);
     }
-  };
-
-  const getTargetResourcePath = (path: *, stats: *) => {
-    const targetFileDirectoryPath = dirname(stats.file.opts.filename);
-
-    if (path.node.source.value.startsWith('.')) {
-      return resolve(targetFileDirectoryPath, path.node.source.value);
-    }
-
-    return require.resolve(path.node.source.value);
-  };
-
-  const isFilenameExcluded = (filename, exclude) => {
-    return filename.match(new RegExp(exclude));
-  };
-
-  const notForPlugin = (path: *, stats: *) => {
-    stats.opts.filetypes = stats.opts.filetypes || {};
-
-    const extension = path.node.source.value.lastIndexOf('.') > -1 ? path.node.source.value.substr(path.node.source.value.lastIndexOf('.')) : null;
-
-    if (extension !== '.css' && Object.keys(stats.opts.filetypes).indexOf(extension) < 0) {
-      return true;
-    }
-
-    const filename = getTargetResourcePath(path, stats);
-
-    if (stats.opts.exclude && isFilenameExcluded(filename, stats.opts.exclude)) {
-      return true;
-    }
-
-    return false;
   };
 
   return {
@@ -176,7 +176,7 @@ export default ({
         filenameMap[filename].styleModuleImportMap[styleImportName] = requireCssModule(targetResourcePath, {
           context: stats.opts.context,
           filetypes: stats.opts.filetypes || {},
-          generateScopedName: stats.opts.generateScopedName
+          generateScopedName: stats.opts.generateScopedName,
         });
 
         if (stats.opts.webpackHotModuleReloading) {
@@ -215,7 +215,7 @@ export default ({
 
         const {
           handleMissingStyleName = optionsDefaults.handleMissingStyleName,
-          autoResolveMultipleImports = optionsDefaults.autoResolveMultipleImports
+          autoResolveMultipleImports = optionsDefaults.autoResolveMultipleImports,
         } = stats.opts || {};
 
         const spreadMap = createSpreadMapper(path, stats);
@@ -225,29 +225,29 @@ export default ({
 
           const options = {
             autoResolveMultipleImports,
-            handleMissingStyleName
+            handleMissingStyleName,
           };
 
-          if (t.isStringLiteral(attribute.value)) {
+          if (types.isStringLiteral(attribute.value)) {
             resolveStringLiteral(
               path,
               filenameMap[filename].styleModuleImportMap,
               attribute,
               destinationName,
-              options
+              options,
             );
-          } else if (t.isJSXExpressionContainer(attribute.value)) {
+          } else if (types.isJSXExpressionContainer(attribute.value)) {
             if (!filenameMap[filename].importedHelperIndentifier) {
               setupFileForRuntimeResolution(path, filename);
             }
             replaceJsxExpressionContainer(
-              t,
+              types,
               path,
               attribute,
               destinationName,
               filenameMap[filename].importedHelperIndentifier,
               filenameMap[filename].styleModuleImportMapIdentifier,
-              options
+              options,
             );
           }
 
@@ -255,7 +255,7 @@ export default ({
             handleSpreadClassName(
               path,
               destinationName,
-              spreadMap[destinationName]
+              spreadMap[destinationName],
             );
           }
         }
@@ -271,13 +271,13 @@ export default ({
         const filename = stats.file.opts.filename;
 
         filenameMap[filename] = {
-          styleModuleImportMap: {}
+          styleModuleImportMap: {},
         };
 
         if (stats.opts.skip && !attributeNameExists(path, stats)) {
           skip = true;
         }
-      }
-    }
+      },
+    },
   };
 };

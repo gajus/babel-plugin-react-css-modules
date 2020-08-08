@@ -12,17 +12,17 @@ const attributeNameExists = (programPath: *, stats: *): boolean => {
   }
 
   programPath.traverse({
-    JSXAttribute (attrPath: *) {
+    JSXAttribute (attributePath: *) {
       if (exists) {
         return;
       }
 
-      const attribute = attrPath.node;
+      const attribute = attributePath.node;
 
       if (typeof attribute.name !== 'undefined' && typeof attributeNames[attribute.name.name] === 'string') {
         exists = true;
       }
-    }
+    },
   });
 
   return exists;

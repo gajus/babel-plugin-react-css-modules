@@ -4,12 +4,12 @@ import type {
   StyleModuleMapType,
   StyleModuleImportMapType,
   HandleMissingStyleNameOptionType,
-  GetClassNameOptionsType
+  GetClassNameOptionsType,
 } from './types';
 import optionsDefaults from './schemas/optionsDefaults';
 
 const isNamespacedStyleName = (styleName: string): boolean => {
-  return styleName.indexOf('.') !== -1;
+  return styleName.includes('.');
 };
 
 const handleError = (message: string, handleMissingStyleName: HandleMissingStyleNameOptionType): null => {
@@ -26,7 +26,7 @@ const handleError = (message: string, handleMissingStyleName: HandleMissingStyle
 const getClassNameForNamespacedStyleName = (
   styleName: string,
   styleModuleImportMap: StyleModuleImportMapType,
-  handleMissingStyleNameOption?: HandleMissingStyleNameOptionType
+  handleMissingStyleNameOption?: HandleMissingStyleNameOptionType,
 ): ?string => {
   // Note:
   // Do not use the desctructing syntax with Babel.
@@ -55,7 +55,7 @@ const getClassNameForNamespacedStyleName = (
 const getClassNameFromMultipleImports = (
   styleName: string,
   styleModuleImportMap: StyleModuleImportMapType,
-  handleMissingStyleNameOption?: HandleMissingStyleNameOptionType
+  handleMissingStyleNameOption?: HandleMissingStyleNameOptionType,
 ): ?string => {
   const handleMissingStyleName = handleMissingStyleNameOption ||
     optionsDefaults.handleMissingStyleName;
@@ -89,7 +89,7 @@ export default (styleNameValue: string, styleModuleImportMap: StyleModuleImportM
 
   const {
     handleMissingStyleName = optionsDefaults.handleMissingStyleName,
-    autoResolveMultipleImports = optionsDefaults.autoResolveMultipleImports
+    autoResolveMultipleImports = optionsDefaults.autoResolveMultipleImports,
   } = options || {};
 
   if (!styleNameValue) {

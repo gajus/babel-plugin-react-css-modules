@@ -2,10 +2,10 @@
 
 import {
   dirname,
-  resolve
+  resolve,
 } from 'path';
 import {
-  readFileSync
+  readFileSync,
 } from 'fs';
 import postcss from 'postcss';
 import genericNames from 'generic-names';
@@ -16,34 +16,43 @@ import Scope from 'postcss-modules-scope';
 import Values from 'postcss-modules-values';
 import type {
   GenerateScopedNameConfigurationType,
-  StyleModuleMapType
+  StyleModuleMapType,
 } from './types';
 import optionsDefaults from './schemas/optionsDefaults';
 
+/* eslint-disable flowtype/no-mixed */
+type PluginType = string | $ReadOnlyArray<[string, mixed]>;
+/* eslint-enable flowtype/no-mixed */
+
 type FiletypeOptionsType = {|
   +syntax: string,
-  +plugins?: $ReadOnlyArray<string | $ReadOnlyArray<[string, mixed]>>
+  +plugins?: $ReadOnlyArray<PluginType>,
 |};
 
 type FiletypesConfigurationType = {
-  [key: string]: FiletypeOptionsType
+  [key: string]: FiletypeOptionsType,
+  ...
 };
+
+/* eslint-disable flowtype/no-weak-types */
+type SyntaxType = Function | Object;
+/* eslint-enable flowtype/no-weak-types */
 
 type OptionsType = {|
   filetypes: FiletypesConfigurationType,
   generateScopedName?: GenerateScopedNameConfigurationType,
-  context?: string
+  context?: string,
 |};
 
 const getFiletypeOptions = (cssSourceFilePath: string, filetypes: FiletypesConfigurationType): ?FiletypeOptionsType => {
-  const extension = cssSourceFilePath.substr(cssSourceFilePath.lastIndexOf('.'));
+  const extension = cssSourceFilePath.slice(cssSourceFilePath.lastIndexOf('.'));
   const filetype = filetypes ? filetypes[extension] : null;
 
   return filetype;
 };
 
 // eslint-disable-next-line flowtype/no-weak-types
-const getSyntax = (filetypeOptions: FiletypeOptionsType): ?(Function | Object) => {
+const getSyntax = (filetypeOptions: FiletypeOptionsType): ?(SyntaxType) => {
   if (!filetypeOptions || !filetypeOptions.syntax) {
     return null;
   }
@@ -74,7 +83,7 @@ const getExtraPlugins = (filetypeOptions: ?FiletypeOptionsType): $ReadOnlyArray<
 const getTokens = (runner, cssSourceFilePath: string, filetypeOptions: ?FiletypeOptionsType): StyleModuleMapType => {
   // eslint-disable-next-line flowtype/no-weak-types
   const options: Object = {
-    from: cssSourceFilePath
+    from: cssSourceFilePath,
   };
 
   if (filetypeOptions) {
@@ -104,7 +113,7 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
     generateScopedName = options.generateScopedName;
   } else {
     generateScopedName = genericNames(options.generateScopedName || optionsDefaults.generateScopedName, {
-      context: options.context || process.cwd()
+      context: options.context || process.cwd(),
     });
   }
 
@@ -125,11 +134,11 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
     LocalByDefault,
     ExtractImports,
     new Scope({
-      generateScopedName
+      generateScopedName,
     }),
     new Parser({
-      fetch
-    })
+      fetch,
+    }),
   ];
 
   runner = postcss(plugins);

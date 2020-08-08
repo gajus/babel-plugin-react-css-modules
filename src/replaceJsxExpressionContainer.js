@@ -8,24 +8,24 @@ import BabelTypes, {
   jSXAttribute,
   JSXAttribute,
   jSXExpressionContainer,
-  jSXIdentifier
+  jSXIdentifier,
 } from '@babel/types';
 import type {
-  GetClassNameOptionsType
+  GetClassNameOptionsType,
 } from './types';
 import conditionalClassMerge from './conditionalClassMerge';
 import createObjectExpression from './createObjectExpression';
 import optionsDefaults from './schemas/optionsDefaults';
 
 export default (
-  t: BabelTypes,
+  types: BabelTypes,
   // eslint-disable-next-line flowtype/no-weak-types
   path: Object,
   sourceAttribute: JSXAttribute,
   destinationName: string,
   importedHelperIndentifier: Identifier,
   styleModuleImportMapIdentifier: Identifier,
-  options: GetClassNameOptionsType
+  options: GetClassNameOptionsType,
 ): void => {
   const expressionContainerValue = sourceAttribute.value;
   const destinationAttribute = path.node.openingElement.attributes
@@ -41,19 +41,19 @@ export default (
 
   const args = [
     expressionContainerValue.expression,
-    styleModuleImportMapIdentifier
+    styleModuleImportMapIdentifier,
   ];
 
   // Only provide options argument if the options are something other than default
   // This helps save a few bits in the generated user code
   if (options.handleMissingStyleName !== optionsDefaults.handleMissingStyleName ||
     options.autoResolveMultipleImports !== optionsDefaults.autoResolveMultipleImports) {
-    args.push(createObjectExpression(t, options));
+    args.push(createObjectExpression(types, options));
   }
 
-  const styleNameExpression = t.callExpression(
-    t.clone(importedHelperIndentifier),
-    args
+  const styleNameExpression = types.callExpression(
+    types.clone(importedHelperIndentifier),
+    args,
   );
 
   if (destinationAttribute) {
@@ -63,10 +63,10 @@ export default (
         jSXExpressionContainer(
           binaryExpression(
             '+',
-            t.stringLiteral(destinationAttribute.value.value + ' '),
-            styleNameExpression
-          )
-        )
+            types.stringLiteral(destinationAttribute.value.value + ' '),
+            styleNameExpression,
+          ),
+        ),
       ));
     } else if (isJSXExpressionContainer(destinationAttribute.value)) {
       path.node.openingElement.attributes.push(jSXAttribute(
@@ -74,9 +74,9 @@ export default (
         jSXExpressionContainer(
           conditionalClassMerge(
             destinationAttribute.value.expression,
-            styleNameExpression
-          )
-        )
+            styleNameExpression,
+          ),
+        ),
       ));
     } else {
       throw new Error('Unexpected attribute value: ' + destinationAttribute.value);
@@ -85,8 +85,8 @@ export default (
     path.node.openingElement.attributes.push(jSXAttribute(
       jSXIdentifier(destinationName),
       jSXExpressionContainer(
-        styleNameExpression
-      )
+        styleNameExpression,
+      ),
     ));
   }
 };

@@ -8,11 +8,14 @@ import {
   stringLiteral,
   logicalExpression,
   identifier,
-  isJSXSpreadAttribute
+  isJSXSpreadAttribute,
 } from '@babel/types';
 import optionsDefaults from './schemas/optionsDefaults';
 
-const createSpreadMapper = (path: *, stats: *): { [destinationName: string]: Expression } => {
+const createSpreadMapper = (path: *, stats: *): {
+  [destinationName: string]: Expression,
+  ...
+} => {
   const result = {};
 
   let {attributeNames} = optionsDefaults;
@@ -32,8 +35,8 @@ const createSpreadMapper = (path: *, stats: *): { [destinationName: string]: Exp
   });
 
   const spreadAttributes = path.node.openingElement.attributes
-    .filter((attr) => {
-      return isJSXSpreadAttribute(attr);
+    .filter((attribute) => {
+      return isJSXSpreadAttribute(attribute);
     });
 
   for (const spread of spreadAttributes) {
@@ -55,11 +58,11 @@ const createSpreadMapper = (path: *, stats: *): { [destinationName: string]: Exp
                   spread.argument,
                   identifier(destinationName),
                 ),
-                stringLiteral('')
-              )
+                stringLiteral(''),
+              ),
             ),
-            stringLiteral('')
-          )
+            stringLiteral(''),
+          ),
         );
       } else {
         result[destinationName] = conditionalExpression(
@@ -70,9 +73,9 @@ const createSpreadMapper = (path: *, stats: *): { [destinationName: string]: Exp
               spread.argument,
               identifier(destinationName),
             ),
-            stringLiteral('')
+            stringLiteral(''),
           ),
-          stringLiteral('')
+          stringLiteral(''),
         );
       }
     }

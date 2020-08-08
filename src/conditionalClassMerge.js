@@ -3,7 +3,7 @@
 import {
   binaryExpression,
   conditionalExpression,
-  stringLiteral
+  stringLiteral,
 } from '@babel/types';
 
 /* eslint-disable flowtype/no-weak-types */
@@ -19,10 +19,10 @@ export default (
       binaryExpression(
         '+',
         classNameExpression,
-        stringLiteral(' ')
+        stringLiteral(' '),
       ),
-      stringLiteral('')
+      stringLiteral(''),
     ),
-    styleNameExpression
+    styleNameExpression,
   );
 };

@@ -6,13 +6,13 @@ import {
   isJSXExpressionContainer,
   jsxExpressionContainer,
   binaryExpression,
-  stringLiteral
+  stringLiteral,
 } from '@babel/types';
 
 const handleSpreadClassName = (
   path: *,
   destinationName: string,
-  classNamesFromSpread: Expression
+  classNamesFromSpread: Expression,
 ) => {
   const destinationAttribute = path.node.openingElement.attributes
     .find((attribute) => {
@@ -32,8 +32,8 @@ const handleSpreadClassName = (
           '+',
           stringLiteral(' '),
           classNamesFromSpread,
-        )
-      )
+        ),
+      ),
     );
   } else if (isJSXExpressionContainer(destinationAttribute.value)) {
     destinationAttribute.value = jsxExpressionContainer(
@@ -43,9 +43,9 @@ const handleSpreadClassName = (
         binaryExpression(
           '+',
           stringLiteral(' '),
-          classNamesFromSpread
-        )
-      )
+          classNamesFromSpread,
+        ),
+      ),
     );
   }
 };
