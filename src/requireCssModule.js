@@ -1,12 +1,12 @@
 // @flow
 
 import {
+  readFileSync,
+} from 'fs';
+import {
   dirname,
   resolve,
 } from 'path';
-import {
-  readFileSync,
-} from 'fs';
 import {
   getModulesOptions,
 } from 'css-loader/dist/utils';
@@ -16,11 +16,11 @@ import LocalByDefault from 'postcss-modules-local-by-default';
 import Parser from 'postcss-modules-parser';
 import Scope from 'postcss-modules-scope';
 import Values from 'postcss-modules-values';
+import optionsDefaults from './schemas/optionsDefaults';
 import type {
   GenerateScopedNameConfigurationType,
   StyleModuleMapType,
 } from './types';
-import optionsDefaults from './schemas/optionsDefaults';
 
 /* eslint-disable flowtype/no-mixed */
 type PluginType = string | $ReadOnlyArray<[string, mixed]>;

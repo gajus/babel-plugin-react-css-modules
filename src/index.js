@@ -6,17 +6,17 @@ import {
 } from 'path';
 import babelPluginJsxSyntax from '@babel/plugin-syntax-jsx';
 import BabelTypes from '@babel/types';
-import ajvKeywords from 'ajv-keywords';
 import Ajv from 'ajv';
-import optionsSchema from './schemas/optionsSchema.json';
-import optionsDefaults from './schemas/optionsDefaults';
-import createObjectExpression from './createObjectExpression';
-import requireCssModule from './requireCssModule';
-import resolveStringLiteral from './resolveStringLiteral';
-import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
+import ajvKeywords from 'ajv-keywords';
 import attributeNameExists from './attributeNameExists';
+import createObjectExpression from './createObjectExpression';
 import createSpreadMapper from './createSpreadMapper';
 import handleSpreadClassName from './handleSpreadClassName';
+import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
+import requireCssModule from './requireCssModule';
+import resolveStringLiteral from './resolveStringLiteral';
+import optionsDefaults from './schemas/optionsDefaults';
+import optionsSchema from './schemas/optionsSchema.json';
 
 const ajv = new Ajv({
   // eslint-disable-next-line id-match

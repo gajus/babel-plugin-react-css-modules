@@ -10,12 +10,12 @@ import BabelTypes, {
   jSXExpressionContainer,
   jSXIdentifier,
 } from '@babel/types';
-import type {
-  GetClassNameOptionsType,
-} from './types';
 import conditionalClassMerge from './conditionalClassMerge';
 import createObjectExpression from './createObjectExpression';
 import optionsDefaults from './schemas/optionsDefaults';
+import type {
+  GetClassNameOptionsType,
+} from './types';
 
 export default (
   types: BabelTypes,

@@ -1,12 +1,12 @@
 // @flow
 
+import optionsDefaults from './schemas/optionsDefaults';
 import type {
   StyleModuleMapType,
   StyleModuleImportMapType,
   HandleMissingStyleNameOptionType,
   GetClassNameOptionsType,
 } from './types';
-import optionsDefaults from './schemas/optionsDefaults';
 
 const isNamespacedStyleName = (styleName: string): boolean => {
   return styleName.includes('.');
