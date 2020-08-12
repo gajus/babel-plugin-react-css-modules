@@ -1,6 +1,6 @@
 "use strict";
 
-var _getClassName2 = _interopRequireDefault(require("babel-plugin-react-css-modules/dist/browser/getClassName"));
+var _getClassName2 = _interopRequireDefault(require("@dr.pogodin/babel-plugin-react-css-modules/dist/browser/getClassName"));
 
 require("./foo.css");
 
