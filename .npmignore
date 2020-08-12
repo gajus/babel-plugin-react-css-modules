@@ -3,3 +3,4 @@ test
 coverage
 .*
 *.log
+/dr.pogodin-babel-plugin-react-css-modules-*.tgz
