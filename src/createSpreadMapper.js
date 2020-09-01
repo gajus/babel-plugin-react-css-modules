@@ -14,7 +14,7 @@ import {
 import optionsDefaults from './schemas/optionsDefaults';
 
 const createSpreadMapper = (path: *, stats: *): {
-  [destinationName: string]: Expression,
+  [destinationName: string]: typeof Expression,
   ...
 } => {
   const result = {};

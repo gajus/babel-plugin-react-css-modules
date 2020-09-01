@@ -18,13 +18,13 @@ import type {
 } from './types';
 
 export default (
-  types: BabelTypes,
+  types: typeof BabelTypes,
   // eslint-disable-next-line flowtype/no-weak-types
   path: Object,
-  sourceAttribute: JSXAttribute,
+  sourceAttribute: typeof JSXAttribute,
   destinationName: string,
-  importedHelperIndentifier: Identifier,
-  styleModuleImportMapIdentifier: Identifier,
+  importedHelperIndentifier: typeof Identifier,
+  styleModuleImportMapIdentifier: typeof Identifier,
   options: GetClassNameOptionsType,
 ): void => {
   const expressionContainerValue = sourceAttribute.value;

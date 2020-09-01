@@ -13,7 +13,7 @@ import {
 const handleSpreadClassName = (
   path: *,
   destinationName: string,
-  classNamesFromSpread: Expression,
+  classNamesFromSpread: typeof Expression,
 ) => {
   const destinationAttribute = path.node.openingElement.attributes
     .find((attribute) => {

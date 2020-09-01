@@ -19,7 +19,7 @@ import type {
 export default (
   path: *,
   styleModuleImportMap: StyleModuleImportMapType,
-  sourceAttribute: JSXAttribute,
+  sourceAttribute: typeof JSXAttribute,
   destinationName: string,
   options: GetClassNameOptionsType,
 ): void => {

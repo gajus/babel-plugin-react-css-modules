@@ -13,9 +13,9 @@ type InputObjectType = {
  * Creates an AST representation of an InputObjectType shape object.
  */
 const createObjectExpression = (
-  types: BabelTypes,
+  types: typeof BabelTypes,
   object: InputObjectType,
-): ObjectExpression => {
+): typeof ObjectExpression => {
   const properties = [];
 
   for (const name of Object.keys(object)) {

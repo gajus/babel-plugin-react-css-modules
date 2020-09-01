@@ -62,7 +62,7 @@ const notForPlugin = (path: *, stats: *) => {
 export default ({
   types,
 }: {|
-  types: BabelTypes,
+  types: typeof BabelTypes,
 |}) => {
   const filenameMap = {};
 
