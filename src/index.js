@@ -15,6 +15,7 @@ import requireCssModule from './requireCssModule';
 import resolveStringLiteral from './resolveStringLiteral';
 import replaceJsxExpressionContainer from './replaceJsxExpressionContainer';
 import attributeNameExists from './attributeNameExists';
+import findMatchedFiletype from './findMatchedFiletype';
 import createSpreadMapper from './createSpreadMapper';
 import handleSpreadClassName from './handleSpreadClassName';
 
@@ -130,12 +131,12 @@ export default ({
     return filename.match(new RegExp(exclude));
   };
 
+  // decide whether the import statement should be processed as CSS module
   const notForPlugin = (path: *, stats: *) => {
     stats.opts.filetypes = stats.opts.filetypes || {};
 
-    const extension = path.node.source.value.lastIndexOf('.') > -1 ? path.node.source.value.substr(path.node.source.value.lastIndexOf('.')) : null;
-
-    if (extension !== '.css' && Object.keys(stats.opts.filetypes).indexOf(extension) < 0) {
+    // @HACK
+    if (path.node.source.value.indexOf('babel-plugin-react-css-modules') === 0) {
       return true;
     }
 
@@ -145,7 +146,10 @@ export default ({
       return true;
     }
 
-    return false;
+    const filetypeKeys = Object.keys(stats.opts.filetypes);
+    filetypeKeys.push('.css');
+
+    return !findMatchedFiletype(filename, filetypeKeys);
   };
 
   return {

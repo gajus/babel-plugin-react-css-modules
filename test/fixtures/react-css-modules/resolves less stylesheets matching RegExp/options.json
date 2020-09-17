@@ -1,0 +1,15 @@
+{
+  "plugins": [
+    [
+      "../../../../src",
+      {
+        "generateScopedName": "[name]__[local]",
+        "filetypes": {
+          "\\.md\\.less$": {
+            "syntax": "postcss-less"
+          }
+        }
+      }
+    ]
+  ]
+}

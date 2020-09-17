@@ -12,6 +12,7 @@ export default (
   classNameExpression: any,
   styleNameExpression: any,
 ): any => {
+  // classNameExpression ? (classNameExpression + ' ') : '' + styleNameExpression
   return binaryExpression(
     '+',
     conditionalExpression(
