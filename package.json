@@ -2,14 +2,14 @@
   "dependencies": {
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "@babel/types": "^7.11.5",
+    "@dr.pogodin/postcss-modules-parser": "^1.2.0",
     "ajv": "^6.12.5",
     "ajv-keywords": "^3.2.0",
     "css-loader": "^4.3.0",
-    "postcss": "^8.0.8",
+    "postcss": "^8.0.9",
     "postcss-modules": "^3.2.2",
     "postcss-modules-extract-imports": "^2.0.0",
     "postcss-modules-local-by-default": "^3.0.3",
-    "postcss-modules-parser": "^1.1.1",
     "postcss-modules-scope": "^2.2.0",
     "postcss-modules-values": "^3.0.0"
   },

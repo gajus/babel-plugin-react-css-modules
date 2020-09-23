@@ -7,13 +7,13 @@ import {
   dirname,
   resolve,
 } from 'path';
+import Parser from '@dr.pogodin/postcss-modules-parser';
 import {
   getModulesOptions,
 } from 'css-loader/dist/utils';
 import postcss from 'postcss';
 import ExtractImports from 'postcss-modules-extract-imports';
 import LocalByDefault from 'postcss-modules-local-by-default';
-import Parser from 'postcss-modules-parser';
 import Scope from 'postcss-modules-scope';
 import Values from 'postcss-modules-values';
 import optionsDefaults from './schemas/optionsDefaults';
