@@ -2,10 +2,10 @@
   "dependencies": {
     "@babel/plugin-syntax-jsx": "^7.0.0",
     "@babel/types": "^7.11.5",
-    "ajv": "^6.12.4",
+    "ajv": "^6.12.5",
     "ajv-keywords": "^3.2.0",
-    "css-loader": "^4.2.2",
-    "postcss": "^7.0.2",
+    "css-loader": "^4.3.0",
+    "postcss": "^8.0.8",
     "postcss-modules": "^3.2.2",
     "postcss-modules-extract-imports": "^2.0.0",
     "postcss-modules-local-by-default": "^3.0.3",
@@ -15,8 +15,8 @@
   },
   "description": "Transforms styleName to className using compile time CSS module resolution.",
   "devDependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.11.5",
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
     "@babel/helper-plugin-test-runner": "^7.0.0",
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",
     "@babel/plugin-transform-modules-commonjs": "^7.1.0",
@@ -25,13 +25,13 @@
     "babel-jest": "^26.3.0",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-tester": "^9.2.0",
-    "eslint": "^7.8.0",
-    "eslint-config-canonical": "^23.0.1",
-    "flow-bin": "^0.132.0",
+    "eslint": "^7.9.0",
+    "eslint-config-canonical": "^24.1.1",
+    "flow-bin": "^0.134.0",
     "jest": "^26.4.2",
     "postcss-less": "^3.1.4",
-    "postcss-nested": "^4.2.3",
-    "postcss-scss": "^2.0.0"
+    "postcss-nested": "^5.0.0",
+    "postcss-scss": "^3.0.1"
   },
   "engines": {
     "node": ">=12.x"
@@ -61,5 +61,5 @@
     "lint": "eslint ./src",
     "test": "npm run lint && flow && jest"
   },
-  "version": "6.0.4"
+  "version": "6.0.5"
 }

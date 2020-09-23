@@ -63,7 +63,7 @@ export default ({
   types,
 }: {|
   types: typeof BabelTypes,
-|}) => {
+|}): { ... } => {
   const filenameMap = {};
 
   let skip = false;
