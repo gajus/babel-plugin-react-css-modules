@@ -10,7 +10,7 @@
     "postcss-modules": "^3.2.2",
     "postcss-modules-extract-imports": "^3.0.0",
     "postcss-modules-local-by-default": "^4.0.0",
-    "postcss-modules-scope": "^2.2.0",
+    "postcss-modules-scope": "^3.0.0",
     "postcss-modules-values": "^4.0.0"
   },
   "description": "Transforms styleName to className using compile time CSS module resolution.",

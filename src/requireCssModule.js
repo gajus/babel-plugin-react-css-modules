@@ -14,7 +14,7 @@ import {
 import postcss from 'postcss';
 import ExtractImports from 'postcss-modules-extract-imports';
 import LocalByDefault from 'postcss-modules-local-by-default';
-import Scope from 'postcss-modules-scope';
+import newScopePlugin from 'postcss-modules-scope';
 import Values from 'postcss-modules-values';
 import optionsDefaults from './schemas/optionsDefaults';
 import type {
@@ -149,7 +149,7 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
     Values,
     LocalByDefault,
     ExtractImports,
-    new Scope({
+    newScopePlugin({
       generateScopedName,
     }),
     new Parser({
