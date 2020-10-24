@@ -1,11 +1,17 @@
-# babel-plugin-react-css-modules
+# Babel Plugin: React CSS Modules
 
 ![Master Build Status](https://img.shields.io/circleci/project/github/birdofpreyru/babel-plugin-react-css-modules/master.svg?label=master)
 ![Dev Build Status](https://img.shields.io/circleci/project/github/birdofpreyru/babel-plugin-react-css-modules/devel.svg?label=devel)
 ![Latest NPM Release](https://img.shields.io/npm/v/@dr.pogodin/babel-plugin-react-css-modules.svg)
 ![NPM Downloads](https://img.shields.io/npm/dm/@dr.pogodin/babel-plugin-react-css-modules.svg)
 
-_A customized fork of [https://www.npmjs.com/package/babel-plugin-react-css-modules](https://www.npmjs.com/package/babel-plugin-react-css-modules), upgraded to use latest versions of all dependencies, and compatible with the latest `css-loader`(v4+)._
+**This is an up-to-date version of [`babel-plugin-react-css-modules`](https://www.npmjs.com/package/babel-plugin-react-css-modules):**
+- It generates class names matching `css-loader@4+`
+- All dependencies are upgraded to the latest versions.
+
+**To migrate from the original `babel-plugin-react-css-modules` just prefix its name in your Babel config by `@dr.pogodin/` scope, i.e.:**
+- `@dr.pogodin/babel-plugin-react-css-modules` or `@dr.pogodin/react-css-moudles` instead of `babel-plugin-react-css-modules` or `react-css-modules`.
+
 
 <img src='./.README/babel-plugin-react-css-modules.png' height='150' />
 
