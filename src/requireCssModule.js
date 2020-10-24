@@ -8,14 +8,12 @@ import {
   resolve,
 } from 'path';
 import Parser from '@dr.pogodin/postcss-modules-parser';
-import {
-  getModulesOptions,
-} from 'css-loader/dist/utils';
 import postcss from 'postcss';
 import ExtractImports from 'postcss-modules-extract-imports';
 import LocalByDefault from 'postcss-modules-local-by-default';
 import newScopePlugin from 'postcss-modules-scope';
 import Values from 'postcss-modules-values';
+import getLocalIdent from './getLocalIdent';
 import optionsDefaults from './schemas/optionsDefaults';
 import type {
   GenerateScopedNameConfigurationType,
@@ -45,12 +43,6 @@ type OptionsType = {|
   generateScopedName?: GenerateScopedNameConfigurationType,
   context?: string,
 |};
-
-// As of now CSS loader does not export its default getLocalIdent(..) function,
-// which we need to generate the classnames. However, this goofy way to get it
-// works fine. If one day internal changes in css-loader break this workaround,
-// it will be necessary just to commit them a patch which exports the function.
-const {getLocalIdent} = getModulesOptions({modules: true}, {});
 
 const getFiletypeOptions = (cssSourceFilePath: string, filetypes: FiletypesConfigurationType): ?FiletypeOptionsType => {
   const extension = cssSourceFilePath.slice(cssSourceFilePath.lastIndexOf('.'));
