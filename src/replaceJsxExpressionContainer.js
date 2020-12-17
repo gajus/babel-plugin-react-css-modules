@@ -33,7 +33,7 @@ export default (
       return typeof attribute.name !== 'undefined' && attribute.name.name === destinationName;
     });
 
-  if (destinationAttribute) {
+  if (destinationAttribute && destinationAttribute !== sourceAttribute) {
     path.node.openingElement.attributes.splice(path.node.openingElement.attributes.indexOf(destinationAttribute), 1);
   }
 
@@ -56,7 +56,7 @@ export default (
     args
   );
 
-  if (destinationAttribute) {
+  if (destinationAttribute && destinationAttribute !== sourceAttribute) {
     if (isStringLiteral(destinationAttribute.value)) {
       path.node.openingElement.attributes.push(jSXAttribute(
         jSXIdentifier(destinationName),
