@@ -8,7 +8,6 @@ import {
   interpolateName,
 } from 'loader-utils';
 
-// eslint-disable-next-line no-control-regex
 const filenameReservedRegex = /["*/:<>?\\|]/g;
 // eslint-disable-next-line no-control-regex
 const reControlChars = /[\u0000-\u001f\u0080-\u009f]/g;
@@ -40,7 +39,6 @@ export default function getLocalIdent (
   const {resourcePath} = loaderContext;
   const request = normalizePath(path.relative(context, resourcePath));
 
-  // eslint-disable-next-line no-param-reassign
   options.content = `${hashPrefix + request}\u0000${localName}`;
 
   const ident = interpolateName(loaderContext, localIdentName, options)

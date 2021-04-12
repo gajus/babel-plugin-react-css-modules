@@ -51,17 +51,15 @@ const getFiletypeOptions = (cssSourceFilePath: string, filetypes: FiletypesConfi
   return filetype;
 };
 
-// eslint-disable-next-line flowtype/no-weak-types
 const getSyntax = (filetypeOptions: FiletypeOptionsType): ?(SyntaxType) => {
   if (!filetypeOptions || !filetypeOptions.syntax) {
     return null;
   }
 
-  // eslint-disable-next-line import/no-dynamic-require, global-require
+  // eslint-disable-next-line import/no-dynamic-require
   return require(filetypeOptions.syntax);
 };
 
-// eslint-disable-next-line flowtype/no-weak-types
 const getExtraPlugins = (filetypeOptions: ?FiletypeOptionsType): $ReadOnlyArray<*> => {
   if (!filetypeOptions || !filetypeOptions.plugins) {
     return [];
@@ -71,11 +69,11 @@ const getExtraPlugins = (filetypeOptions: ?FiletypeOptionsType): $ReadOnlyArray<
     if (Array.isArray(plugin)) {
       const [pluginName, pluginOptions] = plugin;
 
-      // eslint-disable-next-line import/no-dynamic-require, global-require
+      // eslint-disable-next-line import/no-dynamic-require
       return require(pluginName)(pluginOptions);
     }
 
-    // eslint-disable-next-line import/no-dynamic-require, global-require
+    // eslint-disable-next-line import/no-dynamic-require
     return require(plugin);
   });
 };

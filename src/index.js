@@ -19,7 +19,6 @@ import optionsDefaults from './schemas/optionsDefaults';
 import optionsSchema from './schemas/optionsSchema.json';
 
 const ajv = new Ajv({
-  // eslint-disable-next-line id-match
   $data: true,
 });
 
@@ -105,8 +104,6 @@ export default ({
         ],
       ),
     );
-    // eslint-disable-next-line no-console
-    // console.log('setting up', filename, util.inspect(filenameMap,{depth: 5}))
   };
 
   const addWebpackHotModuleAccept = (path) => {

@@ -23,20 +23,22 @@ const createObjectExpression = (
 
     let newValue;
 
-    // eslint-disable-next-line no-empty
-    if (types.isAnyTypeAnnotation(value)) {
-
-    } else if (typeof value === 'string') {
-      newValue = types.stringLiteral(value);
-    } else if (typeof value === 'object') {
-      newValue = createObjectExpression(types, value);
-    } else if (typeof value === 'boolean') {
-      newValue = types.booleanLiteral(value);
-    } else if (typeof value === 'undefined') {
-      // eslint-disable-next-line no-continue
-      continue;
-    } else {
-      throw new TypeError('Unexpected type: ' + typeof value);
+    if (!types.isAnyTypeAnnotation(value)) {
+      switch (typeof value) {
+      case 'string':
+        newValue = types.stringLiteral(value);
+        break;
+      case 'object':
+        newValue = createObjectExpression(types, value);
+        break;
+      case 'boolean':
+        newValue = types.booleanLiteral(value);
+        break;
+      case 'undefined':
+        continue;
+      default:
+        throw new TypeError('Unexpected type: ' + typeof value);
+      }
     }
 
     properties.push(
