@@ -36,6 +36,7 @@ In contrast to [`react-css-modules`](https://github.com/gajus/react-css-modules)
   * [How to migrate from react-css-modules to babel-plugin-react-css-modules?](#how-to-migrate-from-react-css-modules-to-babel-plugin-react-css-modules)
   * [How to reference multiple CSS modules?](#how-to-reference-multiple-css-modules)
   * [How to live reload the CSS?](#hot-to-live-reload-the-css)
+* [Changelog](CHANGELOG.md)
 
 ## CSS Modules
 
@@ -264,7 +265,7 @@ To add support for different CSS syntaxes (e.g. SCSS), perform the following two
 
   > NOTE: [`postcss-nested`](https://github.com/postcss/postcss-nested) is added as an extra plugin for demonstration purposes only. It's not needed with [`postcss-scss`](https://github.com/postcss/postcss-scss) because SCSS already supports nesting.
 
-  Postcss plugins can have options specified by wrapping the name and an options object in an array inside your config: 
+  Postcss plugins can have options specified by wrapping the name and an options object in an array inside your config:
 
   ```json
     "plugins": [
