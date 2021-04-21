@@ -1,4 +1,5 @@
 {
+  "version": "1.0.0",
   "author": {
     "email": "gajus@gajus.com",
     "name": "Gajus Kuizinas",
@@ -74,5 +75,62 @@
     "lint": "eslint ./src && flow",
     "test": "jest"
   },
-  "version": "1.0.0"
+  "contributors": [
+    {
+      "email": "ben@benmvp.com",
+      "name": "Ben Ilegbodu",
+      "url": "https://www.benmvp.com/"
+    },
+    {
+      "name": "George Pittarelli",
+      "email": "gpittarelli@users.noreply.github.com"
+    },
+    {
+      "name": "Albert Lucianto",
+      "email": "albertlucianto@gmail.com"
+    },
+    {
+      "name": "Rohit Rajendran",
+      "email": "rohit.rajendran@outlook.com"
+    },
+    {
+      "name": "Stephan Herzog",
+      "email": "sthzgvie@gmail.com"
+    },
+    {
+      "name": "Andrew Anikin",
+      "email": "andreas97fm@mail.ru"
+    },
+    {
+      "name": "Stefano Magni",
+      "email": "nori.ste.magni@gmail.com"
+    },
+    {
+      "name": "Jessica Chou",
+      "email": "j4chou@gmail.com"
+    },
+    {
+      "name": "Marco Panzeri",
+      "email": "marco6.panzeri@mail.polimi.it"
+    },
+    {
+      "name": "Shannon Behrens",
+      "email": "jjinux@gmail.com"
+    },
+    {
+      "name": "George Biryukov"
+    },
+    {
+      "name": "Simon Chan",
+      "email": "cnsimonchan@live.com"
+    },
+    {
+      "name": "Oscar Barrett"
+    },
+    {
+      "email": "contact@antonphp.com",
+      "name": "Anton Andriievskyi",
+      "url": "https://antonphp.com/"
+    }
+  ]
 }
