@@ -7,6 +7,12 @@
 [![Gitter](https://img.shields.io/gitter/room/babel-plugin-react-css-modules/Lobby.svg?style=flat-square)](https://gitter.im/babel-plugin-react-css-modules/Lobby)
 [![Twitter Follow](https://img.shields.io/twitter/follow/kuizinas.svg?style=social&label=Follow)](https://twitter.com/kuizinas)
 
+> # Looking for maintainers
+>
+> This project is not actively maintained by the original author. However, I am happy to nominate new maintainers.
+> If you wish to contribute to `babel-plugin-react-css-modules`, please begin by raising PRs that fix existing issues.
+> PRs must pass CI/CD tests, include tests (if they change behavior or fix a bug), and include documentation.
+
 <img src='./.README/babel-plugin-react-css-modules.png' height='150' />
 
 Transforms `styleName` to `className` using compile time [CSS module](#css-modules) resolution.
@@ -264,7 +270,7 @@ To add support for different CSS syntaxes (e.g. SCSS), perform the following two
 
   > NOTE: [`postcss-nested`](https://github.com/postcss/postcss-nested) is added as an extra plugin for demonstration purposes only. It's not needed with [`postcss-scss`](https://github.com/postcss/postcss-scss) because SCSS already supports nesting.
 
-  Postcss plugins can have options specified by wrapping the name and an options object in an array inside your config: 
+  Postcss plugins can have options specified by wrapping the name and an options object in an array inside your config:
 
   ```json
     "plugins": [
