@@ -119,12 +119,17 @@ export default ({
 
   const getTargetResourcePath = (path: *, stats: *) => {
     const targetFileDirectoryPath = dirname(stats.file.opts.filename);
+    try {
+      if (path.node.source.value.startsWith('.')) {
+        return resolve(targetFileDirectoryPath, path.node.source.value);
+      }
 
-    if (path.node.source.value.startsWith('.')) {
+      return require.resolve(path.node.source.value);
+    } catch (_) {
+      // virtual module
       return resolve(targetFileDirectoryPath, path.node.source.value);
     }
-
-    return require.resolve(path.node.source.value);
+    
   };
 
   const isFilenameExcluded = (filename, exclude) => {
