@@ -4,6 +4,7 @@ import {
   Expression,
   memberExpression,
   binaryExpression,
+  cloneNode,
   conditionalExpression,
   stringLiteral,
   logicalExpression,
@@ -45,14 +46,14 @@ const createSpreadMapper = (path: *, stats: *): { [destinationName: string]: Exp
           '+',
           result[destinationName],
           conditionalExpression(
-            spread.argument,
+            cloneNode(spread.argument),
             binaryExpression(
               '+',
               stringLiteral(' '),
               logicalExpression(
                 '||',
                 memberExpression(
-                  spread.argument,
+                  cloneNode(spread.argument),
                   identifier(destinationName),
                 ),
                 stringLiteral('')
@@ -63,11 +64,11 @@ const createSpreadMapper = (path: *, stats: *): { [destinationName: string]: Exp
         );
       } else {
         result[destinationName] = conditionalExpression(
-          spread.argument,
+          cloneNode(spread.argument),
           logicalExpression(
             '||',
             memberExpression(
-              spread.argument,
+              cloneNode(spread.argument),
               identifier(destinationName),
             ),
             stringLiteral('')

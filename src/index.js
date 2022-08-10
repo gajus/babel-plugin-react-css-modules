@@ -67,7 +67,7 @@ export default ({
         [
           t.variableDeclarator(
             filenameMap[filename].styleModuleImportMapIdentifier,
-            createObjectExpression(t, filenameMap[filename].styleModuleImportMap)
+            createObjectExpression(filenameMap[filename].styleModuleImportMap)
           )
         ]
       )
@@ -245,7 +245,6 @@ export default ({
               setupFileForRuntimeResolution(path, filename);
             }
             replaceJsxExpressionContainer(
-              t,
               path,
               attribute,
               destinationName,
