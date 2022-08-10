@@ -124,7 +124,7 @@ export default (cssSourceFilePath: string, options: OptionsType): StyleModuleMap
     Values,
     LocalByDefault,
     ExtractImports,
-    new Scope({
+    Scope({
       generateScopedName
     }),
     new Parser({

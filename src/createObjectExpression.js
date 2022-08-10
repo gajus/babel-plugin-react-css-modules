@@ -1,7 +1,12 @@
 // @flow
 
-import BabelTypes, {
-  ObjectExpression
+import {
+  booleanLiteral,
+  isAnyTypeAnnotation,
+  ObjectExpression,
+  objectExpression,
+  objectProperty,
+  stringLiteral
 } from '@babel/types';
 
 type InputObjectType = {
@@ -11,7 +16,7 @@ type InputObjectType = {
 /**
  * Creates an AST representation of an InputObjectType shape object.
  */
-const createObjectExpression = (t: BabelTypes, object: InputObjectType): ObjectExpression => {
+const createObjectExpression = (object: InputObjectType): ObjectExpression => {
   const properties = [];
 
   for (const name of Object.keys(object)) {
@@ -20,14 +25,14 @@ const createObjectExpression = (t: BabelTypes, object: InputObjectType): ObjectE
     let newValue;
 
     // eslint-disable-next-line no-empty
-    if (t.isAnyTypeAnnotation(value)) {
+    if (isAnyTypeAnnotation(value)) {
 
     } else if (typeof value === 'string') {
-      newValue = t.stringLiteral(value);
+      newValue = stringLiteral(value);
     } else if (typeof value === 'object') {
-      newValue = createObjectExpression(t, value);
+      newValue = createObjectExpression(value);
     } else if (typeof value === 'boolean') {
-      newValue = t.booleanLiteral(value);
+      newValue = booleanLiteral(value);
     } else if (typeof value === 'undefined') {
       // eslint-disable-next-line no-continue
       continue;
@@ -36,14 +41,14 @@ const createObjectExpression = (t: BabelTypes, object: InputObjectType): ObjectE
     }
 
     properties.push(
-      t.objectProperty(
-        t.stringLiteral(name),
+      objectProperty(
+        stringLiteral(name),
         newValue
       )
     );
   }
 
-  return t.objectExpression(properties);
+  return objectExpression(properties);
 };
 
 export default createObjectExpression;

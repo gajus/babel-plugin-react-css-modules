@@ -1,14 +1,17 @@
 // @flow
 
-import BabelTypes, {
+import {
   binaryExpression,
+  callExpression,
+  cloneNode,
   Identifier,
   isJSXExpressionContainer,
   isStringLiteral,
   jSXAttribute,
   JSXAttribute,
   jSXExpressionContainer,
-  jSXIdentifier
+  jSXIdentifier,
+  stringLiteral
 } from '@babel/types';
 import type {
   GetClassNameOptionsType
@@ -18,7 +21,6 @@ import createObjectExpression from './createObjectExpression';
 import optionsDefaults from './schemas/optionsDefaults';
 
 export default (
-  t: BabelTypes,
   // eslint-disable-next-line flowtype/no-weak-types
   path: Object,
   sourceAttribute: JSXAttribute,
@@ -41,18 +43,18 @@ export default (
 
   const args = [
     expressionContainerValue.expression,
-    styleModuleImportMapIdentifier
+    cloneNode(styleModuleImportMapIdentifier)
   ];
 
   // Only provide options argument if the options are something other than default
   // This helps save a few bits in the generated user code
   if (options.handleMissingStyleName !== optionsDefaults.handleMissingStyleName ||
     options.autoResolveMultipleImports !== optionsDefaults.autoResolveMultipleImports) {
-    args.push(createObjectExpression(t, options));
+    args.push(createObjectExpression(options));
   }
 
-  const styleNameExpression = t.callExpression(
-    t.clone(importedHelperIndentifier),
+  const styleNameExpression = callExpression(
+    cloneNode(importedHelperIndentifier),
     args
   );
 
@@ -63,7 +65,7 @@ export default (
         jSXExpressionContainer(
           binaryExpression(
             '+',
-            t.stringLiteral(destinationAttribute.value.value + ' '),
+            stringLiteral(destinationAttribute.value.value + ' '),
             styleNameExpression
           )
         )

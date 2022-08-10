@@ -2,6 +2,7 @@
 
 import {
   binaryExpression,
+  cloneNode,
   conditionalExpression,
   stringLiteral
 } from '@babel/types';
@@ -12,18 +13,17 @@ export default (
   classNameExpression: any,
   styleNameExpression: any,
 ): any => {
-  // classNameExpression ? (classNameExpression + ' ') : '' + styleNameExpression
   return binaryExpression(
     '+',
     conditionalExpression(
-      classNameExpression,
+      cloneNode(classNameExpression),
       binaryExpression(
         '+',
-        classNameExpression,
+        cloneNode(classNameExpression),
         stringLiteral(' ')
       ),
       stringLiteral('')
     ),
-    styleNameExpression
+    cloneNode(styleNameExpression)
   );
 };
